@@ -285,10 +285,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "raytrace":
 			return new RayTrace(config);
-
+		*/
 		case "rings":
 			return new com.chrisnewland.demofx.effect.shape.Rings(config);
-
+		/*
 		case "rotations":
 			return new Rotations(config);
 
