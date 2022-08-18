@@ -6,27 +6,9 @@ package com.chrisnewland.demofx.effect.effectfactory;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
-//import com.chrisnewland.demofx.effect.background.BinaryBackground;
-//import com.chrisnewland.demofx.effect.background.ColourBackground;
-//import com.chrisnewland.demofx.effect.background.CycleBackground;
-//import com.chrisnewland.demofx.effect.background.ImageBackground;
-import com.chrisnewland.demofx.effect.fake3d.*;
-//import com.chrisnewland.demofx.effect.fractal.ChristmasTrees;
-//import com.chrisnewland.demofx.effect.fractal.FractalRings;
-//import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
-//import com.chrisnewland.demofx.effect.fractal.Sierpinski;
-//import com.chrisnewland.demofx.effect.pixel.*;
-//import com.chrisnewland.demofx.effect.ray.RayTrace;
-//import com.chrisnewland.demofx.effect.real3d.*;
-//import com.chrisnewland.demofx.effect.shape.*;
-//import com.chrisnewland.demofx.effect.spectral.Equaliser2D;
-//import com.chrisnewland.demofx.effect.spectral.Equaliser3D;
-//import com.chrisnewland.demofx.effect.spectral.Feedback;
-//import com.chrisnewland.demofx.effect.spectral.VUMeter;
-//import com.chrisnewland.demofx.effect.sprite.*;
-//import com.chrisnewland.demofx.effect.text.*;
-//import com.chrisnewland.demofx.effect.video.*;
-//import com.chrisnewland.demofx.util.ShapeEffect;
+import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
+import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
+import com.chrisnewland.demofx.effect.shape.Concentric;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -189,10 +171,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "colourbackground":
 			return new ColourBackground(config);
-
+		*/
 		case "concentric":
 			return new Concentric(config);
-
+		/*
 		case "credits":
 			return new Credits(config);
 
