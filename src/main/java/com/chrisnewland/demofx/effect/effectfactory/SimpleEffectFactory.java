@@ -347,10 +347,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "starfield":
 			return new Starfield(config);
-
+		*/
 		case "starfieldsprite":
 			return new StarfieldSprite(config);
-
+	    /*
 		case "textbounce":
 			return new TextBounce(config);
 
