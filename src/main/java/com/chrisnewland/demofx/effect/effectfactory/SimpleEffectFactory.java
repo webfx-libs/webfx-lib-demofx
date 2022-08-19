@@ -9,6 +9,7 @@ import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.shape.Burst;
+import com.chrisnewland.demofx.effect.shape.Chord;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 
 import java.util.ArrayList;
@@ -157,10 +158,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		/*
 		case "checkerboard":
 			return new Checkerboard(config);
-
+		*/
 		case "chord":
 			return new Chord(config);
-
+		/*
 		case "christmastrees":
 			return new ChristmasTrees(config);
 
