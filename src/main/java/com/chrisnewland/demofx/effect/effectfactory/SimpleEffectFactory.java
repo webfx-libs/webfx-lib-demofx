@@ -12,6 +12,7 @@ import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
+import com.chrisnewland.demofx.effect.sprite.Tiles;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
 import java.util.ArrayList;
@@ -361,10 +362,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "textring":
 			return new TextRing(config);
-
+		*/
 		case "tiles":
 			return new Tiles(config);
-
+		/*
 		case "tunnel":
 			return new Tunnel(config);
 
