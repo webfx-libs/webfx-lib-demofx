@@ -44,14 +44,14 @@ public class Concentric extends AbstractEffect
 		ringY = new double[RINGS];
 
 		images = new Image[] {
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/tomato.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/satsuma.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/pear.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/apple.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/orange.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/pineapple.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/banana.png"),
-				ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/strawberry.png") };
+				ImageUtil.loadImageFromResources("tomato.png"),
+				ImageUtil.loadImageFromResources("satsuma.png"),
+				ImageUtil.loadImageFromResources("pear.png"),
+				ImageUtil.loadImageFromResources("apple.png"),
+				ImageUtil.loadImageFromResources("orange.png"),
+				ImageUtil.loadImageFromResources("pineapple.png"),
+				ImageUtil.loadImageFromResources("banana.png"),
+				ImageUtil.loadImageFromResources("strawberry.png") };
 
 		imageIndex = new int[RINGS];
 

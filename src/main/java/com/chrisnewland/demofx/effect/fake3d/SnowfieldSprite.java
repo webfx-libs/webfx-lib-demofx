@@ -24,7 +24,7 @@ public class SnowfieldSprite extends AbstractEffect
 
 	private boolean spin = true;
 
-	private Image sprite = ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/flake.png");
+	private Image sprite = ImageUtil.loadImageFromResources("flake.png");
 
 	public SnowfieldSprite(DemoConfig config)
 	{

@@ -11,6 +11,7 @@ import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Chord;
 import com.chrisnewland.demofx.effect.shape.Concentric;
+import com.chrisnewland.demofx.effect.sprite.Falling;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,10 +201,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "equalisercubes":
 			return new Equaliser3D(config);
-
+		*/
 		case "falling":
 			return new Falling(config);
-
+		/*
 		case "feedback":
 			return new Feedback(config);
 

@@ -16,17 +16,17 @@ public class ImageUtil
 			filename = "/" + filename;
 		}*/
 
-		return ImageStore.getOrCreateImage(filename); //  new Image(ImageUtil.class.getResourceAsStream(filename));
+		return ImageStore.getOrCreateImage("com/chrisnewland/demofx/images/" + filename); //  new Image(ImageUtil.class.getResourceAsStream(filename));
 	}
 	
 	public static Image loadImageFromResources(String filename, int newWidth, int newHeight)
 	{
-		if (!filename.startsWith("/"))
+		/*if (!filename.startsWith("/"))
 		{
 			filename = "/" + filename;
-		}
+		}*/
 
-		return ImageStore.getOrCreateImage(filename, newWidth, newHeight); //new Image(ImageUtil.class.getResourceAsStream(filename), newWidth, newHeight, false, true);
+		return ImageStore.getOrCreateImage("com/chrisnewland/demofx/images/" + filename, newWidth, newHeight); //new Image(ImageUtil.class.getResourceAsStream(filename), newWidth, newHeight, false, true);
 	}
 
 	/*public static WritableImage loadWritableImageFromResources(String filename)

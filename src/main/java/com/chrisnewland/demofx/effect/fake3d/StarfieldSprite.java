@@ -20,7 +20,7 @@ public class StarfieldSprite extends AbstractEffect
 
 	private boolean spin = true;
 
-	private Image sprite = ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/starshine.png");
+	private Image sprite = ImageUtil.loadImageFromResources("starshine.png");
 
 	public StarfieldSprite(DemoConfig config)
 	{

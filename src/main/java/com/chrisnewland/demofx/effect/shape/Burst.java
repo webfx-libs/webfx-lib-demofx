@@ -50,7 +50,7 @@ public class Burst extends AbstractEffect
 			radii[i] = i * -100;
 		}
 
-		image = ImageUtil.loadImageFromResources("com/chrisnewland/demofx/images/star.png");
+		image = ImageUtil.loadImageFromResources("star.png");
 
 		itemCount = BURSTS * BURST_SECTORS;
 	}
