@@ -8,6 +8,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
+import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
 
@@ -241,9 +242,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "mandala":
 			return new Mandala(config);
-		/*
+
 		case "mandelbrot":
 			return new Mandelbrot(config);
+		/*
 
 		case "mask":
 			return new Mask(config);
