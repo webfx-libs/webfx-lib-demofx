@@ -9,6 +9,7 @@ import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
+import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
 
@@ -303,10 +304,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "shift":
 			return new Shift(config);
-
+		*/
 		case "sierpinski":
 			return new Sierpinski(config);
-
+		/*
 		case "sinelines":
 			return new SineLines(config);
         */
