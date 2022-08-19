@@ -8,10 +8,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
-import com.chrisnewland.demofx.effect.shape.Burst;
-import com.chrisnewland.demofx.effect.shape.Chord;
-import com.chrisnewland.demofx.effect.shape.Concentric;
-import com.chrisnewland.demofx.effect.shape.Glowboard;
+import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
 
 import java.util.ArrayList;
@@ -241,10 +238,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "inversechromakey":
 			return new InverseChromaKey(config);
-
+		*/
 		case "mandala":
 			return new Mandala(config);
-
+		/*
 		case "mandelbrot":
 			return new Mandelbrot(config);
 
