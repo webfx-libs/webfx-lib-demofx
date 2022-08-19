@@ -307,10 +307,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "sierpinski":
 			return new Sierpinski(config);
-		/*
+
 		case "sinelines":
 			return new SineLines(config);
-        */
+
 		case "snowfieldsprite":
 			return new SnowfieldSprite(config);
         /*
