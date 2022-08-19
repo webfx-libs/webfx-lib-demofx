@@ -11,6 +11,7 @@ import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Chord;
 import com.chrisnewland.demofx.effect.shape.Concentric;
+import com.chrisnewland.demofx.effect.shape.Glowboard;
 import com.chrisnewland.demofx.effect.sprite.Falling;
 
 import java.util.ArrayList;
@@ -219,10 +220,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "gc":
 			return new GCVisualiser(config);
-
+		*/
 		case "glowboard":
 			return new Glowboard(config);
-
+		/*
 		case "grid":
 			return new Grid(config);
 
