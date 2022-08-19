@@ -80,6 +80,47 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 
 	public Scene getScene()
 	{
+		if (pane == null)
+			getPane();
+
+		int topHeight = 50;
+
+		//if (config.isFullScreen())
+		{
+			topHeight = 0;
+		}
+		/*else
+		{
+			VBox statsPane = getStatsPane();
+
+			statsPane.setMinHeight(topHeight);
+
+			pane.setTop(statsPane);
+		}*/
+
+		boolean depthSorted = false;
+
+		Scene scene = new Scene(pane, config.getWidth(), config.getHeight() + topHeight); //, depthSorted, SceneAntialiasing.DISABLED);
+
+		/*scene.setCamera(new PerspectiveCamera());
+
+		try
+		{
+			String styleSheet = DemoFX.class.getResource("/style.css").toExternalForm();
+
+			scene.getStylesheets().add(styleSheet);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			System.err.println("Could not load style.css stylesheet. Please add it to the classpath");
+		}*/
+
+		return scene;
+	}
+
+	public BorderPane getPane()
+	{
 		group = new Group();
 
 		double maxDimension = Math.max(config.getWidth(), config.getHeight());
@@ -120,7 +161,7 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 			}
 			else
 			{*/
-				effectFactory = new SimpleEffectFactory();
+			effectFactory = new SimpleEffectFactory();
 			//}
 
 			effects = effectFactory.getEffects(config);
@@ -156,25 +197,7 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 
 		pane.setCenter(group);
 
-		boolean depthSorted = false;
-
-		Scene scene = new Scene(pane, config.getWidth(), config.getHeight() + topHeight); //, depthSorted, SceneAntialiasing.DISABLED);
-
-		/*scene.setCamera(new PerspectiveCamera());
-
-		try
-		{
-			String styleSheet = DemoFX.class.getResource("/style.css").toExternalForm();
-
-			scene.getStylesheets().add(styleSheet);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			System.err.println("Could not load style.css stylesheet. Please add it to the classpath");
-		}*/
-
-		return scene;
+		return pane;
 	}
 
 	/*private VBox getStatsPane()
