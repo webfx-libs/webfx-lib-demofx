@@ -12,6 +12,7 @@ import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
+import com.chrisnewland.demofx.util.ShapeEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -325,12 +326,12 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "squares":
 			return new ShapeEffect(config, 4);
-
+		*/
 		case "stars":
 			ShapeEffect stars = new ShapeEffect(config, 5);
 			stars.setDoubleAngle(true);
 			return stars;
-
+		/*
 		case "starfield":
 			return new Starfield(config);
 		*/
