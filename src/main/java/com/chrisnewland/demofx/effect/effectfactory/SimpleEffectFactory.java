@@ -224,10 +224,11 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "glowboard":
 			return new Glowboard(config);
-		/*
+
 		case "grid":
 			return new Grid(config);
 
+		/*
 		case "hexagons":
 			return new ShapeEffect(config, 6);
 
