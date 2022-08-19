@@ -8,6 +8,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
+import com.chrisnewland.demofx.effect.shape.Burst;
 import com.chrisnewland.demofx.effect.shape.Concentric;
 
 import java.util.ArrayList;
@@ -150,10 +151,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "bounce":
 			return new Bounce(config);
-
+		*/
 		case "burst":
 			return new Burst(config);
-
+		/*
 		case "checkerboard":
 			return new Checkerboard(config);
 
