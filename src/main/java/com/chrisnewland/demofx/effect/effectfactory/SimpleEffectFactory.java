@@ -231,10 +231,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		/*
 		case "hexagons":
 			return new ShapeEffect(config, 6);
-
+		*/
 		case "honeycomb":
 			return new Honeycomb(config);
-
+		/*
 		case "hue":
 			return new Hue(config);
 
