@@ -249,7 +249,7 @@ public class ImageUtil
 		return result;
 	}*/
 
-	/*public static Image makeContentricRings(double imgWidth, double imgHeight, int rings, Color color)
+	public static Image makeContentricRings(double imgWidth, double imgHeight, int rings, Color color)
 	{
 		double diameterX = imgWidth;
 		double diameterY = imgHeight;
@@ -282,7 +282,7 @@ public class ImageUtil
 		snap = replaceColour(snap, colourOff, Color.TRANSPARENT);
 
 		return snap;
-	}*/
+	}
 
 	public static Image makeCubes(double imgWidth, double imgHeight)
 	{
