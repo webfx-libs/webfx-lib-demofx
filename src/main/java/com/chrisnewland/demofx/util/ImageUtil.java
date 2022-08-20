@@ -7,8 +7,11 @@ package com.chrisnewland.demofx.util;
 import dev.webfx.extras.imagestore.ImageStore;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeLineJoin;
 
 import java.nio.ByteBuffer;
 
@@ -281,7 +284,7 @@ public class ImageUtil
 		return snap;
 	}*/
 
-	/*public static Image makeCubes(double imgWidth, double imgHeight)
+	public static Image makeCubes(double imgWidth, double imgHeight)
 	{
 		Canvas canvas = new Canvas(imgWidth * 8, imgWidth * 8);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -317,9 +320,9 @@ public class ImageUtil
 		gc.strokePolygon(new double[] { x1, x2, x2, x1 }, new double[] { y2, y1, y3, y4 }, 4);
 
 		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true);
-	}*/
+	}
 
-	/*public static Image makeHearts(double imgWidth, double imgHeight)
+	public static Image makeHearts(double imgWidth, double imgHeight)
 	{
 		Canvas canvas = new Canvas(imgWidth * 8, imgWidth * 8);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -367,5 +370,5 @@ public class ImageUtil
 		gc.fillOval(offset + heartSize * .75 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 
 		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true);
-	}*/
+	}
 }

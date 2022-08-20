@@ -13,6 +13,7 @@ import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
+import com.chrisnewland.demofx.effect.sprite.Sea;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
@@ -299,10 +300,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		/*
 		case "rotations":
 			return new Rotations(config);
-
+		*/
 		case "sea":
 			return new Sea(config);
-
+		/*
 		case "sheet":
 			return new Sheet(config);
 
