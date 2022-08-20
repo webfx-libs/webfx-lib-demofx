@@ -12,10 +12,8 @@ import com.chrisnewland.demofx.effect.fractal.FractalRings;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
-import com.chrisnewland.demofx.effect.sprite.Falling;
-import com.chrisnewland.demofx.effect.sprite.Sea;
-import com.chrisnewland.demofx.effect.sprite.Spin;
-import com.chrisnewland.demofx.effect.sprite.Tiles;
+import com.chrisnewland.demofx.effect.sprite.*;
+import com.chrisnewland.demofx.effect.text.TextRing;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
 import java.util.ArrayList;
@@ -271,9 +269,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "moire":
 			return new com.chrisnewland.demofx.effect.sprite.Moire(config);
-		/*
+
 		case "moremoire":
 			return new MoreMoire(config);
+		/*
 
 		case "pentagons":
 			return new ShapeEffect(config, 5);
@@ -365,9 +364,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		case "textlayers":
 			return new TextLayers(config);
 
+		*/
 		case "textring":
 			return new TextRing(config);
-		*/
+
 		case "tiles":
 			return new Tiles(config);
 		/*

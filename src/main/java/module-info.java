@@ -19,9 +19,11 @@ module webfx.lib.demofx {
     exports com.chrisnewland.demofx.effect.shape;
     exports com.chrisnewland.demofx.effect.spectral;
     exports com.chrisnewland.demofx.effect.sprite;
+    exports com.chrisnewland.demofx.effect.text;
     exports com.chrisnewland.demofx.util;
 
     // Resources packages
     opens com.chrisnewland.demofx.images;
+    opens com.chrisnewland.demofx.images.letters;
 
 }

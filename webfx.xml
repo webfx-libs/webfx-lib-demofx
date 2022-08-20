@@ -13,6 +13,7 @@
     <exported-packages>
         <source-packages/>
         <resource-package>com.chrisnewland.demofx.images</resource-package>
+        <resource-package>com.chrisnewland.demofx.images.letters</resource-package>
     </exported-packages>
 
     <dependencies>
@@ -47,6 +48,7 @@
             <exported-packages>
                 <source-packages/>
                 <resource-package>com.chrisnewland.demofx.images</resource-package>
+                <resource-package>com.chrisnewland.demofx.images.letters</resource-package>
             </exported-packages>
 
             <dependencies>
@@ -62,6 +64,7 @@
                 <package>com.chrisnewland.demofx.effect.shape</package>
                 <package>com.chrisnewland.demofx.effect.spectral</package>
                 <package>com.chrisnewland.demofx.effect.sprite</package>
+                <package>com.chrisnewland.demofx.effect.text</package>
                 <package>com.chrisnewland.demofx.util</package>
             </source-packages>
 
