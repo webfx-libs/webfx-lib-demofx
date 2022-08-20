@@ -7,7 +7,7 @@
 
     <required-libraries>
         <webfx-library artifact="dev.webfx:webfx:0.1.0-SNAPSHOT"/>
-        <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/> <!-- for ImageStore -->
+        <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/>        <!-- for ImageStore -->
     </required-libraries>
 
     <exported-packages>
@@ -41,7 +41,7 @@
 
             <required-libraries>
                 <webfx-library artifact="dev.webfx:webfx:0.1.0-SNAPSHOT"/>
-                <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/>
+                <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/>                <!-- for ImageStore -->
             </required-libraries>
 
             <exported-packages>
@@ -58,17 +58,21 @@
                 <package>com.chrisnewland.demofx.effect</package>
                 <package>com.chrisnewland.demofx.effect.effectfactory</package>
                 <package>com.chrisnewland.demofx.effect.fake3d</package>
+                <package>com.chrisnewland.demofx.effect.fractal</package>
+                <package>com.chrisnewland.demofx.effect.shape</package>
                 <package>com.chrisnewland.demofx.effect.spectral</package>
+                <package>com.chrisnewland.demofx.effect.sprite</package>
                 <package>com.chrisnewland.demofx.util</package>
             </source-packages>
 
             <used-by-source-modules>
+                <module>java-nio-emul</module>
                 <module>java.base</module>
                 <module>webfx-extras-imagestore</module>
                 <module>webfx-kit-javafxcontrols-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
                 <module>webfx-kit-javafxmedia-emul</module>
-                <module>webfx-platform-shutdown</module>
+                <module>webfx-platform-console</module>
             </used-by-source-modules>
 
         </project>

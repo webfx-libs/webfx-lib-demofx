@@ -5,7 +5,12 @@
 package com.chrisnewland.demofx.util;
 
 import dev.webfx.extras.imagestore.ImageStore;
-import javafx.scene.image.Image;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.image.*;
+import javafx.scene.paint.Color;
+
+import java.nio.ByteBuffer;
 
 public class ImageUtil
 {
@@ -59,7 +64,7 @@ public class ImageUtil
 		}
 	}*/
 
-	/*public static WritableImage createImageFromCanvas(Canvas canvas, double width, double height, boolean transparent)
+	public static WritableImage createImageFromCanvas(Canvas canvas, double width, double height, boolean transparent)
 	{
 		WritableImage image = new WritableImage((int) width, (int) height);
 
@@ -73,7 +78,7 @@ public class ImageUtil
 		canvas.snapshot(params, image);
 
 		return image;
-	}*/
+	}
 
 	/*public static int[] readImageToIntArray(Image image)
 	{
@@ -141,7 +146,7 @@ public class ImageUtil
 		return snap;
 	}*/
 
-	/*public static Image replaceColour(Image image, Color colorOld, Color colorNew)
+	public static Image replaceColour(Image image, Color colorOld, Color colorNew)
 	{
 		PixelReader reader = image.getPixelReader();
 
@@ -197,7 +202,7 @@ public class ImageUtil
 		pixelWriter.setPixels(0, 0, imgWidth, imgHeight, pixelFormat, imageData, 0, imgWidth * 4);
 
 		return result;
-	}*/
+	}
 
 	/*public static Image tintImage(Image image, double hue)
 	{

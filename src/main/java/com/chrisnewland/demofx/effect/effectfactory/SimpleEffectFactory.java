@@ -8,6 +8,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.fake3d.SnowfieldSprite;
 import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
+import com.chrisnewland.demofx.effect.fractal.FractalRings;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
@@ -215,10 +216,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "flash":
 			return new TextFlash(config);
-
+		*/
 		case "fractalrings":
 			return new FractalRings(config);
-
+		/*
 		case "gc":
 			return new GCVisualiser(config);
 		*/

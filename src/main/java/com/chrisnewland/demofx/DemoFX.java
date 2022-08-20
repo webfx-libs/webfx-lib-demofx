@@ -8,7 +8,7 @@ import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
 import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
-import dev.webfx.platform.shutdown.Shutdown;
+import dev.webfx.platform.console.Console;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -172,7 +172,8 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 			re.printStackTrace();
 			System.err.println(re.getMessage());
 			//System.err.print(DemoConfig.getUsageError());
-			Shutdown.softwareShutdown(true, -1); //System.exit(-1);
+			Console.log(re);
+			//Shutdown.softwareShutdown(true, -1); //System.exit(-1);
 		}
 
 		pane = new BorderPane();
