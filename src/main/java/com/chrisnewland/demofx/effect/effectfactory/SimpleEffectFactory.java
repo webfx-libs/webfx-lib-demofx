@@ -14,6 +14,7 @@ import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.Falling;
 import com.chrisnewland.demofx.effect.sprite.Sea;
+import com.chrisnewland.demofx.effect.sprite.Spin;
 import com.chrisnewland.demofx.effect.sprite.Tiles;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
@@ -318,9 +319,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "snowfieldsprite":
 			return new SnowfieldSprite(config);
-        /*
+
 		case "spin":
 			return new Spin(config);
+        /*
 
 		case "spritewave":
 			return new SpriteWave(config);
