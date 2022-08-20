@@ -189,8 +189,7 @@ public abstract class AbstractEffect implements IEffect
 		rotate.setPivotX(x);
 		rotate.setPivotY(y);
 
-		throw new UnsupportedOperationException("Not yet supported by WebFX");
-		//gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
+		gc.setTransform(rotate.getMxx(), rotate.getMyx(), rotate.getMxy(), rotate.getMyy(), rotate.getTx(), rotate.getTy());
 	}
 
 	@Override public void stop()

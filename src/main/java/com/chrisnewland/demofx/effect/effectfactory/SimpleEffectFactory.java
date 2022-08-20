@@ -158,10 +158,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "burst":
 			return new Burst(config);
-		/*
+
 		case "checkerboard":
 			return new Checkerboard(config);
-		*/
+
 		case "chord":
 			return new Chord(config);
 		/*

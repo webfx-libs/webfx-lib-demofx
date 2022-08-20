@@ -15,7 +15,10 @@ module webfx.lib.demofx {
     exports com.chrisnewland.demofx.effect;
     exports com.chrisnewland.demofx.effect.effectfactory;
     exports com.chrisnewland.demofx.effect.fake3d;
+    exports com.chrisnewland.demofx.effect.fractal;
+    exports com.chrisnewland.demofx.effect.shape;
     exports com.chrisnewland.demofx.effect.spectral;
+    exports com.chrisnewland.demofx.effect.sprite;
     exports com.chrisnewland.demofx.util;
 
     // Resources packages
