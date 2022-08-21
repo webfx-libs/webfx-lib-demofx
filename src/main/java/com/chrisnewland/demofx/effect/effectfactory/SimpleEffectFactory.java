@@ -14,6 +14,8 @@ import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.*;
 import com.chrisnewland.demofx.effect.text.TextRing;
+import com.chrisnewland.demofx.effect.text.TextWave;
+import com.chrisnewland.demofx.effect.text.WordSearch;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
 import java.util.ArrayList;
@@ -351,10 +353,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "texsphere":
 			return new TexturedSphere(config);
-
+		*/
 		case "textwave":
 			return new TextWave(config);
-
+		/*
 		case "textwavesprite":
 			return new TextWaveSprite(config);
 
@@ -391,9 +393,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "vumeter":
 			return new VUMeter(config);
-
+*/
 		case "wordsearch":
-			return new WordSearch(config);*/
+			return new WordSearch(config);
 
 		default:
 			throw new UnsupportedOperationException("No such effect: " + config.getEffect());
