@@ -15,6 +15,7 @@ import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.*;
 import com.chrisnewland.demofx.effect.text.TextRing;
 import com.chrisnewland.demofx.effect.text.TextWave;
+import com.chrisnewland.demofx.effect.text.TextWaveSprite;
 import com.chrisnewland.demofx.effect.text.WordSearch;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
@@ -356,9 +357,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "textwave":
 			return new TextWave(config);
-		/*
+
 		case "textwavesprite":
 			return new TextWaveSprite(config);
+		/*
 
 		case "textlabel":
 			return new TextLabel(config);
