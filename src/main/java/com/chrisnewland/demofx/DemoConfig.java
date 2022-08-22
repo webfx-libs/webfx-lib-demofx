@@ -46,6 +46,11 @@ public class DemoConfig
 	{
 	}
 
+	public DemoConfig(double width, double height) {
+		this.width = width;
+		this.height = height;
+	}
+
 	/*public static String getUsageError()
 	{
 		StringBuilder builder = new StringBuilder();
@@ -223,7 +228,11 @@ public class DemoConfig
 
 		return config;
 	}
-	
+
+	public void setPrecalc(PreCalc precalc) {
+		this.precalc = precalc;
+	}
+
 	public PreCalc getPreCalc()
 	{
 		return precalc;

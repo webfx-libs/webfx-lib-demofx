@@ -8,6 +8,7 @@ import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
 import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
+import com.chrisnewland.demofx.util.PreCalc;
 import dev.webfx.platform.console.Console;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -22,7 +23,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 {
@@ -46,9 +49,23 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 	private Group group;
 	private BorderPane pane;
 
+	private IEffectFactory effectFactory;
+
+
 	public DemoFX(DemoConfig config)
 	{
 		this.config = config;
+	}
+
+	public DemoFX(DemoConfig config, Function<DemoConfig, IEffect> effectConstructor) {
+		this(config, (IEffectFactory) config1 -> Collections.singletonList(effectConstructor.apply(config1)));
+	}
+
+	public DemoFX(DemoConfig config, IEffectFactory effectFactory) {
+		this.config = config;
+		this.effectFactory = effectFactory;
+		if (config.getPreCalc() == null)
+			config.setPrecalc(new PreCalc(config));
 	}
 
 	public void stopDemo()
@@ -119,28 +136,9 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 		return scene;
 	}
 
-	public BorderPane getPane()
-	{
-		group = new Group();
-
-		double maxDimension = Math.max(config.getWidth(), config.getHeight());
-
-		Canvas canvasOnScreen = new Canvas(config.getWidth(), config.getHeight());
-		Canvas canvasOffScreen = new Canvas(maxDimension, maxDimension);
-
-		group.getChildren().add(canvasOnScreen);
-
-		GraphicsContext onScreenGC = canvasOnScreen.getGraphicsContext2D();
-		GraphicsContext offScreenGC = canvasOffScreen.getGraphicsContext2D();
-
-		Group offScreenRoot = new Group();
-		offScreenRoot.getChildren().add(canvasOffScreen);
-
-		config.setLayers(onScreenGC, offScreenGC, group);
-
-		try
-		{
-			IEffectFactory effectFactory;
+	public IEffectFactory getEffectFactory() {
+		if (effectFactory == null) {
+			//IEffectFactory effectFactory;
 
 			/*String scriptName = config.getDemoScriptName();
 
@@ -164,7 +162,33 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 			effectFactory = new SimpleEffectFactory();
 			//}
 
-			effects = effectFactory.getEffects(config);
+		}
+		return effectFactory;
+	}
+
+	public BorderPane getPane()
+	{
+		group = new Group();
+
+		double maxDimension = Math.max(config.getWidth(), config.getHeight());
+
+		Canvas canvasOnScreen = new Canvas(config.getWidth(), config.getHeight());
+		Canvas canvasOffScreen = new Canvas(maxDimension, maxDimension);
+
+		group.getChildren().add(canvasOnScreen);
+
+		GraphicsContext onScreenGC = canvasOnScreen.getGraphicsContext2D();
+		GraphicsContext offScreenGC = canvasOffScreen.getGraphicsContext2D();
+
+		Group offScreenRoot = new Group();
+		offScreenRoot.getChildren().add(canvasOffScreen);
+
+		config.setLayers(onScreenGC, offScreenGC, group);
+
+		try
+		{
+
+			effects = getEffectFactory().getEffects(config);
 
 		}
 		catch (RuntimeException re)
