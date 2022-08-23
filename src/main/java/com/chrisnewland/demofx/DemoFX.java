@@ -79,6 +79,9 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 		{
 			timer.stop();
 		}
+
+		if (mediaPlayer != null)
+			mediaPlayer.stop();
 	}
 
 	/*@Override public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
