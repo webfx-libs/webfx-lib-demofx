@@ -8,7 +8,7 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 public class AddOnFadeOutEffect extends AbstractAddOnFadeEffect {
 
     public AddOnFadeOutEffect(AbstractEffect effect) {
-        this(effect, 5000);
+        this(effect, 4000);
     }
 
     public AddOnFadeOutEffect(AbstractEffect effect, long duration) {
