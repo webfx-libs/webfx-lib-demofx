@@ -13,7 +13,7 @@ import javafx.scene.transform.Rotate;
 
 public abstract class AbstractEffect implements IEffect
 {
-	protected GraphicsContext gc;
+	public GraphicsContext gc;
 	protected Group group;
 
 	protected int itemCount;

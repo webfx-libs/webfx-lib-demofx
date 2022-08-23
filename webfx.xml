@@ -58,6 +58,7 @@
             <source-packages>
                 <package>com.chrisnewland.demofx</package>
                 <package>com.chrisnewland.demofx.effect</package>
+                <package>com.chrisnewland.demofx.effect.addon</package>
                 <package>com.chrisnewland.demofx.effect.effectfactory</package>
                 <package>com.chrisnewland.demofx.effect.fake3d</package>
                 <package>com.chrisnewland.demofx.effect.fractal</package>

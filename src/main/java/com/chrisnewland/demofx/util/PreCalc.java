@@ -255,7 +255,7 @@ public class PreCalc
 		return degrees;
 	}
 	
-	public double clampDouble(double value, double min, double max)
+	public static double clampDouble(double value, double min, double max)
 	{
 		return Math.max(Math.min(value,  max), min);
 	}
