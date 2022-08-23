@@ -72,6 +72,11 @@ public class ShapeEffect extends AbstractEffect
 	private final double[] pointsX;
 	private final double[] pointsY;
 
+	public ShapeEffect(DemoConfig config, int points, boolean doubleAngle) {
+		this(config, points);
+		this.doubleAngle = doubleAngle;
+	}
+
 	public ShapeEffect(DemoConfig config, int points)
 	{
 		super(config);
