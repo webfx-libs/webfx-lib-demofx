@@ -12,6 +12,6 @@ public class AddOnFadeOutEffect extends AbstractAddOnFadeEffect {
     }
 
     public AddOnFadeOutEffect(AbstractEffect effect, long duration) {
-        super(effect, duration, false);
+        super(effect, duration, false, true);
     }
 }
