@@ -26,8 +26,10 @@ public class Mandelbrot extends AbstractEffect
 	private double xOffsetNext;
 	private double yOffsetNext;
 
-	private static final double PIXEL_SIZE = 2;
-	private static final double PIXEL_STEP = PIXEL_SIZE + 2;
+	private double PIXEL_SIZE; // = 2;
+	private double PIXEL_STEP; // = PIXEL_SIZE + 2;
+
+	private boolean adaptative = true; // Will automatically adapt the pixel size to the machine performance (WebFX addition)
 
 	private static final double ITERATIONS_PER_ZOOM = 0.004;
 
@@ -129,8 +131,29 @@ public class Mandelbrot extends AbstractEffect
 		zoom = MIN_ZOOM;
 	}
 
+
+	private long lastDuration; // Used for adao
+
 	private final void plot()
 	{
+
+		long now = System.currentTimeMillis();
+		if (!adaptative)
+			PIXEL_SIZE = 2;
+		else {
+			if (lastDuration == 0) {
+				PIXEL_SIZE = width / 200;
+			} else {
+				double exceedFactor = (double) lastDuration / 10; // We aim 10ms fof the plot
+				if (exceedFactor < 0.8)
+					PIXEL_SIZE--;
+				else if (exceedFactor > 1.2)
+					PIXEL_SIZE++;
+			}
+			PIXEL_SIZE = Math.max(2, PIXEL_SIZE);
+		}
+		PIXEL_STEP = PIXEL_SIZE + 2;
+
 		final double zoomReciprocal = 1 / zoom;
 
 		final double x1 = xOffset - halfWidth / zoom;
@@ -151,6 +174,8 @@ public class Mandelbrot extends AbstractEffect
 				testPixel(pixelX, pixelY, xCentre, yCentre, iterFraction);
 			}
 		}
+
+		lastDuration = System.currentTimeMillis() - now;
 	}
 
 	private final void testPixel(double pixelX, double pixelY, double xc, double yc, double iterFraction)
