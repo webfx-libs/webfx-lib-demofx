@@ -6,14 +6,16 @@ package com.chrisnewland.demofx.effect.fractal;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.effect.addon.HasAngle;
 import com.chrisnewland.demofx.util.ImageUtil;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FractalRings extends AbstractEffect
+public class FractalRings extends AbstractEffect implements HasAngle
 {
 	private static final double SPEED = 1.025;
 
@@ -125,6 +127,18 @@ public class FractalRings extends AbstractEffect
 		}
 	}
 
+	private final Rotate rotate = new Rotate(0);
+
+	@Override
+	public double getAngle() {
+		return rotate.getAngle();
+	}
+
+	@Override
+	public void setAngle(double angle) {
+		rotate.setAngle(angle);
+	}
+
 	private void render()
 	{
 		final int size = renderListNew.size();
@@ -133,7 +147,9 @@ public class FractalRings extends AbstractEffect
 		{
 			FractalRing rc = renderListNew.get(i);
 
-			gc.drawImage(image[rc.colourIndex], rc.centreX - rc.radius, rc.centreY - rc.radius, rc.radius * 2, rc.radius * 2);
+			double x = rc.centreX - width / 2;
+			double y = rc.centreY - height / 2;
+			gc.drawImage(image[rc.colourIndex], width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
 		}
 	}
 

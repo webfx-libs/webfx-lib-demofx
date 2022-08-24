@@ -6,13 +6,13 @@ import com.chrisnewland.demofx.util.PreCalc;
 /**
  * @author Bruno Salmon
  */
-public class AbstractAddOnFadeEffect extends AbstractAddOnEffect {
+public class AbstractFadeAddOnEffect extends AbstractAddOnEffect {
 
     private final long duration;
     private final boolean fadeIn, fadeOut;
     private long fadeInStart, fadeOutStart;
 
-    public AbstractAddOnFadeEffect(AbstractEffect effect, long duration, boolean fadeIn, boolean fadeOut) {
+    public AbstractFadeAddOnEffect(AbstractEffect effect, long duration, boolean fadeIn, boolean fadeOut) {
         super(effect);
         this.duration = duration;
         this.fadeIn = fadeIn;

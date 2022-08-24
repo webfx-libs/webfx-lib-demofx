@@ -5,13 +5,13 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 /**
  * @author Bruno Salmon
  */
-public class AddOnFadeOutEffect extends AbstractAddOnFadeEffect {
+public class FadeOutAddOnEffect extends AbstractFadeAddOnEffect {
 
-    public AddOnFadeOutEffect(AbstractEffect effect) {
+    public FadeOutAddOnEffect(AbstractEffect effect) {
         this(effect, 4000);
     }
 
-    public AddOnFadeOutEffect(AbstractEffect effect, long duration) {
+    public FadeOutAddOnEffect(AbstractEffect effect, long duration) {
         super(effect, duration, false, true);
     }
 }
