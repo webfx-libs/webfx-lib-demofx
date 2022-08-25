@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -27,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
+public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 {
 	private final DemoConfig config;
 
@@ -85,14 +86,14 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 			mediaPlayer.stop();
 	}
 
-	/*@Override public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
+	@Override public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
 	{
 		for (int i = 0; i < SPECTRUM_BANDS; i++)
 		{
 			// average last 2 bars for smoothness
 			spectrumData[i] = (spectrumData[i] + magnitudes[i]) / 2;
 		}
-	}*/
+	}
 
 	@Override public float[] getData()
 	{
@@ -262,10 +263,7 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 		}
 */
 
-		if (mediaPlayer != null) {
-			initialiseSpectralEffects(mediaPlayer);
-			mediaPlayer.play();
-		}
+		initialiseAudio2();
 
 		timer = new DemoAnimationTimer(this, config, statsLabel, effects);
 		timer.start();
@@ -341,12 +339,12 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 			}
 		}
 
-		/*if (result) commented for WebFX
+		if (result)
 		{
 			mediaPlayer.setAudioSpectrumListener(this);
 			mediaPlayer.setAudioSpectrumInterval(1f / SAMPLES_PER_SECOND);
 			mediaPlayer.setAudioSpectrumNumBands(SPECTRUM_BANDS);
-		}*/
+		}
 
 		return result;
 	}
