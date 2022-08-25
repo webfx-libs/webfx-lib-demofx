@@ -64,6 +64,7 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 	public DemoFX(DemoConfig config, IEffectFactory effectFactory) {
 		this.config = config;
 		this.effectFactory = effectFactory;
+		initialiseAudio1(); // Will start loading the audio buffer in the web version
 		if (config.getPreCalc() == null)
 			config.setPrecalc(new PreCalc(config));
 	}
@@ -252,11 +253,18 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 
 	public void runDemo()
 	{
+/*
 		String audioFilename = config.getAudioFilename();
 
 		if (audioFilename != null)
 		{
 			initialiseAudio(audioFilename, effects);
+		}
+*/
+
+		if (mediaPlayer != null) {
+			initialiseSpectralEffects(mediaPlayer);
+			mediaPlayer.play();
 		}
 
 		timer = new DemoAnimationTimer(this, config, statsLabel, effects);
@@ -343,18 +351,20 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 		return result;
 	}
 
+	private void initialiseAudio1() {
+		String audioFilename = config.getAudioFilename();
+		if (audioFilename != null) {
+			Media media = new Media(audioFilename);
+			mediaPlayer = new MediaPlayer(media);
+			mediaPlayer.setCycleCount(1);
+		}
+	}
 
-	private void initialiseAudio(String audioFilename, List<IEffect> effects)
-	{
-		Media media = new Media(audioFilename);
-
-		mediaPlayer = new MediaPlayer(media);
-
-		mediaPlayer.setCycleCount(1);
-
-		initialiseSpectralEffects(mediaPlayer);
-
-		mediaPlayer.play();
+	private void initialiseAudio2() {
+		if (mediaPlayer != null) {
+			initialiseSpectralEffects(mediaPlayer);
+			mediaPlayer.play();
+		}
 	}
 
 	MediaPlayer getMediaPlayer() {
