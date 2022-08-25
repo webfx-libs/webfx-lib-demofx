@@ -357,6 +357,10 @@ public class DemoFX implements /*AudioSpectrumListener,*/ ISpectrumDataProvider
 		mediaPlayer.play();
 	}
 
+	MediaPlayer getMediaPlayer() {
+		return mediaPlayer;
+	}
+
 	/*private String getFXLabelText(DemoConfig config)
 	{
 		StringBuilder builder = new StringBuilder();
