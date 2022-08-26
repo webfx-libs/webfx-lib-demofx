@@ -19,11 +19,13 @@ import java.util.List;
 public class TextFlash extends AbstractEffect
 {
 	private List<String> stringList;
-	private Font font;
 
 	private static final double INITIAL_FONT_SIZE = 80;
+	private Font font = Font.font("Krungthep", FontWeight.BOLD, INITIAL_FONT_SIZE);
 
-	private long showMillis = 200;
+	private long fadeInMillis;
+	private long stayMillis;
+	private long fadeOutMillis;
 
 	private long time;
 
@@ -40,8 +42,6 @@ public class TextFlash extends AbstractEffect
 	{
 		super(config);
 
-		font = Font.font("Krungthep", FontWeight.BOLD, INITIAL_FONT_SIZE);
-
 		init("The end is the beginning is the end".toUpperCase().split(" "), true, Color.WHITE, font, 50, 200);
 	}
 	
@@ -49,11 +49,15 @@ public class TextFlash extends AbstractEffect
 	{
 		super(config);
 
-		font = Font.font("Krungthep", FontWeight.BOLD, INITIAL_FONT_SIZE);
-
 		init(string.toUpperCase().split(" "), true, Color.WHITE, font, 50, 200);
 	}
-	
+
+	public TextFlash(DemoConfig config, String string, boolean loopStringList, long fadeInMillis, long stayMillis, long fadeOutMillis) {
+		super(config);
+
+		init(string.toUpperCase().split(" "), loopStringList, Color.WHITE, font, 50, fadeInMillis,  stayMillis, fadeOutMillis);
+	}
+
 	public TextFlash(DemoConfig config, String string, Font font, Color colour)
 	{
 		super(config);
@@ -65,13 +69,15 @@ public class TextFlash extends AbstractEffect
 	{
 		super(config);
 
-		font = Font.font("Linux Biolinum Keyboard O", FontWeight.BOLD, fontSize);
-
-		init(string.toUpperCase().split(split), true, Color.WHITE, font, yPercent, showMillis);
+		init(string.toUpperCase().split(split), true, Color.WHITE, Font.font("Linux Biolinum Keyboard O", FontWeight.BOLD, fontSize), yPercent, showMillis);
 	}
 
 
-	private void init(String[] strings, boolean loopStringList, Color colour, Font font, double yPercent, long showMillis)
+	private void init(String[] strings, boolean loopStringList, Color colour, Font font, double yPercent, long showMillis) {
+		init(strings, loopStringList, colour, font, yPercent, 0, 0, showMillis);
+	}
+
+	private void init(String[] strings, boolean loopStringList, Color colour, Font font, double yPercent, long fadeInMillis, long stayMillis, long fadeOutMillis)
 	{
 		stringList = new ArrayList<>();
 
@@ -82,9 +88,9 @@ public class TextFlash extends AbstractEffect
 		this.fontColour = colour;
 		this.font = font;
 		this.yPercent = yPercent;
-		this.showMillis = showMillis;
-
-		time = System.currentTimeMillis();
+		this.fadeInMillis = fadeInMillis;
+		this.stayMillis = stayMillis;
+		this.fadeOutMillis = fadeOutMillis;
 
 		precalulateStringDimensions();
 	}
@@ -106,9 +112,12 @@ public class TextFlash extends AbstractEffect
 	{
 		long now = System.currentTimeMillis();
 
+		if (time == 0)
+			time = now;
+
 		long elapsed = now - time; // 0 .. showMillis
 
-		double opacityFactor = 1 - ((double) elapsed / (double) showMillis); // 1
+		double opacityFactor = elapsed < fadeInMillis ? ((double) elapsed / (double) fadeOutMillis) : elapsed < fadeInMillis + stayMillis ? 1 : 1 - ((double) (elapsed - fadeInMillis - stayMillis) / (double) fadeOutMillis); // 1
 																				// -
 																				// (0
 																				// ..
@@ -123,7 +132,7 @@ public class TextFlash extends AbstractEffect
 			plotText();
 		}
 
-		if (elapsed > showMillis)
+		if (elapsed > fadeInMillis + stayMillis + fadeOutMillis)
 		{
 			stringIndex++;
 
