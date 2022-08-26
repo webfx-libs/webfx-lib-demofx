@@ -13,10 +13,7 @@ import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.*;
-import com.chrisnewland.demofx.effect.text.TextRing;
-import com.chrisnewland.demofx.effect.text.TextWave;
-import com.chrisnewland.demofx.effect.text.TextWaveSprite;
-import com.chrisnewland.demofx.effect.text.WordSearch;
+import com.chrisnewland.demofx.effect.text.*;
 import com.chrisnewland.demofx.util.ShapeEffect;
 
 import java.util.ArrayList;
@@ -360,6 +357,9 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "textwavesprite":
 			return new TextWaveSprite(config);
+
+		case "textflash":
+			return new TextFlash(config);
 		/*
 
 		case "textlabel":
