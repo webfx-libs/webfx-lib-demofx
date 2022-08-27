@@ -5,15 +5,16 @@
 package com.chrisnewland.demofx.util;
 
 import dev.webfx.extras.imagestore.ImageStore;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
-
-import java.nio.ByteBuffer;
 
 public class ImageUtil
 {
@@ -151,58 +152,33 @@ public class ImageUtil
 
 	public static Image replaceColour(Image image, Color colorOld, Color colorNew)
 	{
-		PixelReader reader = image.getPixelReader();
+		WritableImage result;
+		// If the passed image is already a writable image, we use it (assuming it's ok to apply the changes on it)
+		if (image instanceof WritableImage)
+			result = (WritableImage) image;
+		else // Otherwise we create a writable copy of the image
+			result = new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
 
-		int imgWidth = (int) image.getWidth();
-		int imgHeight = (int) image.getHeight();
+		int oldR = (int) (colorOld.getRed() * 255);
+		int oldG = (int) (colorOld.getGreen() * 255);
+		int oldB = (int) (colorOld.getBlue() * 255);
+		int oldA = (int) (colorOld.getOpacity() * 255);
 
-		WritableImage result = new WritableImage(imgWidth, imgHeight);
+		int newR = (int) (colorNew.getRed() * 255);
+		int newG = (int) (colorNew.getGreen() * 255);
+		int newB = (int) (colorNew.getBlue() * 255);
+		int newA = (int) (colorNew.getOpacity() * 255);
 
-		PixelWriter pixelWriter = result.getPixelWriter();
-
-		byte[] imageData = new byte[imgWidth * imgHeight * 4];
-
-		PixelFormat<ByteBuffer> pixelFormat = PixelFormat.getByteBgraPreInstance();
-
-		int pixel = 0;
-
-		byte oldR = (byte) (colorOld.getRed() * 255);
-		byte oldG = (byte) (colorOld.getGreen() * 255);
-		byte oldB = (byte) (colorOld.getBlue() * 255);
-		byte oldA = (byte) (colorOld.getOpacity() * 255);
-
-		byte newR = (byte) (colorNew.getRed() * 255);
-		byte newG = (byte) (colorNew.getGreen() * 255);
-		byte newB = (byte) (colorNew.getBlue() * 255);
-		byte newA = (byte) (colorNew.getOpacity() * 255);
-
-		for (int y = 0; y < imgHeight; y++)
-		{
-			for (int x = 0; x < imgWidth; x++)
-			{
-				int color = reader.getArgb(x, y);
-
-				byte alpha = (byte) ((color >> 24) & 255);
-				byte red = (byte) ((color >> 16) & 255);
-				byte green = (byte) ((color >> 8) & 255);
-				byte blue = (byte) (color & 255);
-
-				if (oldR == red && oldG == green && oldB == blue && oldA == alpha)
-				{
-					red = newR;
-					green = newG;
-					blue = newB;
-					alpha = newA;
+		FastPixelReaderWriter pixelWriter = WebFxKitLauncher.getFastPixelReaderWriter(result);
+		while (pixelWriter.gotToNextPixel())
+			if (pixelWriter.getRed() == oldR && pixelWriter.getGreen() == oldG && pixelWriter.getBlue() == oldB && pixelWriter.getOpacity() == oldA) {
+				pixelWriter.setOpacity(newA);
+				if (newA > 0) {
+					pixelWriter.setRed(newR);
+					pixelWriter.setGreen(newG);
+					pixelWriter.setBlue(newB);
 				}
-
-				imageData[pixel++] = blue;
-				imageData[pixel++] = green;
-				imageData[pixel++] = red;
-				imageData[pixel++] = alpha;
 			}
-		}
-
-		pixelWriter.setPixels(0, 0, imgWidth, imgHeight, pixelFormat, imageData, 0, imgWidth * 4);
 
 		return result;
 	}

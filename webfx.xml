@@ -77,6 +77,7 @@
                 <module>webfx-kit-javafxcontrols-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
                 <module>webfx-kit-javafxmedia-emul</module>
+                <module>webfx-kit-launcher</module>
                 <module>webfx-platform-console</module>
             </used-by-source-modules>
 

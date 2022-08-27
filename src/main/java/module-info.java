@@ -8,6 +8,7 @@ module webfx.lib.demofx {
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.extras.imagestore;
+    requires webfx.kit.launcher;
     requires webfx.platform.console;
 
     // Exported packages
