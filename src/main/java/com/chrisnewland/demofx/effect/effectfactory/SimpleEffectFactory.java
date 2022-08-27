@@ -11,6 +11,8 @@ import com.chrisnewland.demofx.effect.fake3d.StarfieldSprite;
 import com.chrisnewland.demofx.effect.fractal.FractalRings;
 import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
+import com.chrisnewland.demofx.effect.pixel.Bobs;
+import com.chrisnewland.demofx.effect.pixel.Rainbow;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.sprite.*;
 import com.chrisnewland.demofx.effect.text.*;
@@ -150,10 +152,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "blur":
 			return new Blur(config);
-
+		*/
 		case "bobs":
 			return new Bobs(config);
-
+		/*
 		case "bounce":
 			return new Bounce(config);
 		*/
@@ -285,10 +287,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "rain":
 			return new Rain(config);
-
+		*/
 		case "rainbow":
 			return new Rainbow(config);
-
+		/*
 		case "rawplayer":
 			return new RawPlayer(config);
 

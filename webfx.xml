@@ -62,6 +62,7 @@
                 <package>com.chrisnewland.demofx.effect.effectfactory</package>
                 <package>com.chrisnewland.demofx.effect.fake3d</package>
                 <package>com.chrisnewland.demofx.effect.fractal</package>
+                <package>com.chrisnewland.demofx.effect.pixel</package>
                 <package>com.chrisnewland.demofx.effect.shape</package>
                 <package>com.chrisnewland.demofx.effect.spectral</package>
                 <package>com.chrisnewland.demofx.effect.sprite</package>
