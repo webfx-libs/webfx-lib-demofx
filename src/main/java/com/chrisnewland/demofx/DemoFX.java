@@ -24,6 +24,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -55,7 +56,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	public DemoFX(DemoConfig config)
 	{
-		this.config = config;
+		this(config, (IEffectFactory) null);
 	}
 
 	public DemoFX(DemoConfig config, Function<DemoConfig, IEffect> effectConstructor) {
@@ -344,6 +345,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 			mediaPlayer.setAudioSpectrumListener(this);
 			mediaPlayer.setAudioSpectrumInterval(1f / SAMPLES_PER_SECOND);
 			mediaPlayer.setAudioSpectrumNumBands(SPECTRUM_BANDS);
+			Arrays.fill(spectrumData, -60);
 		}
 
 		return result;

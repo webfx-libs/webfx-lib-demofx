@@ -14,6 +14,7 @@ import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Bobs;
 import com.chrisnewland.demofx.effect.pixel.Rainbow;
 import com.chrisnewland.demofx.effect.shape.*;
+import com.chrisnewland.demofx.effect.spectral.Equaliser2D;
 import com.chrisnewland.demofx.effect.sprite.*;
 import com.chrisnewland.demofx.effect.text.*;
 import com.chrisnewland.demofx.util.ShapeEffect;
@@ -200,10 +201,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "doomfire":
 			return new DoomFire(config);
-
+		*/
 		case "equaliser":
 			return new Equaliser2D(config);
-
+		/*
 		case "equalisercubes":
 			return new Equaliser3D(config);
 		*/
