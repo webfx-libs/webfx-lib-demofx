@@ -31,7 +31,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 
 	private Image[] image = new Image[64];
 
-	private static class FractalRing
+	private /*static*/ class FractalRing
 	{
 		private double centreX;
 		private double centreY;
@@ -59,10 +59,17 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		{
 			double testRadius = radius / ROOT_2;
 
-			double left = centreX - testRadius;
-			double right = centreX + testRadius;
-			double top = centreY - testRadius;
-			double bottom = centreY + testRadius;
+			double cx = centreX - width / 2;
+			double cy = centreY - height / 2;
+			double x = cx * rotate.getMxx() + cy * rotate.getMxy();
+			double y = cx * rotate.getMyx() + cy * rotate.getMyy();
+			x+= width / 2;
+			y+= height /2;
+
+			double left = x - testRadius;
+			double right = x + testRadius;
+			double top = y - testRadius;
+			double bottom = y + testRadius;
 
 			return left > 0 && right < width && bottom > 0 && top < height;
 		}
