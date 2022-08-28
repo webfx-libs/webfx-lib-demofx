@@ -4,7 +4,7 @@
  */
 package com.chrisnewland.demofx.effect;
 
-import javafx.scene.image.PixelWriter;
+import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 
 public interface IPixelSink
 {
@@ -12,7 +12,9 @@ public interface IPixelSink
 	
 	int getHeight();
 	
-	PixelWriter getPixelWriter();
+	//PixelWriter getPixelWriter();
+
+	FastPixelReaderWriter getFastPixelReaderWriter();
 	
 	void redraw();
 }

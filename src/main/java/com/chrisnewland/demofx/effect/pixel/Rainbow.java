@@ -117,6 +117,6 @@ public class Rainbow extends AbstractEffect implements IPixelSource
 	@Override
 	public void setPixelSink(IPixelSink sink)
 	{
-		this.pixelWriter = sink.getPixelWriter();
+		//this.pixelWriter = sink.getPixelWriter();
 	}
 }

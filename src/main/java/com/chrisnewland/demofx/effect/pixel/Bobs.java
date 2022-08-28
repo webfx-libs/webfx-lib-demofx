@@ -8,24 +8,17 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.effect.IPixelSink;
 import com.chrisnewland.demofx.effect.IPixelSource;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.PixelWriter;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.paint.Color;
-
-import java.nio.ByteBuffer;
 
 public class Bobs extends AbstractEffect implements IPixelSource
 {
-	private byte[] pixelData;
-
 	private int imageWidth;
 	private int imageHeight;
-	private int scanLine;
 
-	private int pixelCount;
-
-	private PixelWriter pixelWriter;
-	private PixelFormat<ByteBuffer> pixelFormat;
+	private FastPixelReaderWriter fastPixelReaderWriter;
 
 	private int initialBlue;
 	private int initialGreen;
@@ -73,20 +66,14 @@ public class Bobs extends AbstractEffect implements IPixelSource
 
 		private void render()
 		{
-			for (int y = by; y < by + bh; y++)
+			for (int y = by; y < by + bh && y < imageHeight; y++)
 			{
-				int rowStart = (y * imageWidth * 4);
-
-				for (int x = bx; x < bx + bw; x++)
+				for (int x = bx; x < bx + bw && x < imageWidth ; x++)
 				{
-					int writeIndex = rowStart + x * 4;
-
-					writeIndex = Math.max(writeIndex, 0);
-					writeIndex = Math.min(writeIndex, pixelCount - 4 - 1);
-
-					pixelData[writeIndex + 0] = (byte) Math.min(saturatedB, pixelData[writeIndex + 0] + this.colourB);
-					pixelData[writeIndex + 1] = (byte) Math.min(saturatedG, pixelData[writeIndex + 1] + this.colourG);
-					pixelData[writeIndex + 2] = (byte) Math.min(saturatedR, pixelData[writeIndex + 2] + this.colourR);
+					fastPixelReaderWriter.goToPixel(x, y);
+					fastPixelReaderWriter.setBlue( Math.min(saturatedB, fastPixelReaderWriter.getBlue()  + this.colourB));
+					fastPixelReaderWriter.setGreen(Math.min(saturatedG, fastPixelReaderWriter.getGreen() + this.colourG));
+					fastPixelReaderWriter.setRed(  Math.min(saturatedR, fastPixelReaderWriter.getRed()   + this.colourR));
 				}
 			}
 		}
@@ -132,32 +119,21 @@ public class Bobs extends AbstractEffect implements IPixelSource
 
 		createBobs(itemCount);
 
-		pixelWriter = gc.getPixelWriter();
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, imageWidth, imageHeight);
+		fastPixelReaderWriter = WebFxKitLauncher.getFastPixelReaderWriter(gc.getCanvas().snapshot(new SnapshotParameters(), null));
 
-		pixelFormat = PixelFormat.getByteBgraPreInstance();
-
-		scanLine = imageWidth * 4;
-
-		pixelCount = scanLine * imageHeight;
-
-		pixelData = new byte[pixelCount];
-
-		initialisePixelData();
+		//initialisePixelData();
 	}
 
 	private void initialisePixelData()
 	{
-		int pixel = 0;
-
-		for (int y = 0; y < imageHeight; y++)
-		{
-			for (int x = 0; x < imageWidth; x++)
-			{
-				pixelData[pixel++] = (byte) 0x00; // blue
-				pixelData[pixel++] = (byte) 0x00; // green
-				pixelData[pixel++] = (byte) 0x00; // red
-				pixelData[pixel++] = (byte) 0xFF; // alpha
-			}
+		fastPixelReaderWriter.goToPixel(0, 0);
+		while (fastPixelReaderWriter.gotToNextPixel()) {
+			fastPixelReaderWriter.setBlue((byte) 0);
+			fastPixelReaderWriter.setGreen((byte) 0);
+			fastPixelReaderWriter.setRed((byte) 0);
+			fastPixelReaderWriter.setOpacity((byte) 255);
 		}
 	}
 
@@ -199,12 +175,14 @@ public class Bobs extends AbstractEffect implements IPixelSource
 			bob.render();
 		}
 
-		pixelWriter.setPixels(0, 0, imageWidth, imageHeight, pixelFormat, pixelData, 0, scanLine);		
+		gc.drawImage(fastPixelReaderWriter.getImage(), 0, 0);
+
+		//pixelWriter.setPixels(0, 0, imageWidth, imageHeight, pixelFormat, pixelData, 0, scanLine);
 	}
 	
 	@Override
 	public void setPixelSink(IPixelSink sink)
 	{
-		this.pixelWriter = sink.getPixelWriter();
+		this.fastPixelReaderWriter = sink.getFastPixelReaderWriter();
 	}
 }
