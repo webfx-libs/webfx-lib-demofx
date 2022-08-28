@@ -9,6 +9,8 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.ImageUtil;
 import javafx.scene.image.Image;
 
+import java.util.Arrays;
+
 public class Concentric extends AbstractEffect
 {
 	private double angleClockwise = 0;
@@ -30,7 +32,15 @@ public class Concentric extends AbstractEffect
 	private static final double EACH_ANGLE = 360 / (double) PER_RING;
 	private final double OFFSCREEN;
 
-	public Concentric(DemoConfig config)
+	public Concentric(DemoConfig config) {
+		this(config, "tomato.png", "satsuma.png", "pear.png", "apple.png", "orange.png", "pineapple.png", "banana.png", "strawberry.png");
+	}
+
+	public Concentric(DemoConfig config, String... imageFiles) {
+		this(config, Arrays.stream(imageFiles).map(ImageUtil::loadImageFromResources).toArray(Image[]::new));
+	}
+
+	public Concentric(DemoConfig config, Image... images)
 	{
 		super(config);
 		OFFSCREEN = Math.max(halfWidth, halfHeight) * 1.2;
@@ -43,15 +53,7 @@ public class Concentric extends AbstractEffect
 		ringX = new double[RINGS];
 		ringY = new double[RINGS];
 
-		images = new Image[] {
-				ImageUtil.loadImageFromResources("tomato.png"),
-				ImageUtil.loadImageFromResources("satsuma.png"),
-				ImageUtil.loadImageFromResources("pear.png"),
-				ImageUtil.loadImageFromResources("apple.png"),
-				ImageUtil.loadImageFromResources("orange.png"),
-				ImageUtil.loadImageFromResources("pineapple.png"),
-				ImageUtil.loadImageFromResources("banana.png"),
-				ImageUtil.loadImageFromResources("strawberry.png") };
+		this.images = images;
 
 		imageIndex = new int[RINGS];
 
