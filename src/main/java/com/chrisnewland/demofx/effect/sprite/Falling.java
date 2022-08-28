@@ -21,23 +21,18 @@ public class Falling extends AbstractEffect
 
 	private static final double ACCELERATION = 1.02;
 
-	private boolean directionDown = true;
+	private boolean directionDown;
 
 	public Falling(DemoConfig config)
 	{
-		super(config);
-
 		// By Wilson Bentley - http://snowflakebentley.com/snowflakes.htm,
 		// Public Domain,
 		// https://commons.wikimedia.org/w/index.php?curid=1282792
+		this(config, "flake.png");
+	}
 
-		Image snowflake = ImageUtil.loadImageFromResources("flake.png");
-
-		directionDown = true;
-
-		spriteChoices = new Image[] { snowflake };
-
-		init();
+	public Falling(DemoConfig config, String imageFileName) {
+		this(config, new Image[] { ImageUtil.loadImageFromResources(imageFileName) }, true);
 	}
 
 	public Falling(DemoConfig config, Image[] spriteChoices, boolean directionDown)
