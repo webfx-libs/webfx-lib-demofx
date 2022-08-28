@@ -271,10 +271,13 @@ public class SimpleEffectFactory implements IEffectFactory
 			return new MirrorY(config);
 		*/
 		case "moire":
-			return new com.chrisnewland.demofx.effect.sprite.Moire(config);
+			return new Moire(config);
+
+		case "moire2":
+			return new Moire2(config);
 
 		case "moremoire":
-			return new MoreMoire(config);
+		return new MoreMoire(config);
 		/*
 
 		case "pentagons":
