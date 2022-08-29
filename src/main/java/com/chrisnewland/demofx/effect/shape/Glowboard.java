@@ -41,20 +41,18 @@ public class Glowboard extends AbstractEffect
 
 	public Glowboard(DemoConfig config)
 	{
-		super(config);
+		this(config, 16);
+	}
 
-		init(16, Direction.NE, Color.rgb(0, 0, 200));
+	public Glowboard(DemoConfig config, int checkSize)
+	{
+		this(config, checkSize, Direction.NE, Color.rgb(0, 0, 200));
 	}
 
 	public Glowboard(DemoConfig config, int checkSize, Direction dir, Color colour)
 	{
 		super(config);
-		
-		init(checkSize, dir, colour);
-	}
-	
-	private void init(int checkSize, Direction dir, Color colour)
-	{
+
 		this.checkSize = checkSize;
 
 		this.dir = dir;
