@@ -115,9 +115,9 @@ public class Bobs extends AbstractEffect implements IPixelSource
 
 		int initialReduction = 16;
 
-		this.initialBlue = (int) (blue / initialReduction);
-		this.initialGreen = (int) (green / initialReduction);
-		this.initialRed = (int) (red / initialReduction);
+		this.initialBlue = blue / initialReduction;
+		this.initialGreen = green / initialReduction;
+		this.initialRed = red / initialReduction;
 
 		this.saturatedB = (blue > 0 ? 255 : 0);
 		this.saturatedG = (green > 0 ? 255 : 0);
@@ -135,18 +135,6 @@ public class Bobs extends AbstractEffect implements IPixelSource
 		gc.fillRect(0, 0, imageWidth, imageHeight);
 		fastPixelReaderWriter = WebFxKitLauncher.getFastPixelReaderWriter(gc.getCanvas().snapshot(new SnapshotParameters(), null));
 
-		//initialisePixelData();
-	}
-
-	private void initialisePixelData()
-	{
-		fastPixelReaderWriter.goToPixel(0, 0);
-		while (fastPixelReaderWriter.gotToNextPixel()) {
-			fastPixelReaderWriter.setBlue((byte) 0);
-			fastPixelReaderWriter.setGreen((byte) 0);
-			fastPixelReaderWriter.setRed((byte) 0);
-			fastPixelReaderWriter.setOpacity((byte) 255);
-		}
 	}
 
 	private void createBobs(int count)
@@ -188,8 +176,6 @@ public class Bobs extends AbstractEffect implements IPixelSource
 		}
 
 		gc.drawImage(fastPixelReaderWriter.getImage(), 0, 0);
-
-		//pixelWriter.setPixels(0, 0, imageWidth, imageHeight, pixelFormat, pixelData, 0, scanLine);
 	}
 	
 	@Override
