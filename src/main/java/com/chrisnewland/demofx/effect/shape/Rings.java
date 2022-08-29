@@ -110,12 +110,8 @@ public class Rings extends AbstractEffect
 
 	private final void drawRing(double x, double y, double radius, double thickness, Color color)
 	{
-		gc.setFill(color);
-		gc.fillOval(x - radius, y - radius, radius * 2, radius * 2);
-
-		radius -= thickness;
-
-		gc.setFill(Color.BLACK);
-		gc.fillOval(x - radius, y - radius, radius * 2, radius * 2);
+		gc.setStroke(color);
+		gc.setLineWidth(thickness);
+		gc.strokeOval(x - radius, y - radius, radius * 2, radius * 2);
 	}
 }
