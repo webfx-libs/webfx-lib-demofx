@@ -36,20 +36,21 @@ public class Sea extends AbstractEffect
 
 	public Sea(DemoConfig config)
 	{
-		super(config);
-
-		init(SeaMode.CUBES);
+		this(config, SeaMode.CUBES);
 	}
 
 	public Sea(DemoConfig config, SeaMode mode)
 	{
-		super(config);
-
-		init(mode);
+		this(config, null, mode);
 	}
 
-	private void init(SeaMode mode)
+	public Sea(DemoConfig config, Image image) {
+		this(config, image, null);
+	}
+
+	public Sea(DemoConfig config, Image image, SeaMode mode)
 	{
+		super(config);
 		imgWidth = 64;
 		imgHeight = imgWidth;
 		
@@ -61,16 +62,18 @@ public class Sea extends AbstractEffect
 		yStop = height + imgHeight + AMPLITUDE_Y;
 		yStep = imgHeight / 1.5;
 
-		switch (mode)
-		{
-		case CUBES:
-			image = ImageUtil.makeCubes(imgWidth, imgHeight);
-			break;
-			
-		case HEARTS:
-			image = ImageUtil.makeHearts(imgWidth, imgHeight);
-			break;
-		}
+		if (image != null)
+			this.image = image;
+		else switch (mode)
+			{
+			case CUBES:
+				this.image = ImageUtil.makeCubes(imgWidth, imgHeight);
+				break;
+
+			case HEARTS:
+				this.image = ImageUtil.makeHearts(imgWidth, imgHeight);
+				break;
+			}
 	}
 
 	@Override
