@@ -99,8 +99,8 @@ public class Moire2 extends AbstractEffect
 
 		paramList = new ArrayList<>();
 
-		paramList.add(new MoireParameters(buildImageCheckerboard(4, Shape.SQUARE), 0.32));
-		paramList.add(new MoireParameters(buildImageCheckerboard(6, Shape.CIRCLE), 0.16));
+		paramList.add(new MoireParameters(buildImageCheckerboard(4, Shape.SQUARE), 0.32 * 3));
+		//paramList.add(new MoireParameters(buildImageCheckerboard(6, Shape.CIRCLE), 0.16 * 3));
 
 		millisPerEffect = 2667 * 2;// 2 bars @ 90bpm
 
@@ -227,7 +227,7 @@ public class Moire2 extends AbstractEffect
 			zoomAngle -= 360;
 		}
 
-		zoom = 2.1 + precalc.cos(zoomAngle);
+		zoom = 2.15 + precalc.cos(zoomAngle);
 
 		double scaledDimension = minDimension * zoom;
 
