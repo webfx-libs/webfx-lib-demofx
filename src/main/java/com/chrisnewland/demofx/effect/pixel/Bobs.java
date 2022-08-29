@@ -71,12 +71,24 @@ public class Bobs extends AbstractEffect implements IPixelSource
 				for (int x = bx; x < bx + bw && x < imageWidth ; x++)
 				{
 					fastPixelReaderWriter.goToPixel(x, y);
-					fastPixelReaderWriter.setBlue( Math.min(saturatedB, fastPixelReaderWriter.getBlue()  + this.colourB));
-					fastPixelReaderWriter.setGreen(Math.min(saturatedG, fastPixelReaderWriter.getGreen() + this.colourG));
-					fastPixelReaderWriter.setRed(  Math.min(saturatedR, fastPixelReaderWriter.getRed()   + this.colourR));
+					// Note: the original code has been rewritten using the WebFX FastPixelReaderWriter whose passed
+					// values are int (0 to 255) and not bytes (-128 to 127). Normally we don't need to convert byte to
+					// int or vice versa with this API, but here the actual visual effect depends upon byte overflow,
+					// so we have to exceptionally do that conversion to produce the same visual effect.
+					fastPixelReaderWriter.setBlue( byteToInt((byte) Math.min(saturatedB, int2Byte(fastPixelReaderWriter.getBlue())  + this.colourB)));
+					fastPixelReaderWriter.setGreen(byteToInt((byte) Math.min(saturatedG, int2Byte(fastPixelReaderWriter.getGreen()) + this.colourG)));
+					fastPixelReaderWriter.setRed(  byteToInt((byte) Math.min(saturatedR, int2Byte(fastPixelReaderWriter.getRed())   + this.colourR)));
 				}
 			}
 		}
+	}
+
+	private byte int2Byte(int i) {
+		return (byte) (i - 128);
+	}
+
+	private int byteToInt(byte b) {
+		return ((int) b) + 128;
 	}
 
 	private Bob[] bobs;
