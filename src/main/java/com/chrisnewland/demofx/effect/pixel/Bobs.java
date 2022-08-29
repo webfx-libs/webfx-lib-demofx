@@ -71,10 +71,10 @@ public class Bobs extends AbstractEffect implements IPixelSource
 				for (int x = bx; x < bx + bw && x < imageWidth ; x++)
 				{
 					fastPixelReaderWriter.goToPixel(x, y);
-					// Note: the original code has been rewritten using the WebFX FastPixelReaderWriter whose passed
-					// values are int (0 to 255) and not bytes (-128 to 127). Normally we don't need to convert byte to
-					// int or vice versa with this API, but here the actual visual effect depends upon byte overflow,
-					// so we have to exceptionally do that conversion to produce the same visual effect.
+					// Note: the original code has been rewritten using the WebFX FastPixelReaderWriter (better JS perf)
+					// whose passed values are int (0 to 255) and not bytes (-128 to 127) as before. Normally there is
+					// no need to do int <-> byte conversions, but here the visual effect is actually produced by the
+					// byte overflow, so exceptionally we do that conversion to reproduce the same original visual effect.
 					fastPixelReaderWriter.setBlue( byteToInt((byte) Math.min(saturatedB, int2Byte(fastPixelReaderWriter.getBlue())  + this.colourB)));
 					fastPixelReaderWriter.setGreen(byteToInt((byte) Math.min(saturatedG, int2Byte(fastPixelReaderWriter.getGreen()) + this.colourG)));
 					fastPixelReaderWriter.setRed(  byteToInt((byte) Math.min(saturatedR, int2Byte(fastPixelReaderWriter.getRed())   + this.colourR)));
