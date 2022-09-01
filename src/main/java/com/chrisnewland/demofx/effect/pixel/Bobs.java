@@ -95,20 +95,18 @@ public class Bobs extends AbstractEffect implements IPixelSource
 
 	public Bobs(DemoConfig config)
 	{
-		super(config);
-
-		init(32, 32, Color.BLUE);
+		this(config, Color.BLUE);
 	}
 
-	public Bobs(DemoConfig config, int count, int bobSize, Color initialColour)
+	public Bobs(DemoConfig config, Color colour)
+	{
+		this(config, 32, 32, colour);
+	}
+
+	public Bobs(DemoConfig config, int count, int bobSize, Color colour)
 	{
 		super(config);
 
-		init(count, bobSize, initialColour);
-	}
-
-	private void init(int count, int bobSize, Color colour)
-	{
 		int red = (int) (colour.getRed() * 255);
 		int green = (int) (colour.getGreen() * 255);
 		int blue = (int) (colour.getBlue() * 255);
