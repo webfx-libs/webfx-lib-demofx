@@ -17,7 +17,7 @@ import java.util.List;
 
 public class FractalRings extends AbstractEffect implements HasAngle
 {
-	private static final double SPEED = 1.025;
+	private static final double SPEED = 1.05; // Was originally 1.025, but speed up to reduce the number of rings (otherwise slower animation frame in the browser)
 
 	private static final double SPAWN_AT_RADIUS = 8;
 
@@ -29,7 +29,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 
 	private int colourIndex = 0;
 
-	private Image[] image = new Image[64];
+	private final Image[] image = new Image[64];
 
 	private /*static*/ class FractalRing
 	{
