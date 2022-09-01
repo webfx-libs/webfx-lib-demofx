@@ -20,7 +20,7 @@ public class Burst extends AbstractEffect
 
 	private boolean clockwise = true;
 
-	private static final int BURSTS = 16;
+	private /*static*/ final int BURSTS;
 	private static final int BURST_SECTORS = 32;
 	private static final double SPEED = 3.0;
 	private static final double EACH_ANGLE = 360 / (double) BURST_SECTORS;
@@ -31,12 +31,22 @@ public class Burst extends AbstractEffect
 
 	private Image image;
 
-	public Burst(DemoConfig config)
+	public Burst(DemoConfig config) {
+		this(config, ImageUtil.loadImageFromResources("star.png"));
+	}
+
+	public Burst(DemoConfig config,  Image image) {
+		this(config, image, 16);
+	}
+
+	public Burst(DemoConfig config,  Image image, int count)
 	{
 		super(config);
 
 		MAX_RADIUS = width / 4;
 		FADE_RADIUS = MAX_RADIUS - FADE_STEPS;
+
+		BURSTS = count;
 
 		radii = new double[BURSTS];
 		ringX = new double[BURSTS];
@@ -50,7 +60,7 @@ public class Burst extends AbstractEffect
 			radii[i] = i * -100;
 		}
 
-		image = ImageUtil.loadImageFromResources("star.png");
+		this.image = image;
 
 		itemCount = BURSTS * BURST_SECTORS;
 	}
