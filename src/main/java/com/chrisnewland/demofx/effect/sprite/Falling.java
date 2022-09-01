@@ -32,7 +32,10 @@ public class Falling extends AbstractEffect
 	}
 
 	public Falling(DemoConfig config, String imageFileName) {
-		this(config, new Image[] { ImageUtil.loadImageFromResources(imageFileName) }, true);
+		this(config, ImageUtil.loadImageFromResources(imageFileName));
+	}
+	public Falling(DemoConfig config, Image... images) {
+		this(config, images, true);
 	}
 
 	public Falling(DemoConfig config, Image[] spriteChoices, boolean directionDown)
