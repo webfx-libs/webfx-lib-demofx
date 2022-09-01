@@ -44,17 +44,24 @@ public class DemoAnimationTimer extends AnimationTimer
 	private IEffect[] effectArray;
 	private final int effectCount;
 
+	private long elapsed;
+
 	public DemoAnimationTimer(DemoFX parent, DemoConfig config, Label statsLabel, List<IEffect> effects)
 	{
 		super();
 		
 		this.parent = parent;
 		this.config = config;
+		config.demoAnimationTimer = this;
 		this.onScreenGC = config.getOnScreenCanvasGC();
 		this.statsLabel = statsLabel;
 		this.effectArray = effects.toArray(new IEffect[effects.size()]);
 
 		effectCount = effectArray.length;
+	}
+
+	public long getElapsed() {
+		return elapsed;
 	}
 
 	@Override
@@ -86,8 +93,6 @@ public class DemoAnimationTimer extends AnimationTimer
 	@Override
 	public void handle(long renderStartNanos)
 	{
-		long elapsed;
-
 		// If there is no music playing, we just use the standard system time
 		MediaPlayer mediaPlayer = parent.getMediaPlayer();
 		if (mediaPlayer == null)

@@ -42,6 +42,8 @@ public class DemoConfig
 	
 	private PreCalc precalc;
 
+	DemoAnimationTimer demoAnimationTimer;
+
 	private DemoConfig()
 	{
 	}
@@ -49,6 +51,10 @@ public class DemoConfig
 	public DemoConfig(double width, double height) {
 		this.width = width;
 		this.height = height;
+	}
+
+	public DemoAnimationTimer getDemoAnimationTimer() {
+		return demoAnimationTimer;
 	}
 
 	/*public static String getUsageError()

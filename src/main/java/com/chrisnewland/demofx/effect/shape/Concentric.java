@@ -26,11 +26,13 @@ public class Concentric extends AbstractEffect
 
 	private double space;
 
-	private static final int RINGS = 10;
 	private static final int PER_RING = 32;
 	private static final double SPEED = 3.0;
 	private static final double EACH_ANGLE = 360 / (double) PER_RING;
 	private final double OFFSCREEN;
+
+	private long[] pulseTimes;
+	private int nextPulseIndex;
 
 	public Concentric(DemoConfig config) {
 		this(config, "tomato.png", "satsuma.png", "pear.png", "apple.png", "orange.png", "pineapple.png", "banana.png", "strawberry.png");
@@ -40,36 +42,61 @@ public class Concentric extends AbstractEffect
 		this(config, Arrays.stream(imageFiles).map(ImageUtil::loadImageFromResources).toArray(Image[]::new));
 	}
 
-	public Concentric(DemoConfig config, Image... images)
+	public Concentric(DemoConfig config, Image... images) {
+		this(config, 20, images);
+	}
+
+	public Concentric(DemoConfig config, int maxRings, Image... images)
 	{
 		super(config);
 		OFFSCREEN = Math.max(halfWidth, halfHeight) * 1.2;
 
-		space = width / RINGS / 1.7;
+		space = width / maxRings / 1.7;
 
-		radii = new double[RINGS];
+		radii = new double[maxRings];
 		radii[0] = 1;
 
-		ringX = new double[RINGS];
-		ringY = new double[RINGS];
+		ringX = new double[maxRings];
+		ringY = new double[maxRings];
 
 		this.images = images;
 
-		imageIndex = new int[RINGS];
+		imageIndex = new int[maxRings];
 
-		for (int i = 0; i < RINGS; i++)
+		for (int i = 0; i < maxRings; i++)
 		{
-			ringX[i] = halfWidth;
-			ringY[i] = halfHeight;
 			imageIndex[i] = i % images.length;
+			Image image = images[imageIndex[i]];
+			ringX[i] = halfWidth - image.getWidth() / 2;
+			ringY[i] = halfHeight - image.getHeight() / 2;
 		}
 
-		itemCount = RINGS * PER_RING;
+		itemCount = maxRings * PER_RING;
+	}
+
+	public Concentric setPulseTimes(long... pulseTimes) {
+		this.pulseTimes = pulseTimes;
+		return this;
+	}
+
+	private boolean readyForNextRing() {
+		if (pulseTimes == null)
+			return lastRadius > space;
+		if (nextPulseIndex >= pulseTimes.length)
+			return false;
+		long elapsed = config.getDemoAnimationTimer().getElapsed();
+		if (elapsed < pulseTimes[nextPulseIndex])
+			return false;
+		nextPulseIndex++;
+		return true;
 	}
 
 	@Override
 	public void renderForeground()
 	{
+		if (pulseTimes != null && nextPulseIndex == 0 && !readyForNextRing())
+			return;
+
 		rotateRings();
 
 		plotRings();
@@ -92,19 +119,25 @@ public class Concentric extends AbstractEffect
 		}
 	}
 
+	double lastRadius;
+
 	private final void plotRings()
 	{
-		double lastRadius = 0;
 
-		for (int i = 0; i < RINGS; i++)
+		lastRadius = 0;
+
+		for (int i = 0; i < radii.length; i++)
 		{
-			if (radii[i] > 0 || lastRadius > space)
+			if (radii[i] > 0 || readyForNextRing())
 			{
 				radii[i] += SPEED;
 
 				if (radii[i] > OFFSCREEN)
 				{
 					respawnRing(i);
+					if (pulseTimes != null) {
+						radii[i] = 0;
+					}
 				}
 
 				plotRing(i, clockwise ? angleClockwise : angleAntiClockwise);
@@ -119,13 +152,16 @@ public class Concentric extends AbstractEffect
 	private final void respawnRing(int ringIndex)
 	{
 		radii[ringIndex] = 1;
-		ringX[ringIndex] = halfWidth;
-		ringY[ringIndex] = halfHeight;
+		Image image = images[imageIndex[ringIndex]];
+		ringX[ringIndex] = halfWidth - image.getWidth() / 2;
+		ringY[ringIndex] = halfHeight - image.getHeight() / 2;
 	}
 
 	private void plotRing(int ringIndex, double angle)
 	{
 		double radius = radii[ringIndex];
+		if (radius == 0)
+			return;
 
 		for (int i = 0; i < PER_RING; i++)
 		{
