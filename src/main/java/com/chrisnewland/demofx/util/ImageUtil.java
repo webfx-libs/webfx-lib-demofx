@@ -173,57 +173,47 @@ public class ImageUtil
 		while (pixelWriter.gotToNextPixel())
 			if (pixelWriter.getRed() == oldR && pixelWriter.getGreen() == oldG && pixelWriter.getBlue() == oldB && pixelWriter.getOpacity() == oldA) {
 				pixelWriter.setOpacity(newA);
-				if (newA > 0) {
-					pixelWriter.setRed(newR);
-					pixelWriter.setGreen(newG);
-					pixelWriter.setBlue(newB);
-				}
+				if (newA > 0)
+					pixelWriter.setRgb(newR, newG, newB);
 			}
 
 		return result;
 	}
 
-	/*public static Image tintImage(Image image, double hue)
+	public static Image tintImage(Image image, double hue)
 	{
-		int imgWidth = (int) image.getWidth();
-		int imgHeight = (int) image.getHeight();
+		WritableImage result;
+		// If the passed image is already a writable image, we use it (assuming it's ok to apply the changes on it)
+		if (image instanceof WritableImage)
+			result = (WritableImage) image;
+		else // Otherwise we create a writable copy of the image
+			result = new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
+		tintImage(image, hue, result);
+		return result;
 
-		PixelReader reader = image.getPixelReader();
+	}
+	public static Image tintImage(Image image, double hue, WritableImage result)
+	{
+		FastPixelReaderWriter pixelReader = WebFxKitLauncher.getFastPixelReaderWriter(image);
+		FastPixelReaderWriter pixelWriter = WebFxKitLauncher.getFastPixelReaderWriter(result);
+		pixelReader.goToPixel(-1, 0);
+		pixelWriter.goToPixel(-1, 0);
+		while (pixelReader.gotToNextPixel() && pixelWriter.gotToNextPixel()) {
+			int opacity = pixelReader.getOpacity();
+			Color color = Color.rgb(pixelReader.getRed(), pixelReader.getGreen(), pixelReader.getBlue(), 1d / 255 * opacity);
 
-		WritableImage result = new WritableImage(imgWidth, imgHeight);
+			Color newColour = Color.hsb(hue, 1, color.getBrightness());
 
-		PixelWriter pixelWriter = result.getPixelWriter();
+			//byte alpha = (byte) (color.getOpacity() * 255);
+			int red =   (int) (newColour.getRed() *   255);
+			int green = (int) (newColour.getGreen() * 255);
+			int blue =  (int) (newColour.getBlue() *  255);
 
-		byte[] imageData = new byte[imgWidth * imgHeight * 4];
-
-		PixelFormat<ByteBuffer> pixelFormat = PixelFormat.getByteBgraPreInstance();
-
-		int pixel = 0;
-
-		for (int y = 0; y < imgHeight; y++)
-		{
-			for (int x = 0; x < imgWidth; x++)
-			{
-				Color color = reader.getColor(x, y);
-
-				Color newColour = Color.hsb(hue, color.getSaturation(), color.getBrightness());
-
-				byte alpha = (byte) (color.getOpacity() * 255);
-				byte red = (byte) (newColour.getRed() * 255);
-				byte green = (byte) (newColour.getGreen() * 255);
-				byte blue = (byte) (newColour.getBlue() * 255);
-
-				imageData[pixel++] = blue;
-				imageData[pixel++] = green;
-				imageData[pixel++] = red;
-				imageData[pixel++] = alpha;
-			}
+			pixelWriter.setArgb(opacity, red, green, blue);
 		}
 
-		pixelWriter.setPixels(0, 0, imgWidth, imgHeight, pixelFormat, imageData, 0, imgWidth * 4);
-
 		return result;
-	}*/
+	}
 
 	public static Image makeContentricRings(double imgWidth, double imgHeight, int rings, Color color)
 	{
