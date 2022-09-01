@@ -13,6 +13,7 @@ import com.chrisnewland.demofx.effect.fractal.Mandelbrot;
 import com.chrisnewland.demofx.effect.fractal.Sierpinski;
 import com.chrisnewland.demofx.effect.pixel.Bobs;
 import com.chrisnewland.demofx.effect.pixel.Rainbow;
+import com.chrisnewland.demofx.effect.pixel.Twister;
 import com.chrisnewland.demofx.effect.shape.*;
 import com.chrisnewland.demofx.effect.spectral.Equaliser;
 import com.chrisnewland.demofx.effect.sprite.*;
@@ -257,10 +258,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "mask":
 			return new Mask(config);
-
+		*/
 		case "maskstack":
 			return new MaskStack(config);
-
+		/*
 		case "mesh":
 			return new Mesh(config);
 
@@ -389,10 +390,10 @@ public class SimpleEffectFactory implements IEffectFactory
 
 		case "tubestack":
 			return new TubeStack(config);
-
+		*/
 		case "twister":
 			return new Twister(config);
-			
+		/*
 		case "twistersprite":
 			return new TwisterSprite(config);
 
