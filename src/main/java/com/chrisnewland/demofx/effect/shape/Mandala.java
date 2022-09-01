@@ -74,13 +74,19 @@ public class Mandala extends AbstractEffect
 		}
 	}
 
-	private MandalaShape[] shapes = new MandalaShape[64];
+	private final MandalaShape[] shapes;
 
-	public Mandala(DemoConfig config)
+	public Mandala(DemoConfig config) {
+		this(config, 64);
+	}
+
+	public Mandala(DemoConfig config, int count)
 	{
 		super(config);
 
-		for (int i = 0; i < shapes.length; i++)
+		shapes = new MandalaShape[count];
+
+		for (int i = 0; i < count; i++)
 		{
 			shapes[i] = new MandalaShape();
 		}
