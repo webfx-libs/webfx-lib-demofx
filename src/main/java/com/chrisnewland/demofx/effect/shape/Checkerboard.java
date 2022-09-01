@@ -14,6 +14,8 @@ public class Checkerboard extends AbstractEffect
 	private double checkSize;
 	private double maxCheckSize;
 
+	private final Color checkColor;
+
 	private double scaleAngle = 0;
 
 	private double maxDimension;
@@ -21,7 +23,12 @@ public class Checkerboard extends AbstractEffect
 
 	public Checkerboard(DemoConfig config)
 	{
+		this(config, Color.NAVY);
+	}
+
+	public Checkerboard(DemoConfig config, Color checkColor) {
 		super(config);
+		this.checkColor = checkColor;
 
 		maxDimension = Math.max(width, height);
 		offScreenMargin = maxDimension / 4;
@@ -66,7 +73,7 @@ public class Checkerboard extends AbstractEffect
 
 	private final void plotCheckerboard()
 	{
-		gc.setFill(Color.NAVY);
+		gc.setFill(checkColor);
 
 		boolean oddRow = true;
 
