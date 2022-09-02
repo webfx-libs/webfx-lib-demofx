@@ -184,9 +184,10 @@ public class SimpleEffectFactory implements IEffectFactory
 		*/
 		case "concentric":
 			return new Concentric(config);
-		/*
+
 		case "credits":
 			return new Credits(config);
+		/*
 
 		case "creditssprite":
 			return new CreditsSprite(config);
