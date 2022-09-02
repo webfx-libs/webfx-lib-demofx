@@ -14,11 +14,16 @@
         <source-packages/>
         <resource-package>com.chrisnewland.demofx.images</resource-package>
         <resource-package>com.chrisnewland.demofx.images.letters</resource-package>
+        <resource-package>com.chrisnewland.demofx.text</resource-package>
     </exported-packages>
 
     <dependencies>
         <used-by-source-modules/>
     </dependencies>
+
+    <embed-resources>
+        <resource>com/chrisnewland/demofx/text/greetings.txt</resource>
+    </embed-resources>
 
     <!--
 
@@ -49,11 +54,16 @@
                 <source-packages/>
                 <resource-package>com.chrisnewland.demofx.images</resource-package>
                 <resource-package>com.chrisnewland.demofx.images.letters</resource-package>
+                <resource-package>com.chrisnewland.demofx.text</resource-package>
             </exported-packages>
 
             <dependencies>
                 <used-by-source-modules/>
             </dependencies>
+
+            <embed-resources>
+                <resource>com/chrisnewland/demofx/text/greetings.txt</resource>
+            </embed-resources>
 
             <source-packages>
                 <package>com.chrisnewland.demofx</package>
@@ -79,6 +89,7 @@
                 <module>webfx-kit-javafxmedia-emul</module>
                 <module>webfx-kit-launcher</module>
                 <module>webfx-platform-console</module>
+                <module>webfx-platform-resource</module>
             </used-by-source-modules>
 
         </project>

@@ -10,6 +10,7 @@ module webfx.lib.demofx {
     requires webfx.extras.imagestore;
     requires webfx.kit.launcher;
     requires webfx.platform.console;
+    requires webfx.platform.resource;
 
     // Exported packages
     exports com.chrisnewland.demofx;
@@ -28,5 +29,6 @@ module webfx.lib.demofx {
     // Resources packages
     opens com.chrisnewland.demofx.images;
     opens com.chrisnewland.demofx.images.letters;
+    opens com.chrisnewland.demofx.text;
 
 }

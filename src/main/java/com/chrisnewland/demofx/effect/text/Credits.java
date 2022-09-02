@@ -7,11 +7,13 @@ package com.chrisnewland.demofx.effect.text;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
+import dev.webfx.platform.resource.Resource;
 import javafx.geometry.Bounds;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,7 @@ public class Credits extends AbstractEffect
 	private static final double OFFSCREEN = 100;
 	private static final double INITIAL_LINE_SPACE = 10;
 
-	private double speed = 3;
+	private double speed = 5.25;
 
 	private boolean loopStringList = false;
 
@@ -52,7 +54,7 @@ public class Credits extends AbstractEffect
 		stringList.add("You have been watching");
 		
 		stringList.add(commandH1);
-		stringList.add("DemoFX Part II");
+		stringList.add("DemoFX");
 		
 		stringList.add(commandH2);
 		stringList.add("JavaFX Demoscene Benchmarking Harness");
@@ -98,46 +100,13 @@ public class Credits extends AbstractEffect
 		
 		stringList.add(commandBody);
 
-		/*try
-		{
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/greetings.txt")));
+		stringList.addAll(Arrays.asList(Resource.getText("com/chrisnewland/demofx/text/greetings.txt").split("\n")));
 
-			int pos = 1;
-						
-			StringBuilder builder = new StringBuilder();
-			
-			String line;
-
-			while ((line = bufferedReader.readLine()) != null)
-			{
-				if (pos % 3 == 0)
-				{
-					builder.append(line);
-					stringList.add(builder.toString());
-					builder.setLength(0);
-				}
-				else
-				{
-					builder.append(line).append(", ");
-				}
-
-				pos++;
-			}
-			
-			bufferedReader.close();
-		}
-		catch (IOException ioe)
-		{
-			stringList.add("Couldn't load greetings file!");
-		}*/
-		
 		stringList.add(commandBody);
 		stringList.add("~~~");
 		stringList.add("Copyright (c) 2015 Chris Newland");
 
 		stringDimensions = stringList.stream().map(m -> (Bounds) null).collect(Collectors.toList());
-
-		//precalculateLineWidths();
 	}
 
 	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList, Color colour,
@@ -245,7 +214,7 @@ public class Credits extends AbstractEffect
 		currentFont = Font.font(currentFontFamily, currentFontSize);
 	}
 
-	private final void plotText(String line, double yPos, int index)
+	private void plotText(String line, double yPos, int index)
 	{
 		gc.setFont(currentFont);
 
@@ -258,7 +227,7 @@ public class Credits extends AbstractEffect
 		gc.fillText(line, x, yPos);
 	}
 
-	private final boolean isLineOnScreen(double yPos)
+	private boolean isLineOnScreen(double yPos)
 	{
 		return yPos > -OFFSCREEN;
 	}
