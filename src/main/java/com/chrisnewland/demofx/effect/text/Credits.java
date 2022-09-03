@@ -28,7 +28,9 @@ public class Credits extends AbstractEffect
 	private static final double OFFSCREEN = 100;
 	private static final double INITIAL_LINE_SPACE = 10;
 
-	private double speed = 5.25;
+	private long duration;
+	private double speed = 3; // default value, will be recomputed if a duration is passed in the constructor
+	private double creditsHeight;
 
 	private boolean loopStringList = false;
 
@@ -37,9 +39,14 @@ public class Credits extends AbstractEffect
 	private Font currentFont;
 	private double currentSpacing = INITIAL_LINE_SPACE;
 
-	public Credits(DemoConfig config)
+	public Credits(DemoConfig config) {
+		this(config, -1);
+	}
+
+	public Credits(DemoConfig config, long duration)
 	{
 		super(config);
+		this.duration = duration;
 
 		currentFont = Font.font("Arial", INITIAL_FONT_SIZE);
 		yOffset = height;
@@ -139,10 +146,19 @@ public class Credits extends AbstractEffect
 		return bounds;
 	}
 
+	long start;
+
 	@Override
 	public void renderForeground()
 	{
-		yOffset -= speed;
+		if (duration <= 0)
+			yOffset -= speed;
+		else if (creditsHeight > 0)
+			yOffset = height - ((creditsHeight + height) * (config.getDemoAnimationTimer().getElapsed() - start)) / duration;
+		else {
+			yOffset = height;
+			start = config.getDemoAnimationTimer().getElapsed();
+		}
 
 		double yPos = 0;
 
@@ -168,7 +184,10 @@ public class Credits extends AbstractEffect
 			}
 		}
 
-		if (yPos < 0)
+		if (duration > 0 && creditsHeight == 0)
+			creditsHeight = yPos - height;
+
+		if (yPos <= 0)
 		{
 			if (loopStringList)
 			{
