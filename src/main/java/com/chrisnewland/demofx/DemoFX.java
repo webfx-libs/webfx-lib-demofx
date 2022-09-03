@@ -53,6 +53,8 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	private IEffectFactory effectFactory;
 
+	private Runnable onCompleted;
+
 
 	public DemoFX(DemoConfig config)
 	{
@@ -69,6 +71,11 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		initialiseAudio1(); // Will start loading the audio buffer in the web version
 		if (config.getPreCalc() == null)
 			config.setPrecalc(new PreCalc(config));
+	}
+
+	public DemoFX setOnCompleted(Runnable onCompleted) {
+		this.onCompleted = onCompleted;
+		return this;
 	}
 
 	public void stopDemo()
@@ -270,8 +277,11 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		timer.start();
 	}
 
-	/*public void timerCompleted(Measurements measurements)
+	public void timerCompleted(/*Measurements measurements*/)
 	{
+		if (onCompleted != null)
+			onCompleted.run();
+		/*
 		LineChart<Number, Number> chartHeap = MeasurementChartBuilder.buildChartHeap(measurements);
 		LineChart<Number, Number> chartFPS = MeasurementChartBuilder.buildChartFPS(measurements);
 
@@ -323,7 +333,8 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 		pane.setTop(vboxLabels);
 		pane.setCenter(vboxCharts);
-	}*/
+		 */
+	}
 
 	private boolean initialiseSpectralEffects(MediaPlayer mediaPlayer)
 	{

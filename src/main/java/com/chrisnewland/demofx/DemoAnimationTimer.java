@@ -140,7 +140,7 @@ public class DemoAnimationTimer extends AnimationTimer
 	@Override
 	public void stop()
 	{
-		//parent.timerCompleted(measurements);
+		parent.timerCompleted(/*measurements*/);
 		super.stop();
 	}
 
