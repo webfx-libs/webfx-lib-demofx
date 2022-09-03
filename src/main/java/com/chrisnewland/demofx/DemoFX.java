@@ -356,6 +356,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		if (audioFilename != null) {
 			Media media = new Media(audioFilename);
 			mediaPlayer = new MediaPlayer(media);
+			mediaPlayer.setVolume(config.getAudioVolume());
 			mediaPlayer.setCycleCount(1);
 		}
 	}

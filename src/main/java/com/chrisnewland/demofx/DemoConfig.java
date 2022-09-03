@@ -16,7 +16,8 @@ public class DemoConfig
 	}
 
 	private String effect = "stars";
-	private String audioFileName = null; 
+	private String audioFileName = null;
+	private double audioVolume = 1;
 	private int count = -1;
 	private double width = 800;
 	private double height = 600;
@@ -282,6 +283,14 @@ public class DemoConfig
 	public String getAudioFilename()
 	{
 		return audioFileName;
+	}
+
+	public double getAudioVolume() {
+		return audioVolume;
+	}
+
+	public void setAudioVolume(double audioVolume) {
+		this.audioVolume = audioVolume;
 	}
 
 	public int getCount()
