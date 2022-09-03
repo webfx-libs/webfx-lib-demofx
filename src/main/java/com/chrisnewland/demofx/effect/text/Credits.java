@@ -28,24 +28,29 @@ public class Credits extends AbstractEffect
 	private static final double OFFSCREEN = 100;
 	private static final double INITIAL_LINE_SPACE = 10;
 
-	private long duration;
-	private double speed = 3; // default value, will be recomputed if a duration is passed in the constructor
+	private final long duration;
+	private final double speed = 3; // speed value when no duration is passed in the constructor
 	private double creditsHeight;
 
-	private boolean loopStringList = false;
+	private final boolean loopStringList = false;
 
-	private Color fontColour = Color.WHITE;
+	private final Color fontColour;
 
 	private Font currentFont;
 	private double currentSpacing = INITIAL_LINE_SPACE;
 
 	public Credits(DemoConfig config) {
-		this(config, -1);
+		this(config, Color.WHITE);
 	}
 
-	public Credits(DemoConfig config, long duration)
+	public Credits(DemoConfig config, Color fontColour) {
+		this(config, fontColour, -1);
+	}
+
+	public Credits(DemoConfig config, Color fontColour, long duration)
 	{
 		super(config);
+		this.fontColour = fontColour;
 		this.duration = duration;
 
 		currentFont = Font.font("Arial", INITIAL_FONT_SIZE);
@@ -109,13 +114,16 @@ public class Credits extends AbstractEffect
 
 		stringList.addAll(Arrays.asList(Resource.getText("com/chrisnewland/demofx/text/greetings.txt").split("\n")));
 
+/* Already in greetings
 		stringList.add(commandBody);
 		stringList.add("~~~");
 		stringList.add("Copyright (c) 2015 Chris Newland");
+*/
 
 		stringDimensions = stringList.stream().map(m -> (Bounds) null).collect(Collectors.toList());
 	}
 
+/*
 	public void customInitialise(List<String> stringList, long startMillis, long stopMillis, boolean loopStringList, Color colour,
 			Font font)
 	{
@@ -136,6 +144,7 @@ public class Credits extends AbstractEffect
 	{
 		customInitialise(stringList, startMillis, stopMillis, loopStringList, colour, gc.getFont());
 	}
+*/
 
 	Bounds measureText(int index) {
 		Bounds bounds = stringDimensions.get(index);
