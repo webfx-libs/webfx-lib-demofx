@@ -17,6 +17,8 @@ public class MaskStack extends AbstractEffect
 	private Image[] imageRing;
 	private double[] ringAngle;
 	private double[] angleInc;
+	private final boolean slowOnImage;
+	private double angleSpeedFactor;
 
 	private static int thickness;
 
@@ -24,16 +26,26 @@ public class MaskStack extends AbstractEffect
 	{
 		this(config, ImageUtil.loadImageFromResources("tiger.jpeg"));
 	}
-	
+
 	public MaskStack(DemoConfig config, Image image)
 	{
 		this(config, 16, image);
 	}
 
+	public MaskStack(DemoConfig config, Image image, boolean slowOnImage)
+	{
+		this(config, 16, image, slowOnImage);
+	}
+
 	public MaskStack(DemoConfig config, int count, Image image) {
+		this(config, count, image, false);
+	}
+
+	public MaskStack(DemoConfig config, int count, Image image, boolean slowOnImage) {
 		super(config);
 		this.image = image;
 		this.count = count;
+		this.slowOnImage = slowOnImage;
 
 		if (image.getWidth() > 0)
 			init(count, image);
@@ -93,6 +105,15 @@ public class MaskStack extends AbstractEffect
 				return;
 		}
 
+		if (slowOnImage) {
+			double outerRingAngle = ringAngle[0];
+			double slowAngle = 15;
+			double slowSpeed = 0.1;
+			double outerRingAngle360 = outerRingAngle % 360;
+			angleSpeedFactor = outerRingAngle360 > slowAngle && outerRingAngle360 < 360 - slowAngle ? 1 : slowSpeed + Math.abs(precalc.sin(outerRingAngle) / precalc.sin(slowAngle)) * (1 - slowSpeed);
+		} else
+			angleSpeedFactor = 1;
+
 		for (int i = 0; i < itemCount; i++)
 		{
 			move(i);
@@ -103,7 +124,8 @@ public class MaskStack extends AbstractEffect
 
 	private final void move(int i)
 	{
-		ringAngle[i] += angleInc[i];
+		ringAngle[i] += angleInc[i] * angleSpeedFactor;
+
 	}
 
 	private final void render(int i)
