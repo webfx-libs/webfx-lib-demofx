@@ -10,16 +10,16 @@ import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 public class VolumeAddOnEffect extends AbstractAddOnEffect implements ISpectralEffect {
 
     private final HasVolume hasVolume;
-    private final double maxVolume;
+    private final double volumeFactor;
     private final int[] bandIndexes;
     private final double[] bandVolumes;
 
     private ISpectrumDataProvider spectrumProvider;
 
-    public VolumeAddOnEffect(AbstractEffect effect, double maxVolume, int... bandIndexes) {
+    public VolumeAddOnEffect(AbstractEffect effect, double volumeFactor, int... bandIndexes) {
         super(effect);
         hasVolume = (HasVolume) effect;
-        this.maxVolume = maxVolume;
+        this.volumeFactor = volumeFactor;
         this.bandIndexes = bandIndexes;
         bandVolumes = new double[bandIndexes.length];
     }
@@ -31,20 +31,16 @@ public class VolumeAddOnEffect extends AbstractAddOnEffect implements ISpectralE
 
     @Override
     public void renderForeground() {
-        //StringBuilder sb = new StringBuilder();
         int n = bandIndexes.length;
         float[] data = spectrumProvider.getData();
+        double gap = volumeFactor / 10;
         for (int i = 0; i < n; i++) {
-            double newVolume = (data[bandIndexes[i]] + 60) / 60 * maxVolume;
-            //sb.append(newVolume).append(',');
-            if (i < n) {
-                double oldVolume = bandVolumes[i];
-                if (newVolume != oldVolume)
-                    newVolume = oldVolume + (newVolume < oldVolume ? -0.1 : 0.1);
-                bandVolumes[i] = newVolume;
-            }
+            double newVolume = (data[bandIndexes[i]] + 60) / 60 * volumeFactor;
+            double oldVolume = bandVolumes[i];
+            if (oldVolume != 0 && Math.abs(newVolume - oldVolume) > gap)
+                newVolume = oldVolume + (newVolume < oldVolume ? -gap : gap);
+            bandVolumes[i] = newVolume;
         }
-        //Console.log(sb);
         hasVolume.setBandVolumes(bandVolumes);
         super.renderForeground();
     }

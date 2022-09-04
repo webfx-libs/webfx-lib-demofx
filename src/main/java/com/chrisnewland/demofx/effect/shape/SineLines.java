@@ -46,12 +46,14 @@ public class SineLines extends AbstractEffect implements HasVolume
 
 			for (int i = 0; i < width; i += step)
 			{
-				double yDelta = Math.sin(angle + shift * l) * 16 * l;
+				double yDelta = Math.sin(angle + shift * l) * 16;
 
-				double hd = Math.sin(shift + (l * 32));
+				double hd;
 
 				if (bandVolumes != null)
-					hd *= bandVolumes[l - 1];
+					hd = bandVolumes[l - 1];
+				else
+					hd = Math.sin(shift + (l * 32)) * l;
 
 				double y = halfHeight + yDelta * hd;
 
