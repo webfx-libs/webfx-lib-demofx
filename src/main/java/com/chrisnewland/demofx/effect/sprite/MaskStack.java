@@ -24,12 +24,17 @@ public class MaskStack extends AbstractEffect
 
 	public MaskStack(DemoConfig config)
 	{
-		this(config, ImageUtil.loadImageFromResources("tiger.jpeg"));
+		this(config, false);
 	}
 
 	public MaskStack(DemoConfig config, Image image)
 	{
 		this(config, 16, image);
+	}
+
+	public MaskStack(DemoConfig config, boolean slowOnImage)
+	{
+		this(config, 16, ImageUtil.loadImageFromResources("tiger.jpeg"), slowOnImage);
 	}
 
 	public MaskStack(DemoConfig config, Image image, boolean slowOnImage)
