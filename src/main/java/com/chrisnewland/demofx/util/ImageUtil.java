@@ -20,22 +20,18 @@ public class ImageUtil
 {
 	public static Image loadImageFromResources(String filename)
 	{
-		/*if (!filename.startsWith("/"))
-		{
-			filename = "/" + filename;
-		}*/
-
-		return ImageStore.getOrCreateImage("com/chrisnewland/demofx/images/" + filename); //  new Image(ImageUtil.class.getResourceAsStream(filename));
+		return loadImageFromResources(filename, 0, 0);
 	}
-	
+
+	private final static GraphicsContext LOADING_CONTEXT = new Canvas().getGraphicsContext2D();
+
 	public static Image loadImageFromResources(String filename, int newWidth, int newHeight)
 	{
-		/*if (!filename.startsWith("/"))
-		{
-			filename = "/" + filename;
-		}*/
-
-		return ImageStore.getOrCreateImage("com/chrisnewland/demofx/images/" + filename, newWidth, newHeight); //new Image(ImageUtil.class.getResourceAsStream(filename), newWidth, newHeight, false, true);
+		Image image = ImageStore.getOrCreateImage("com/chrisnewland/demofx/images/" + filename, newWidth, newHeight);
+		// Drawing the image in a canvas will force the browser to start loading the image right now
+		if (image != null)
+			LOADING_CONTEXT.drawImage(image, 0, 0);
+		return image;
 	}
 
 	/*public static WritableImage loadWritableImageFromResources(String filename)
