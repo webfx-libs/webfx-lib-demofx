@@ -52,8 +52,10 @@ public class MaskStack extends AbstractEffect
 		this.count = count;
 		this.slowOnImage = slowOnImage;
 
-		if (image.getWidth() > 0)
+		if (image.getProgress() >= 1)
 			init(count, image);
+		else
+			image.progressProperty().addListener((observableValue, number, t1) -> { if (t1.doubleValue() >= 1) init(count, image); });
 	}
 
 	private void init(int count, Image image)
