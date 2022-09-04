@@ -21,7 +21,7 @@ public class TextFlash extends AbstractEffect
 	private List<String> stringList;
 
 	private static final double INITIAL_FONT_SIZE = 80;
-	private Font font = Font.font("Krungthep", FontWeight.BOLD, INITIAL_FONT_SIZE);
+	private Font font = Font.font("Georgia", FontWeight.BOLD, INITIAL_FONT_SIZE);
 
 	private long fadeInMillis;
 	private long stayMillis;
