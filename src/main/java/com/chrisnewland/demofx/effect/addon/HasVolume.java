@@ -5,8 +5,6 @@ package com.chrisnewland.demofx.effect.addon;
  */
 public interface HasVolume {
 
-    int getBandCount();
-
     void setBandVolumes(double[] bandVolumes);
 
 }

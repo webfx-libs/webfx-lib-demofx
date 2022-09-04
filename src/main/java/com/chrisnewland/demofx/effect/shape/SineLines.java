@@ -22,11 +22,6 @@ public class SineLines extends AbstractEffect implements HasVolume
 	double[] bandVolumes;
 
 	@Override
-	public int getBandCount() {
-		return 9;
-	}
-
-	@Override
 	public void setBandVolumes(double[] bandVolumes) {
 		this.bandVolumes = bandVolumes;
 	}
@@ -58,7 +53,7 @@ public class SineLines extends AbstractEffect implements HasVolume
 				if (bandVolumes != null)
 					hd *= bandVolumes[l - 1];
 
-				double y = halfHeight / 3 + yDelta * hd;
+				double y = halfHeight + yDelta * hd;
 
 				angle += 0.1;
 

@@ -11,15 +11,17 @@ public class VolumeAddOnEffect extends AbstractAddOnEffect implements ISpectralE
 
     private final HasVolume hasVolume;
     private final double maxVolume;
+    private final int[] bandIndexes;
     private final double[] bandVolumes;
 
     private ISpectrumDataProvider spectrumProvider;
 
-    public VolumeAddOnEffect(AbstractEffect effect, double maxVolume) {
+    public VolumeAddOnEffect(AbstractEffect effect, double maxVolume, int... bandIndexes) {
         super(effect);
         hasVolume = (HasVolume) effect;
         this.maxVolume = maxVolume;
-        bandVolumes = new double[hasVolume.getBandCount()];
+        this.bandIndexes = bandIndexes;
+        bandVolumes = new double[bandIndexes.length];
     }
 
     @Override
@@ -29,17 +31,21 @@ public class VolumeAddOnEffect extends AbstractAddOnEffect implements ISpectralE
 
     @Override
     public void renderForeground() {
-        int n = hasVolume.getBandCount();
+        //StringBuilder sb = new StringBuilder();
+        int n = bandIndexes.length;
+        float[] data = spectrumProvider.getData();
         for (int i = 0; i < n; i++) {
-            double oldVolume = bandVolumes[i];
-            double newVolume = (spectrumProvider.getData()[i] + 60) / 60 * maxVolume;
-            if (newVolume > oldVolume)
-                newVolume = Math.min(newVolume, oldVolume + 0.005 * maxVolume);
-            else
-                newVolume = Math.max(newVolume, oldVolume - 0.005 * maxVolume);
-            bandVolumes[i] = newVolume;
-            hasVolume.setBandVolumes(bandVolumes);
+            double newVolume = (data[bandIndexes[i]] + 60) / 60 * maxVolume;
+            //sb.append(newVolume).append(',');
+            if (i < n) {
+                double oldVolume = bandVolumes[i];
+                if (newVolume != oldVolume)
+                    newVolume = oldVolume + (newVolume < oldVolume ? -0.1 : 0.1);
+                bandVolumes[i] = newVolume;
+            }
         }
+        //Console.log(sb);
+        hasVolume.setBandVolumes(bandVolumes);
         super.renderForeground();
     }
 }
