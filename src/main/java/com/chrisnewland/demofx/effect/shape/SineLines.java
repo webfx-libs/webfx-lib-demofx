@@ -6,9 +6,10 @@ package com.chrisnewland.demofx.effect.shape;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import com.chrisnewland.demofx.effect.addon.HasVolume;
 import javafx.scene.paint.Color;
 
-public class SineLines extends AbstractEffect
+public class SineLines extends AbstractEffect implements HasVolume
 {
 	public SineLines(DemoConfig config)
 	{
@@ -17,6 +18,18 @@ public class SineLines extends AbstractEffect
 
 	double angle = 0;
 	double shift = 0;
+
+	double[] bandVolumes;
+
+	@Override
+	public int getBandCount() {
+		return 9;
+	}
+
+	@Override
+	public void setBandVolumes(double[] bandVolumes) {
+		this.bandVolumes = bandVolumes;
+	}
 
 	@Override public void renderForeground()
 	{
@@ -42,7 +55,10 @@ public class SineLines extends AbstractEffect
 
 				double hd = Math.sin(shift + (l * 32));
 
-				double y = halfHeight + yDelta * hd;
+				if (bandVolumes != null)
+					hd *= bandVolumes[l - 1];
+
+				double y = halfHeight / 3 + yDelta * hd;
 
 				angle += 0.1;
 
