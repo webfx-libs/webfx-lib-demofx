@@ -290,4 +290,8 @@ public abstract class AbstractEffect implements IEffect
 			}
 		}
 	}
+
+	public boolean isEffectFinished() {
+		return effectFinished;
+	}
 }
