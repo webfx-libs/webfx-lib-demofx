@@ -43,7 +43,7 @@ public class Concentric extends AbstractEffect
 	}
 
 	public Concentric(DemoConfig config, Image... images) {
-		this(config, 20, images);
+		this(config, 10, images);
 	}
 
 	public Concentric(DemoConfig config, int maxRings, Image... images)
