@@ -91,16 +91,13 @@ public class FractalRings extends AbstractEffect implements HasAngle
 
 	private Image createRing(double diameter, double thickness, Color color)
 	{
-		fillBackground(Color.BLACK);
+		gc.clearRect(0, 0, width, height);
 
-		gc.setFill(color);
-		gc.fillOval(0, 0, diameter, diameter);
+		gc.setStroke(color);
+		gc.setLineWidth(thickness);
+		gc.strokeOval(thickness, thickness, diameter - 2 * thickness, diameter - 2 * thickness);
 
-		gc.setFill(Color.BLACK);
-		gc.fillOval(thickness, thickness, diameter - 2 * thickness, diameter - 2 * thickness);
-
-		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(gc.getCanvas(), diameter, diameter, true), Color.BLACK,
-				Color.TRANSPARENT);
+		return ImageUtil.createImageFromCanvas(gc.getCanvas(), diameter, diameter, true);
 	}
 
 	@Override public void renderForeground()
