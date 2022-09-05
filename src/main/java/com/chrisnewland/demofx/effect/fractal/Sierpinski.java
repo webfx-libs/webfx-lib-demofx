@@ -6,6 +6,11 @@ package com.chrisnewland.demofx.effect.fractal;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -13,14 +18,20 @@ import java.util.List;
 
 public class Sierpinski extends AbstractEffect
 {
-	private double smallestTriangle;
+	private final double smallestTriangle;
 
 	private final double[] pointsX = new double[3];
 	private final double[] pointsY = new double[3];
 
 	private double rootHeight;
 
-	class Triangle
+	private final static boolean memoriseImages = true;
+	private final List<Image> memorisedImages;
+	private final Canvas memorisedCanvas;
+	private final GraphicsContext memorisedContext;
+	private int memorisedImageIndex = -1;
+
+	static class Triangle
 	{
 		private final double topX;
 		private final double topY;
@@ -53,24 +64,18 @@ public class Sierpinski extends AbstractEffect
 
 	public Sierpinski(DemoConfig config)
 	{
-		super(config);
-		
-		init(height / 64);
+		this(config, config.getHeight() / 64);
 	}
 	
 	public Sierpinski(DemoConfig config, double smallestTriangle)
 	{
 		super(config);
 		
-		init(smallestTriangle);
-	}
-	
-	private void init(double smallestTriangle)
-	{
 		this.smallestTriangle = smallestTriangle;
-		
-		smallestTriangle = height / 64;
 
+		memorisedImages = memoriseImages ? new ArrayList<>() : null;
+		memorisedCanvas = memoriseImages ? new Canvas(width, height) : null;
+		memorisedContext = memoriseImages ? memorisedCanvas.getGraphicsContext2D() : null;
 		keep = new ArrayList<>();
 		rootHeight = height;
 	}
@@ -78,12 +83,31 @@ public class Sierpinski extends AbstractEffect
 	@Override
 	public void renderForeground()
 	{
-		calcTriangles();
-
-		drawTriangles();
+		if (memorisedImageIndex < 0) {
+			GraphicsContext oldGc = gc;
+			if (memoriseImages) {
+				gc = memorisedContext;
+				gc.clearRect(0, 0, width, height);
+			}
+			calcTriangles();
+			drawTriangles();
+			if (memoriseImages && memorisedImageIndex < 0) {
+				SnapshotParameters params = new SnapshotParameters();
+				params.setFill(Color.TRANSPARENT);
+				WritableImage image = memorisedCanvas.snapshot(params, null);
+				memorisedImages.add(image);
+				oldGc.drawImage(image, 0, 0);
+			}
+			gc = oldGc;
+		} else {
+			if (++memorisedImageIndex >= memorisedImages.size())
+				memorisedImageIndex = 0;
+			Image memorisedImage = memorisedImages.get(memorisedImageIndex);
+			gc.drawImage(memorisedImage, 0, 0);
+		}
 	}
 
-	private final void calcTriangles()
+	private void calcTriangles()
 	{
 		keep.clear();
 
@@ -94,6 +118,10 @@ public class Sierpinski extends AbstractEffect
 		if (rootHeight >= 2 * height)
 		{
 			rootHeight = height;
+			if (memoriseImages) {
+				memorisedImageIndex = 0;
+				return;
+			}
 		}
 
 		Triangle root = new Triangle(halfWidth, 0, rootHeight);
@@ -130,7 +158,7 @@ public class Sierpinski extends AbstractEffect
 		}
 	}
 
-	private final void drawTriangles()
+	private void drawTriangles()
 	{
 		gc.setFill(Color.WHITE);
 		
@@ -147,7 +175,7 @@ public class Sierpinski extends AbstractEffect
 		}
 	}
 
-	private final void drawTriangle(Triangle tri)
+	private void drawTriangle(Triangle tri)
 	{
 		double topX = tri.getTopX();
 		double topY = tri.getTopY();
