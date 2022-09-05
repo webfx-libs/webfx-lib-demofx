@@ -29,16 +29,16 @@ public class Mandelbrot extends AbstractEffect
 	private double PIXEL_SIZE; // = 2;
 	private double PIXEL_STEP; // = PIXEL_SIZE + 2;
 
-	private boolean adaptative = true; // Will automatically adapt the pixel size to the machine performance (WebFX addition)
+	private final boolean adaptive = true; // Will automatically adapt the pixel size to the machine performance (WebFX addition)
 
 	private static final double ITERATIONS_PER_ZOOM = 0.004;
 
 	private static double MIN_ZOOM = 0;
-	private static double MAX_ZOOM = 18_000;
+	private static final double MAX_ZOOM = 18_000;
 
 	private boolean zoomIn = true;
 
-	private String[] pointsOfInterest;
+	private final String[] pointsOfInterest;
 	private int poiIndex = 0;
 
 	private Color cycleColour;
@@ -65,7 +65,7 @@ public class Mandelbrot extends AbstractEffect
 		setPointOfInterest();
 	}
 
-	private final void zoom()
+	private void zoom()
 	{
 		double zoomStep = zoom * 0.03;
 
@@ -97,7 +97,7 @@ public class Mandelbrot extends AbstractEffect
 		}
 	}
 
-	private final void setPointOfInterest()
+	private void setPointOfInterest()
 	{
 		if (poiIndex == pointsOfInterest.length)
 		{
@@ -132,19 +132,20 @@ public class Mandelbrot extends AbstractEffect
 	}
 
 
-	private long lastDuration; // Used for adao
+	private long lastDuration; // Used for adaptive
 
-	private final void plot()
+	private void plot()
 	{
 
-		long now = System.currentTimeMillis();
-		if (!adaptative)
+		long now;
+		if (!adaptive)
 			PIXEL_SIZE = 2;
 		else {
+			now = System.currentTimeMillis();
 			if (lastDuration == 0) {
 				PIXEL_SIZE = width / 200;
 			} else {
-				double exceedFactor = (double) lastDuration / 10; // We aim 10ms fof the plot
+				double exceedFactor = (double) lastDuration / 10; // We aim 10ms for the plot
 				if (exceedFactor < 0.8)
 					PIXEL_SIZE--;
 				else if (exceedFactor > 1.2)
@@ -175,10 +176,11 @@ public class Mandelbrot extends AbstractEffect
 			}
 		}
 
-		lastDuration = System.currentTimeMillis() - now;
+		if (adaptive)
+			lastDuration = System.currentTimeMillis() - now;
 	}
 
-	private final void testPixel(double pixelX, double pixelY, double xc, double yc, double iterFraction)
+	private void testPixel(double pixelX, double pixelY, double xc, double yc, double iterFraction)
 	{
 		double x = 0;
 		double y = 0;
@@ -217,7 +219,7 @@ public class Mandelbrot extends AbstractEffect
 		gc.fillRect(x, y, PIXEL_SIZE, PIXEL_SIZE);
 	}
 
-	private final void setColour(double iterFraction)
+	private void setColour(double iterFraction)
 	{		
 		int red = (int) Math.min(255 * 2 * iterFraction, 255);
 		int green = (int) Math.max(255 * (2 * iterFraction - 1), 0);
