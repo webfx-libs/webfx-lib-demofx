@@ -104,22 +104,30 @@ public class FractalRings extends AbstractEffect implements HasAngle
 	}
 
 	private long lastDuration; // Used for adaptive
-	private double minRadius;
+	private double minDisplayRadius; // Small rings under that value won't be display in adaptive mode for low devices
+	private double maxDisplayCenter = 21; // Will grow, for initial concentric effect (only rings inside that distance will be displayed)
 
 	@Override public void renderForeground()
 	{
 		long now;
 		if (!adaptive)
-			minRadius = 0;
+			minDisplayRadius = 0;
 		else {
 			now = System.currentTimeMillis();
 			if (lastDuration != 0) {
 				double exceedFactor = (double) lastDuration / 16; // We aim 16ms for the plot
 				if (exceedFactor < 0.8)
-					minRadius--;
+					minDisplayRadius -= 0.5;
 				else if (exceedFactor > 1.2)
-					minRadius++;
+					minDisplayRadius += 0.5;
+				if (minDisplayRadius < 0)
+					minDisplayRadius = 0;
 			}
+		}
+		if (maxDisplayCenter > 0) {
+			maxDisplayCenter *= SPEED;
+			if (maxDisplayCenter > width && maxDisplayCenter > height)
+				maxDisplayCenter = 0;
 		}
 
 		buildRenderList();
@@ -175,11 +183,15 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		for (int i = 0; i < size; i++)
 		{
 			FractalRing rc = renderListNew.get(i);
-			if (rc.radius < minRadius)
+			if (rc.radius < minDisplayRadius)
 				continue;
 
 			double x = rc.centreX - width / 2;
 			double y = rc.centreY - height / 2;
+			if (maxDisplayCenter > 0) {
+				if (rc.radius > maxDisplayCenter || Math.sqrt(x * x + y * y) > maxDisplayCenter)
+					continue;
+			}
 			gc.drawImage(image[rc.colourIndex], width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
 /*
 			gc.setStroke(colors[rc.colourIndex]);
@@ -189,7 +201,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 */
 		}
 
-		SPEED = Math.min(SPEED * 1.0005, MAX_SPEED);
+		SPEED = Math.min(SPEED * 1.0005, MAX_SPEED); // Initial Increasing speed
 	}
 
 	private int getSectorCount()
