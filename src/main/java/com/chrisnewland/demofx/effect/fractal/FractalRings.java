@@ -32,6 +32,9 @@ public class FractalRings extends AbstractEffect implements HasAngle
 	private int colourIndex = 0;
 
 	private final Image[] image = new Image[64];
+	//private final Color[] colors = new Color[64];
+
+	private final static boolean adaptive = true;
 
 	private /*static*/ class FractalRing
 	{
@@ -83,7 +86,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 
 		for (int i = 0; i < image.length; i++)
 		{
-			image[i] = createRing(256, 7, getRandomColour());
+			image[i] = createRing(256, 7, /*colors[i] =*/ getRandomColour());
 		}
 
 		renderListNew.add(new FractalRing(halfWidth, halfHeight, 256, colourIndex));
@@ -100,13 +103,33 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		return ImageUtil.createImageFromCanvas(gc.getCanvas(), diameter, diameter, true);
 	}
 
+	private long lastDuration; // Used for adaptive
+	private double minRadius;
+
 	@Override public void renderForeground()
 	{
+		long now;
+		if (!adaptive)
+			minRadius = 0;
+		else {
+			now = System.currentTimeMillis();
+			if (lastDuration != 0) {
+				double exceedFactor = (double) lastDuration / 16; // We aim 16ms for the plot
+				if (exceedFactor < 0.8)
+					minRadius--;
+				else if (exceedFactor > 1.2)
+					minRadius++;
+			}
+		}
+
 		buildRenderList();
 
 		incColourIndex();
 
 		render();
+
+		if (adaptive)
+			lastDuration = System.currentTimeMillis() - now;
 	}
 
 	private void incColourIndex()
@@ -152,10 +175,18 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		for (int i = 0; i < size; i++)
 		{
 			FractalRing rc = renderListNew.get(i);
+			if (rc.radius < minRadius)
+				continue;
 
 			double x = rc.centreX - width / 2;
 			double y = rc.centreY - height / 2;
 			gc.drawImage(image[rc.colourIndex], width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
+/*
+			gc.setStroke(colors[rc.colourIndex]);
+			double thickness = 7d / 256 * rc.radius * 2;
+			gc.setLineWidth(thickness);
+			gc.strokeOval(width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius + thickness, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius + thickness, rc.radius * 2 - 2 * thickness, rc.radius * 2 - 2 * thickness);
+*/
 		}
 
 		SPEED = Math.min(SPEED * 1.0005, MAX_SPEED);
