@@ -32,7 +32,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 	private int colourIndex = 0;
 
 	private final Image[] image = new Image[64];
-	//private final Color[] colors = new Color[64];
+	private final Color[] colors = new Color[64];
 
 	private final static boolean adaptive = true;
 
@@ -86,7 +86,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 
 		for (int i = 0; i < image.length; i++)
 		{
-			image[i] = createRing(256, 7, /*colors[i] =*/ getRandomColour());
+			image[i] = createRing(256, 7, colors[i] = getRandomColour());
 		}
 
 		renderListNew.add(new FractalRing(halfWidth, halfHeight, 256, colourIndex));
@@ -192,13 +192,14 @@ public class FractalRings extends AbstractEffect implements HasAngle
 				if (rc.radius > maxDisplayCenter || Math.sqrt(x * x + y * y) > maxDisplayCenter)
 					continue;
 			}
-			gc.drawImage(image[rc.colourIndex], width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
-/*
-			gc.setStroke(colors[rc.colourIndex]);
-			double thickness = 7d / 256 * rc.radius * 2;
-			gc.setLineWidth(thickness);
-			gc.strokeOval(width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius + thickness, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius + thickness, rc.radius * 2 - 2 * thickness, rc.radius * 2 - 2 * thickness);
-*/
+			if (rc.radius < 256) // Drawing image if shank (for fractal effect)
+				gc.drawImage(image[rc.colourIndex], width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
+			else { // Otherwise, we redraw it as an oval (faster than drawing image)
+				gc.setStroke(colors[rc.colourIndex]);
+				double thickness = 7d / 256 * rc.radius * 2;
+				gc.setLineWidth(thickness);
+				gc.strokeOval(width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius + thickness, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius + thickness, rc.radius * 2 - 2 * thickness, rc.radius * 2 - 2 * thickness);
+			}
 		}
 
 		SPEED = Math.min(SPEED * 1.0005, MAX_SPEED); // Initial Increasing speed
