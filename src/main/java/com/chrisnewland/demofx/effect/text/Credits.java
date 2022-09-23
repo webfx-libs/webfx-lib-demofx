@@ -14,14 +14,14 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Credits extends AbstractEffect
 {
 	private double yOffset;
 
-	private List<String> stringList;
+	private final List<String> stringList;
 	private List<Bounds> stringDimensions;
 
 	private static final double INITIAL_FONT_SIZE = 24;
@@ -38,6 +38,7 @@ public class Credits extends AbstractEffect
 
 	private Font currentFont;
 	private double currentSpacing = INITIAL_LINE_SPACE;
+	private double scaleFactor = 1;
 
 	public Credits(DemoConfig config) {
 		this(config, Color.WHITE);
@@ -120,7 +121,23 @@ public class Credits extends AbstractEffect
 		stringList.add("Copyright (c) 2015 Chris Newland");
 */
 
-		stringDimensions = stringList.stream().map(m -> (Bounds) null).collect(Collectors.toList());
+		int size = stringList.size();
+		List<Bounds> nullBounds = Collections.nCopies(size, null);
+		stringDimensions = new ArrayList<>(nullBounds);
+		// Doing a first pass to determine the max line width
+		double maxLineWidth = 0;
+		for (int index = 0; index < size; index++) {
+			String line = stringList.get(index);
+			if (line.startsWith("{"))
+				handleCommand(line);
+			else
+				maxLineWidth = Math.max(maxLineWidth, measureText(index).getWidth());
+		}
+		// If the max line is wider than the canvas width, we set a scale factor
+		if (maxLineWidth > width) {
+			scaleFactor = width / maxLineWidth; // smaller than 1
+			stringDimensions = new ArrayList<>(nullBounds); // Forgetting all previous bounds
+		}
 	}
 
 /*
@@ -231,10 +248,10 @@ public class Credits extends AbstractEffect
 				currentFontFamily = value;
 				break;
 			case "size":
-				currentFontSize = Double.parseDouble(value);
+				currentFontSize = Double.parseDouble(value) * scaleFactor;
 				break;
 			case "spacing":
-				currentSpacing = Double.parseDouble(value);
+				currentSpacing = Double.parseDouble(value) * scaleFactor;
 				break;
 			}
 		}
