@@ -89,7 +89,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 			image[i] = createRing(256, 7, colors[i] = getRandomColour());
 		}
 
-		renderListNew.add(new FractalRing(halfWidth, halfHeight, 256, colourIndex));
+		renderListNew.add(new FractalRing(halfWidth, halfHeight, 5, colourIndex));
 	}
 
 	private Image createRing(double diameter, double thickness, Color color)
@@ -105,7 +105,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 
 	private long lastDuration; // Used for adaptive
 	private double minDisplayRadius; // Small rings under that value won't be display in adaptive mode for low devices
-	private double maxDisplayCenter = 21; // Will grow, for initial concentric effect (only rings inside that distance will be displayed)
+	private double maxDisplayCenter = 1; // Will grow, for initial concentric effect (only rings inside that distance will be displayed)
 
 	@Override public void renderForeground()
 	{
@@ -124,11 +124,8 @@ public class FractalRings extends AbstractEffect implements HasAngle
 					minDisplayRadius = 0;
 			}
 		}
-		if (maxDisplayCenter > 0) {
-			maxDisplayCenter *= SPEED;
-			if (maxDisplayCenter > width && maxDisplayCenter > height)
-				maxDisplayCenter = 0;
-		}
+		if (maxDisplayCenter > width && maxDisplayCenter > height)
+			maxDisplayCenter = 0;
 
 		buildRenderList();
 
@@ -183,12 +180,14 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		for (int i = 0; i < size; i++)
 		{
 			FractalRing rc = renderListNew.get(i);
+			if (maxDisplayCenter > 0 && i == 0)
+				maxDisplayCenter = rc.radius;
 			if (rc.radius < minDisplayRadius)
 				continue;
 
 			double x = rc.centreX - width / 2;
 			double y = rc.centreY - height / 2;
-			if (maxDisplayCenter > 0) {
+			if (maxDisplayCenter > 0 && i > 0) {
 				if (rc.radius > maxDisplayCenter || Math.sqrt(x * x + y * y) > maxDisplayCenter)
 					continue;
 			}
