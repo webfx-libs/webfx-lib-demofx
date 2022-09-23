@@ -11,17 +11,19 @@ import javafx.scene.image.Image;
 
 public class Falling extends AbstractEffect
 {
-	private double[] bx;
-	private double[] by;
-	private double[] dx;
-	private double[] dy;
-	private Image[] sprites;
+	private final double[] bx;
+	private final double[] by;
+	private final double[] dx;
+	private final double[] dy;
+	private final Image[] sprites;
 
-	private Image[] spriteChoices;
+	private final Image[] spriteChoices;
 
 	private static final double ACCELERATION = 1.02;
 
-	private boolean directionDown;
+	private final boolean directionDown;
+
+	private double scaleFactor = -1; // Scale factor for small screens
 
 	public Falling(DemoConfig config)
 	{
@@ -46,11 +48,6 @@ public class Falling extends AbstractEffect
 
 		this.directionDown = directionDown;
 
-		init();
-	}
-
-	private void init()
-	{
 		if (itemCount == -1)
 		{
 			itemCount = 512;
@@ -99,7 +96,7 @@ public class Falling extends AbstractEffect
 		}
 	}
 
-	private final void moveSprite(int i)
+	private void moveSprite(int i)
 	{
 		dx[i] += precalc.getSignedRandom() / 8;
 		dy[i] *= ACCELERATION;
@@ -123,8 +120,14 @@ public class Falling extends AbstractEffect
 		}
 	}
 
-	private final void drawSprite(int i)
+	private void drawSprite(int i)
 	{
-		gc.drawImage(sprites[i], bx[i], by[i]);
+		Image sprite = sprites[i];
+		if (scaleFactor == -1 && sprite.getWidth() > 0)
+			scaleFactor = Math.min(1, width / sprite.getWidth() / 20); // Scale factor for small screens
+		if (scaleFactor > 0)
+			gc.drawImage(sprite, bx[i], by[i], scaleFactor * sprite.getWidth(), scaleFactor * sprite.getHeight());
+		else
+			gc.drawImage(sprite, bx[i], by[i]);
 	}
 }
