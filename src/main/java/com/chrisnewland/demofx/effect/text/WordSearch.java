@@ -29,28 +29,19 @@ public class WordSearch extends AbstractEffect
 
 	private static final Random RANDOM = new Random();
 
-	private static final double INITIAL_FONT_SIZE = 30;
-
-	private Font font;
+	private final Font font;
 
 	private long lastChange = 0;
 
 	public WordSearch(DemoConfig config)
 	{
-		super(config);
-
-		init("DemoFX III\n\nA JavaFX demo by\n\n@chriswhocodes");
+		this(config, "DemoFX\n\nA JavaFX demo by\n\n@chriswhocodes");
 	}
 	
 	public WordSearch(DemoConfig config, String string)
 	{
 		super(config);
 
-		init(string);
-	}
-	
-	private void init(String string)
-	{
 		lines = string.toUpperCase().split("\n");
 		
 		if (lines.length > GRID_Y)
@@ -69,6 +60,8 @@ public class WordSearch extends AbstractEffect
 		tryCount = new int[GRID_X][GRID_Y];
 		charGrid = new char[GRID_X][GRID_Y];
 		colourGrid = new Color[GRID_X][GRID_Y];
+
+		double INITIAL_FONT_SIZE = Math.min(width, height) / 800 * 30;
 
 		font = Font.font("monospace", FontWeight.BOLD, INITIAL_FONT_SIZE);
 	}
