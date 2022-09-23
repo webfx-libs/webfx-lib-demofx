@@ -22,46 +22,31 @@ public class SnowfieldSprite extends AbstractEffect
 
 	private double sine = 0;
 
-	private boolean spin = true;
+	private final boolean spin = true;
 
-	private Image sprite = ImageUtil.loadImageFromResources("flake.png");
+	private final Image sprite;
+
+	private double scaleFactor = -1; // Scale factor for small screens
 
 	public SnowfieldSprite(DemoConfig config)
 	{
-		super(config);
-
-		if (itemCount == -1)
-		{
-			itemCount = 5000;
-		}
-
-		init();
+		this(config, 5000, ImageUtil.loadImageFromResources("flake.png"));
 	}
 
 	public SnowfieldSprite(DemoConfig config, int starCount, Image sprite)
 	{
-		super(config);
-
-		this.itemCount = starCount;
-
-		this.sprite = sprite;
-
-		init();
+		this(config, starCount, sprite, -1, -1);
 	}
 
-	public SnowfieldSprite(DemoConfig config, int starCount, long startMillis, long stopMillis)
+	public SnowfieldSprite(DemoConfig config, int starCount, Image sprite, long startMillis, long stopMillis)
 	{
 		super(config);
 
 		this.itemCount = starCount;
+		this.sprite = sprite;
 		this.effectStartMillis = startMillis;
 		this.effectStopMillis = stopMillis;
 
-		init();
-	}
-
-	private void init()
-	{
 		buildStars();
 	}
 
@@ -108,7 +93,7 @@ public class SnowfieldSprite extends AbstractEffect
 	}
 
 	// TODO move all then plot all
-	private final void moveStar(int i)
+	private void moveStar(int i)
 	{
 		starX[i] += dX[i] + windX;
 		starY[i] += dY[i] - windX / 4;
@@ -125,7 +110,7 @@ public class SnowfieldSprite extends AbstractEffect
 		return starY[i] / starZ[i];
 	}
 
-	private final void plotStar(int i)
+	private void plotStar(int i)
 	{
 		double x = halfWidth + translateX(i);
 		double y = halfHeight + translateY(i);
@@ -154,7 +139,9 @@ public class SnowfieldSprite extends AbstractEffect
 		y = halfHeight + translateY(i);
 		z = starZ[i];
 
-		int size = (int) (8.0 / z);
+		if (scaleFactor == -1 && sprite.getWidth() > 0)
+			scaleFactor = Math.min(1, width / sprite.getWidth() / 40); // Scale factor for small screens
+		int size = (int) (8.0 / z * scaleFactor);
 
 		if (size > 1)
 		{
