@@ -2,6 +2,7 @@ package com.chrisnewland.demofx.effect.addon;
 
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.PreCalc;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * @author Bruno Salmon
@@ -31,16 +32,19 @@ public class AbstractFadeAddOnEffect extends AbstractAddOnEffect {
     }
 
     private boolean applyFade(double elapsed, boolean fadeIn) {
-        if (fadeIn && !this.fadeIn || !fadeIn && !this.fadeOut || elapsed < 0 || elapsed > duration)
+        if (fadeIn && !this.fadeIn || !fadeIn && !this.fadeOut || fadeOut && elapsed < 0 || fadeIn && elapsed > duration)
             return false;
+        if (fadeIn && elapsed < 0 || fadeOut && elapsed > duration)
+            return true;
         double alpha = elapsed / (double) duration;
         alpha = PreCalc.clampDouble(alpha, 0, 1);
         if (!fadeIn)
             alpha = 1 - alpha;
-        double previousAlpha = effect.gc.getGlobalAlpha();
-        effect.gc.setGlobalAlpha(alpha);
+        GraphicsContext gc = ((AbstractEffect) effect).gc;
+        double previousAlpha = gc.getGlobalAlpha();
+        gc.setGlobalAlpha(alpha);
         super.renderForeground();
-        effect.gc.setGlobalAlpha(previousAlpha);
+        gc.setGlobalAlpha(previousAlpha);
         return true;
     }
 }

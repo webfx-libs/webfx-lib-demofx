@@ -1,6 +1,5 @@
 package com.chrisnewland.demofx.effect.addon;
 
-import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.effect.IEffect;
 
 /**
@@ -8,9 +7,9 @@ import com.chrisnewland.demofx.effect.IEffect;
  */
 public class AbstractAddOnEffect implements IEffect {
 
-    protected final AbstractEffect effect;
+    protected final IEffect effect;
 
-    public AbstractAddOnEffect(AbstractEffect effect) {
+    public AbstractAddOnEffect(IEffect effect) {
         this.effect = effect;
     }
 
