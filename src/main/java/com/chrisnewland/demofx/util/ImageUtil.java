@@ -176,7 +176,11 @@ public class ImageUtil
 		return result;
 	}
 
-	public static Image tintImage(Image image, double hue)
+	public static Image tintImage(Image image, double hue) {
+		return tintImage(image, hue, 1);
+	}
+
+	public static Image tintImage(Image image, double hue, double saturation)
 	{
 		WritableImage result;
 		// If the passed image is already a writable image, we use it (assuming it's ok to apply the changes on it)
@@ -184,11 +188,11 @@ public class ImageUtil
 			result = (WritableImage) image;
 		else // Otherwise we create a writable copy of the image
 			result = new WritableImage(image.getPixelReader(), (int) image.getWidth(), (int) image.getHeight());
-		tintImage(image, hue, result);
+		tintImage(image, hue, saturation, result);
 		return result;
 
 	}
-	public static Image tintImage(Image image, double hue, WritableImage result)
+	public static Image tintImage(Image image, double hue, double saturation, WritableImage result)
 	{
 		FastPixelReaderWriter pixelReader = WebFxKitLauncher.getFastPixelReaderWriter(image);
 		FastPixelReaderWriter pixelWriter = WebFxKitLauncher.getFastPixelReaderWriter(result);
@@ -198,7 +202,7 @@ public class ImageUtil
 			int opacity = pixelReader.getOpacity();
 			Color color = Color.rgb(pixelReader.getRed(), pixelReader.getGreen(), pixelReader.getBlue(), 1d / 255 * opacity);
 
-			Color newColour = Color.hsb(hue, 1, color.getBrightness());
+			Color newColour = Color.hsb(hue, saturation, color.getBrightness());
 
 			//byte alpha = (byte) (color.getOpacity() * 255);
 			int red =   (int) (newColour.getRed() *   255);

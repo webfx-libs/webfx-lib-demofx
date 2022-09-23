@@ -11,9 +11,11 @@ import javafx.scene.image.Image;
 
 public class StarfieldSprite extends AbstractEffect
 {
-	private double[] starX;
-	private double[] starY;
-	private double[] starZ;
+	private final double[] starX;
+	private final double[] starY;
+	private final double[] starZ;
+
+	private final int[] spriteIndexes;
 
 	private static final double SPEED = 0.01;
 	private static final double MAX_DEPTH = 5;
@@ -21,16 +23,17 @@ public class StarfieldSprite extends AbstractEffect
 	private final boolean spin = true;
 
 	private final Image sprite;
+	private final Image[] colorSprites;
 
 	private final boolean adaptive = true;
 
 	public StarfieldSprite(DemoConfig config)
 	{
-		this(config, 5000, ImageUtil.loadImageFromResources("starshine.png"));
+		this(config, 5000, ImageUtil.loadImageFromResources("starshine.png"), 8);
 	}
 	
 	
-	public StarfieldSprite(DemoConfig config, int starCount, Image sprite)
+	public StarfieldSprite(DemoConfig config, int starCount, Image sprite, int colorCount)
 	{
 		super(config);
 		
@@ -38,19 +41,14 @@ public class StarfieldSprite extends AbstractEffect
 
 		this.sprite = sprite;
 
-		init();
-	}
+		colorSprites = new Image[colorCount];
+		colorSprites[0] = sprite; // White
 
-	private void init()
-	{
-		buildStars();
-	}
-
-	private void buildStars()
-	{
+		// Building stars
 		starX = new double[itemCount];
 		starY = new double[itemCount];
 		starZ = new double[itemCount];
+		spriteIndexes = new int[itemCount];
 
 		for (int i = 0; i < itemCount; i++)
 		{
@@ -108,6 +106,7 @@ public class StarfieldSprite extends AbstractEffect
 	private void respawn(int i)
 	{
 		starZ[i] = precalc.getUnsignedRandom() * MAX_DEPTH;
+		spriteIndexes[i] = (int) (precalc.getUnsignedRandom() * colorSprites.length);
 	}
 
 	private double translateX(int i)
@@ -128,7 +127,16 @@ public class StarfieldSprite extends AbstractEffect
 		if (isOnScreen(x, y))
 		{
 			int size = (int) (8 / starZ[i]);
-			gc.drawImage(sprite, x, y, size, size);
+			int spriteIndex = spriteIndexes[i];
+			Image image = colorSprites[spriteIndex];
+			if (image == null) {
+				if (sprite.getProgress() != 1)
+					image = sprite;
+				else
+					image =	colorSprites[spriteIndex] = ImageUtil.tintImage(sprite, getRandomColour().getHue(), 0.5);
+
+			}
+			gc.drawImage(image, x, y, size, size);
 		}
 		else
 		{
