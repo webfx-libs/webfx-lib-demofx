@@ -76,7 +76,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 			double top = y - testRadius;
 			double bottom = y + testRadius;
 
-			return left > 0 && right < width && bottom > 0 && top < height;
+			return left < width && right > 0 && bottom > 0 && top < height;
 		}
 	}
 
