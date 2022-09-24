@@ -80,9 +80,7 @@ public class StarfieldSprite extends AbstractEffect
 	public void renderForeground()
 	{
 		if (spin)
-		{
 			rotateCanvasAroundCentre(0.5);
-		}
 
 		long now;
 		if (!adaptive)
@@ -102,11 +100,15 @@ public class StarfieldSprite extends AbstractEffect
 			}
 		}
 
-		for (int i = 0; i < renderedItemCount; i++)
-		{
-			moveStar(i);
+		long skipCount = itemCount - renderedItemCount; // Number of stars to skip (when the device is too slow to draw them all in 1 animation frame)
 
-			plotStar(i);
+		for (int i = 0; i < itemCount; i++) {
+			if (skipCount > 0 && starZ[i] >= 4) // Preferring Skipping small stars
+				skipCount--;
+			else { // Preserving big stars on the screen
+				moveStar(i);
+				plotStar(i);
+			}
 		}
 
 		if (adaptive)
