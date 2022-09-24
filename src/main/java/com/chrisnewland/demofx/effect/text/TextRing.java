@@ -13,13 +13,13 @@ public class TextRing extends AbstractEffect
 {
 	public static class RingData
 	{
-		private String text;
-		private double radius;
-		private double fontScale;
+		private final String text;
+		private final double radius;
+		private final double fontScale;
 		private double angle;
-		private double speed;
-		private double kern;
-		private double spaceAngle;
+		private final double speed;
+		private final double kern;
+		private final double spaceAngle;
 
 		public RingData(String text, double radius, double fontScale, double speed, double kern, double spaceAngle)
 		{
@@ -46,21 +46,12 @@ public class TextRing extends AbstractEffect
 
 	public TextRing(DemoConfig config)
 	{
-		super(config);
-
-		init(new RingData[] {
-		new RingData("Your Text Here", 300, 0.15, 1.6, 3.6, 2)});
+		this(config, new RingData("Your Text Here", 300, 0.15, 1.6, 3.6, 2));
 	}
 
-	public TextRing(DemoConfig config, RingData[] ringData)
+	public TextRing(DemoConfig config, RingData... ringData)
 	{
 		super(config);
-
-		init(ringData);
-	}
-
-	private void init(RingData[] ringData)
-	{
 		this.ringData = ringData;
 	}
 
@@ -75,7 +66,7 @@ public class TextRing extends AbstractEffect
 		}
 	}
 
-	private final void plotText(int index)
+	private void plotText(int index)
 	{
 		RingData rd = ringData[index];
 
@@ -96,9 +87,9 @@ public class TextRing extends AbstractEffect
 
 		for (int i = 0; i < length; i++)
 		{
-			Character character = rd.text.charAt(i);
+			char character = rd.text.charAt(i);
 
-			if (character.charValue() == ' ')
+			if (character == ' ')
 			{
 				charAngle -= rd.spaceAngle;
 				continue;
@@ -111,16 +102,16 @@ public class TextRing extends AbstractEffect
 
 			if (i > 0)
 			{
-				inc = rd.kern * TextUtil.getKerningForChar(character.charValue(), lastCharacter.charValue(), plotHeight, true);
+				inc = rd.kern * TextUtil.getKerningForChar(character, lastCharacter, plotHeight, true);
 
 				inc = Math.abs(inc);
 
 				charAngle -= inc;
 			}
 
-			double x = halfWidth + rd.radius * precalc.sin(charAngle);
+			double x = halfWidth + rd.radius * precalc.sin(charAngle) - plotWidth / 2;
 
-			double y = halfHeight + rd.radius * precalc.cos(charAngle);
+			double y = halfHeight + rd.radius * precalc.cos(charAngle) - plotHeight / 2;
 
 			rotateCanvasAroundPoint(x + plotWidth / 2, y + plotHeight / 2, 180 - charAngle);
 
