@@ -18,35 +18,28 @@ public class TextWaveSprite extends AbstractEffect
 	private double xOffset;
 	private double lastCharX;
 
-	private List<String> stringList;
+	private final List<String> stringList;
 
 	private static final double OFFSCREEN = 100;
 
-	private double speed = 10;
-	private double amplitude = 40;
-	private double waveYPos;
+	private final double speed;
+	private final double amplitude = 40;
+	private final double waveYPos;
 
-	private double fontScale = 0.2;
+	private final double fontScale;
 
 	private int stringIndex = 0;
 
 	private String currentString;
 	private Character[] chars;
 
-	private boolean repeat;
+	private final boolean repeat;
 
-	public TextWaveSprite(DemoConfig config)
-	{
-		super(config);
-
-		init(new String[]
-		{
-				"DemoFX III"
-		}, halfHeight + 48, 1, 10);
+	public TextWaveSprite(DemoConfig config) {
+		this(config, new String[] {"DemoFX"}, config.getHeight() / 2 + 48, 1, 10);
 	}
 
-	public TextWaveSprite(DemoConfig config, String[] strings, double yPos, double fontScale, double speed)
-	{
+	public TextWaveSprite(DemoConfig config, String[] strings, double yPos, double fontScale, double speed) {
 		this(config, strings, yPos, fontScale, speed, false);
 	}
 
@@ -56,11 +49,6 @@ public class TextWaveSprite extends AbstractEffect
 
 		this.repeat = repeat;
 
-		init(strings, yPos, fontScale, speed);
-	}
-
-	private void init(String[] strings, double yPos, double fontScale, double speed)
-	{
 		waveYPos = yPos;
 		this.fontScale = fontScale;
 		this.speed = speed;
@@ -84,7 +72,7 @@ public class TextWaveSprite extends AbstractEffect
 
 		for (int i = 0; i < length; i++)
 		{
-			result[i] = Character.valueOf(str.charAt(i));
+			result[i] = str.charAt(i);
 		}
 
 		return result;
@@ -128,9 +116,9 @@ public class TextWaveSprite extends AbstractEffect
 		}
 	}
 
-	private final void plotText()
+	private void plotText()
 	{
-		double y = 0;
+		double y;
 
 		double charX = xOffset + OFFSCREEN;
 
@@ -138,7 +126,7 @@ public class TextWaveSprite extends AbstractEffect
 		{
 			Character character = chars[i];
 
-			if (character.charValue() == ' ')
+			if (character == ' ')
 			{
 				charX += 40;
 				continue;
@@ -154,7 +142,7 @@ public class TextWaveSprite extends AbstractEffect
 
 			if (i > 0)
 			{
-				charX += TextUtil.getKerningForChar(character.charValue(), chars[i - 1].charValue(), plotHeight);
+				charX += TextUtil.getKerningForChar(character, chars[i - 1], plotHeight);
 			}
 
 			if (isLetterOnScreen(charX))
@@ -171,7 +159,7 @@ public class TextWaveSprite extends AbstractEffect
 		lastCharX = charX;
 	}
 
-	private final boolean isLetterOnScreen(double charX)
+	private boolean isLetterOnScreen(double charX)
 	{
 		return (charX > -OFFSCREEN && charX < width);
 	}
