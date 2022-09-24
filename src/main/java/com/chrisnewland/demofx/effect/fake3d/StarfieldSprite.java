@@ -27,12 +27,14 @@ public class StarfieldSprite extends AbstractEffect
 
 	private final boolean adaptive = true;
 
-	public StarfieldSprite(DemoConfig config)
-	{
-		this(config, 5000, ImageUtil.loadImageFromResources("starshine.png"), 8);
+	public StarfieldSprite(DemoConfig config) {
+		this(config, 5000, 800, 600); // 5000 stars on a 800x600 screen or wider, less on a smaller screen
 	}
-	
-	
+
+	public StarfieldSprite(DemoConfig config, int maxStarCount, double ceilingWidth, double ceilingHeight) {
+		this(config, Math.min(maxStarCount, (int) (config.getWidth() * config.getHeight() / (ceilingWidth * ceilingHeight) * maxStarCount)), ImageUtil.loadImageFromResources("starshine.png"), 8);
+	}
+
 	public StarfieldSprite(DemoConfig config, int starCount, Image sprite, int colorCount)
 	{
 		super(config);
