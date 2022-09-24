@@ -22,7 +22,7 @@ public class AbstractFadeAddOnEffect extends AbstractAddOnEffect {
 
     @Override
     public void renderForeground() {
-        long now = System.currentTimeMillis();
+        long now = ((AbstractEffect) effect).getConfig().getDemoAnimationTimer().getElapsed();
         if (fadeInStart == 0)
             fadeInStart = now;
         if (fadeOutStart == 0)

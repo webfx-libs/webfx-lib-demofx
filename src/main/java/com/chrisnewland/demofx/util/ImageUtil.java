@@ -192,6 +192,10 @@ public class ImageUtil
 		return result;
 
 	}
+	public static Image tintImage(Image image, double hue, WritableImage result) {
+		return tintImage(image, hue, 1, result);
+	}
+
 	public static Image tintImage(Image image, double hue, double saturation, WritableImage result)
 	{
 		FastPixelReaderWriter pixelReader = WebFxKitLauncher.getFastPixelReaderWriter(image);

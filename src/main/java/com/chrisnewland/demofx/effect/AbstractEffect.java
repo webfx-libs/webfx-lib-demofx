@@ -76,6 +76,10 @@ public abstract class AbstractEffect implements IEffect
 		}
 	}
 
+	public DemoConfig getConfig() {
+		return config;
+	}
+
 	private void setupOffScreen(double newWidth, double newHeight)
 	{
 		renderOffScreen = true;
