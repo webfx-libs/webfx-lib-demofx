@@ -97,13 +97,15 @@ public class StarfieldSprite extends AbstractEffect
 					renderedItemCount -= 100;
 				if (renderedItemCount > itemCount)
 					renderedItemCount = itemCount;
+				else if (renderedItemCount < 0)
+					renderedItemCount = 0;
 			}
 		}
 
 		long skipCount = itemCount - renderedItemCount; // Number of stars to skip (when the device is too slow to draw them all in 1 animation frame)
 
 		for (int i = 0; i < itemCount; i++) {
-			if (skipCount > 0 && starZ[i] >= 4) // Preferring Skipping small stars
+			if (skipCount > 0 && starZ[i] >= 2) // Preferring Skipping small stars
 				skipCount--;
 			else { // Preserving big stars on the screen
 				moveStar(i);
