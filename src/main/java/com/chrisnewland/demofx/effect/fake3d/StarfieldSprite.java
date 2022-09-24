@@ -8,6 +8,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.ImageUtil;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class StarfieldSprite extends AbstractEffect
 {
@@ -23,6 +24,7 @@ public class StarfieldSprite extends AbstractEffect
 	private final boolean spin = true;
 
 	private final Image sprite;
+	private final Color[] colors;
 	private final Image[] colorSprites;
 
 	private final boolean adaptive = true;
@@ -43,8 +45,14 @@ public class StarfieldSprite extends AbstractEffect
 
 		this.sprite = sprite;
 
+		colors = new Color[colorCount];
 		colorSprites = new Image[colorCount];
-		colorSprites[0] = sprite; // White
+		for (int colorIndex = 0; colorIndex < colorCount; colorIndex++)
+			colors[colorIndex] = Color.hsb(getRandomColour().getHue(), colorIndex == 0 ? 1 : 0.5, 1);
+		if (sprite.getProgress() >= 1)
+			computeColorSprites();
+		else
+			sprite.progressProperty().addListener((observableValue, number, progress) -> { if (progress.intValue() >= 1) computeColorSprites();});
 
 		// Building stars
 		starX = new double[itemCount];
@@ -58,6 +66,11 @@ public class StarfieldSprite extends AbstractEffect
 			starY[i] = precalc.getSignedRandom() * halfHeight;
 			respawn(i);
 		}
+	}
+
+	private void computeColorSprites() {
+		for (int colorIndex = 0; colorIndex < colorSprites.length; colorIndex++)
+			colorSprites[colorIndex] = ImageUtil.tintImage(sprite, colors[colorIndex].getHue(), colors[colorIndex].getSaturation());
 	}
 
 	private long lastDuration; // Used for adaptive
@@ -128,17 +141,13 @@ public class StarfieldSprite extends AbstractEffect
 
 		if (isOnScreen(x, y))
 		{
-			int size = (int) (8 / starZ[i]);
-			int spriteIndex = spriteIndexes[i];
-			Image image = colorSprites[spriteIndex];
-			if (image == null) {
-				if (sprite.getProgress() != 1)
-					image = sprite;
-				else
-					image =	colorSprites[spriteIndex] = ImageUtil.tintImage(sprite, getRandomColour().getHue(), 0.5);
-
-			}
-			gc.drawImage(image, x, y, size, size);
+			double size = 8 / starZ[i];
+			int colorIndex = spriteIndexes[i];
+			if (size < 2) { // plotting just a pixel for small stars (a bit faster)
+				gc.setFill(colors[colorIndex]);
+				gc.fillRect(x, y, 1, 1);
+			} else
+				gc.drawImage(colorSprites[colorIndex], x, y, size, size);
 		}
 		else
 		{
