@@ -10,6 +10,8 @@ import com.chrisnewland.demofx.util.ImageUtil;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.stream.IntStream;
+
 public class StarfieldSprite extends AbstractEffect
 {
 	private final double[] starX;
@@ -30,14 +32,22 @@ public class StarfieldSprite extends AbstractEffect
 	private final boolean adaptive = true;
 
 	public StarfieldSprite(DemoConfig config) {
-		this(config, 5000, 800, 600); // 5000 stars on a 800x600 screen or wider, less on a smaller screen
+		this(config, Color.WHITE);
 	}
 
-	public StarfieldSprite(DemoConfig config, int maxStarCount, double ceilingWidth, double ceilingHeight) {
-		this(config, Math.min(maxStarCount, (int) (config.getWidth() * config.getHeight() / (ceilingWidth * ceilingHeight) * maxStarCount)), ImageUtil.loadImageFromResources("starshine.png"), 8);
+	public StarfieldSprite(DemoConfig config, int colorCount) {
+		this(config, IntStream.range(1, colorCount).mapToObj(i -> Color.hsb(Math.random() * 360, 0.5, 1)).toArray(Color[]::new));
 	}
 
-	public StarfieldSprite(DemoConfig config, int starCount, Image sprite, int colorCount)
+	public StarfieldSprite(DemoConfig config, Color... colors) {
+		this(config, 5000, 800, 600, colors); // 5000 stars on a 800x600 screen or wider, less on a smaller screen
+	}
+
+	public StarfieldSprite(DemoConfig config, int maxStarCount, double ceilingWidth, double ceilingHeight, Color... colors) {
+		this(config, Math.min(maxStarCount, (int) (config.getWidth() * config.getHeight() / (ceilingWidth * ceilingHeight) * maxStarCount)), ImageUtil.loadImageFromResources("starshine.png"), colors);
+	}
+
+	public StarfieldSprite(DemoConfig config, int starCount, Image sprite, Color... colors)
 	{
 		super(config);
 		
@@ -45,10 +55,8 @@ public class StarfieldSprite extends AbstractEffect
 
 		this.sprite = sprite;
 
-		colors = new Color[colorCount];
-		colorSprites = new Image[colorCount];
-		for (int colorIndex = 0; colorIndex < colorCount; colorIndex++)
-			colors[colorIndex] = Color.hsb(getRandomColour().getHue(), colorIndex == 0 ? 1 : 0.5, 1);
+		this.colors = colors;
+		colorSprites = new Image[colors.length];
 		if (sprite.getProgress() >= 1)
 			computeColorSprites();
 		else
@@ -70,7 +78,7 @@ public class StarfieldSprite extends AbstractEffect
 
 	private void computeColorSprites() {
 		for (int colorIndex = 0; colorIndex < colorSprites.length; colorIndex++)
-			colorSprites[colorIndex] = ImageUtil.tintImage(sprite, colors[colorIndex].getHue(), colors[colorIndex].getSaturation());
+			colorSprites[colorIndex] = Color.WHITE.equals(colors[colorIndex]) ? sprite : ImageUtil.tintImage(sprite, colors[colorIndex].getHue(), colors[colorIndex].getSaturation());
 	}
 
 	private long lastDuration; // Used for adaptive
