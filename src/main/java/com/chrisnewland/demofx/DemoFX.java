@@ -85,13 +85,15 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 			effect.stop();
 		}
 
+		if (mediaPlayer != null)
+			mediaPlayer.stop();
+
 		if (timer != null)
 		{
 			timer.stop();
+			timer = null;
 		}
 
-		if (mediaPlayer != null)
-			mediaPlayer.stop();
 	}
 
 	@Override public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases)
@@ -376,6 +378,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		if (mediaPlayer != null) {
 			initialiseSpectralEffects(mediaPlayer);
 			mediaPlayer.play();
+			mediaPlayer.setOnEndOfMedia(this::stopDemo);
 		}
 	}
 
