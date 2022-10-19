@@ -7,7 +7,6 @@
 
     <required-libraries>
         <webfx-library artifact="dev.webfx:webfx:0.1.0-SNAPSHOT"/>
-        <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/>        <!-- for ImageStore -->
     </required-libraries>
 
     <exported-packages>
@@ -47,7 +46,6 @@
 
             <required-libraries>
                 <webfx-library artifact="dev.webfx:webfx:0.1.0-SNAPSHOT"/>
-                <webfx-library artifact="dev.webfx:webfx-extras-private:0.1.0-SNAPSHOT"/>                <!-- for ImageStore -->
             </required-libraries>
 
             <exported-packages>
@@ -83,7 +81,6 @@
             <used-by-source-modules>
                 <module>java-nio-emul</module>
                 <module>java.base</module>
-                <module>webfx-extras-imagestore</module>
                 <module>webfx-kit-javafxcontrols-emul</module>
                 <module>webfx-kit-javafxgraphics-emul</module>
                 <module>webfx-kit-javafxmedia-emul</module>
@@ -98,9 +95,7 @@
 
             <java-package name="java.util.regex"/>
 
-            <java-class name="javafx.scene.control.ScrollPane">
-                <module>webfx-extras-visual-grid</module>
-            </java-class>
+            <java-class name="javafx.scene.control.ScrollPane"/>
 
         </usages>
 

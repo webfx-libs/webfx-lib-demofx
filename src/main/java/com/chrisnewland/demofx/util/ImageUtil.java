@@ -4,7 +4,6 @@
  */
 package com.chrisnewland.demofx.util;
 
-import dev.webfx.extras.imagestore.ImageStore;
 import dev.webfx.kit.launcher.WebFxKitLauncher;
 import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
 import javafx.scene.SnapshotParameters;
@@ -23,15 +22,9 @@ public class ImageUtil
 		return loadImageFromResources(filename, 0, 0);
 	}
 
-	private final static GraphicsContext LOADING_CONTEXT = new Canvas().getGraphicsContext2D();
-
 	public static Image loadImageFromResources(String filename, int newWidth, int newHeight)
 	{
-		Image image = ImageStore.getOrCreateImage("com/chrisnewland/demofx/images/" + filename, newWidth, newHeight);
-		// Drawing the image in a canvas will force the browser to start loading the image right now
-		if (image != null)
-			LOADING_CONTEXT.drawImage(image, 0, 0);
-		return image;
+		return new Image("com/chrisnewland/demofx/images/" + filename, newWidth, newHeight, false, false, true);
 	}
 
 	/*public static WritableImage loadWritableImageFromResources(String filename)
