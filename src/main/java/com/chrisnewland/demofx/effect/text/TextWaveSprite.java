@@ -23,7 +23,7 @@ public class TextWaveSprite extends AbstractEffect
 	private static final double OFFSCREEN = 100;
 
 	private final double speed;
-	private final double amplitude = 40;
+	private final double amplitude;
 	private final double waveYPos;
 
 	private final double fontScale;
@@ -45,6 +45,10 @@ public class TextWaveSprite extends AbstractEffect
 
 	public TextWaveSprite(DemoConfig config, String[] strings, double yPos, double fontScale, double speed, boolean repeat)
 	{
+		this(config, strings, yPos, fontScale, speed, 40, repeat);
+	}
+
+	public TextWaveSprite(DemoConfig config, String[] strings, double yPos, double fontScale, double speed, double amplitude, boolean repeat) {
 		super(config);
 
 		this.repeat = repeat;
@@ -52,6 +56,7 @@ public class TextWaveSprite extends AbstractEffect
 		waveYPos = yPos;
 		this.fontScale = fontScale;
 		this.speed = speed;
+		this.amplitude = amplitude;
 
 		xOffset = width;
 
@@ -128,11 +133,13 @@ public class TextWaveSprite extends AbstractEffect
 
 			if (character == ' ')
 			{
-				charX += 40;
+				charX += 40 * fontScale;
 				continue;
 			}
 
 			Image charImage = TextUtil.getSpriteCharacter(character);
+			if (charImage == null)
+				continue;
 
 			double charWidth = charImage.getWidth();
 			double charHeight = charImage.getHeight();
