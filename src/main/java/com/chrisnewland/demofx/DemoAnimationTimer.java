@@ -5,11 +5,11 @@
 package com.chrisnewland.demofx;
 
 import com.chrisnewland.demofx.effect.IEffect;
+import dev.webfx.platform.audio.Audio;
 //import com.chrisnewland.demofx.measurement.Measurements;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
 import java.util.List;
@@ -94,11 +94,11 @@ public class DemoAnimationTimer extends AnimationTimer
 	public void handle(long renderStartNanos)
 	{
 		// If there is no music playing, we just use the standard system time
-		MediaPlayer mediaPlayer = parent.getMediaPlayer();
+		Audio mediaPlayer = parent.getMediaPlayer();
 		if (mediaPlayer == null)
 			elapsed = System.currentTimeMillis() - startTime;
 		else // But if there is a music playing, we rather rely on the media player current time
-			elapsed = (long) mediaPlayer.getCurrentTime().toMillis();
+			elapsed = mediaPlayer.getCurrentTimeMillis();
 		// In the later case, the media player provides an accurate audio elapsed time even if there is a big latency
 		// (such as loading and buffering the mp3 file from the browser with WebFX). This is very important to ensure
 		// a good synchronization between the visual animation and the sound.

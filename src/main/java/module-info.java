@@ -10,6 +10,7 @@ module webfx.lib.demofx {
     requires webfx.kit.launcher;
     requires webfx.platform.console;
     requires webfx.platform.resource;
+    requires webfx.platform.audio;
 
     // Exported packages
     exports com.chrisnewland.demofx;

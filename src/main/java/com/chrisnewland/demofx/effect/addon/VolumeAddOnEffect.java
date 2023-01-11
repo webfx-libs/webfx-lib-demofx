@@ -31,17 +31,19 @@ public class VolumeAddOnEffect extends AbstractAddOnEffect implements ISpectralE
 
     @Override
     public void renderForeground() {
-        int n = bandIndexes.length;
-        float[] data = spectrumProvider.getData();
-        double gap = volumeFactor / 10;
-        for (int i = 0; i < n; i++) {
-            double newVolume = (data[bandIndexes[i]] + 60) / 60 * volumeFactor;
-            double oldVolume = bandVolumes[i];
-            if (oldVolume != 0 && Math.abs(newVolume - oldVolume) > gap)
-                newVolume = oldVolume + (newVolume < oldVolume ? -gap : gap);
-            bandVolumes[i] = newVolume;
+        if (spectrumProvider != null) {
+            int n = bandIndexes.length;
+            float[] data = spectrumProvider.getData();
+            double gap = volumeFactor / 10;
+            for (int i = 0; i < n; i++) {
+                double newVolume = (data[bandIndexes[i]] + 60) / 60 * volumeFactor;
+                double oldVolume = bandVolumes[i];
+                if (oldVolume != 0 && Math.abs(newVolume - oldVolume) > gap)
+                    newVolume = oldVolume + (newVolume < oldVolume ? -gap : gap);
+                bandVolumes[i] = newVolume;
+            }
+            hasVolume.setBandVolumes(bandVolumes);
         }
-        hasVolume.setBandVolumes(bandVolumes);
         super.renderForeground();
     }
 }
