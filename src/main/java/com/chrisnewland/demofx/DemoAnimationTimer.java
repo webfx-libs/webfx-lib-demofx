@@ -94,11 +94,11 @@ public class DemoAnimationTimer extends AnimationTimer
 	public void handle(long renderStartNanos)
 	{
 		// If there is no music playing, we just use the standard system time
-		Audio mediaPlayer = parent.getMediaPlayer();
-		if (mediaPlayer == null)
+		Audio music = parent.getMusic();
+		if (music == null)
 			elapsed = System.currentTimeMillis() - startTime;
 		else // But if there is a music playing, we rather rely on the media player current time
-			elapsed = mediaPlayer.getCurrentTimeMillis();
+			elapsed = music.getCurrentTimeMillis();
 		// In the later case, the media player provides an accurate audio elapsed time even if there is a big latency
 		// (such as loading and buffering the mp3 file from the browser with WebFX). This is very important to ensure
 		// a good synchronization between the visual animation and the sound.

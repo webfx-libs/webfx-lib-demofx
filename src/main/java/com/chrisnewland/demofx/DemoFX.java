@@ -7,9 +7,11 @@ package com.chrisnewland.demofx;
 import com.chrisnewland.demofx.effect.IEffect;
 import com.chrisnewland.demofx.effect.effectfactory.IEffectFactory;
 import com.chrisnewland.demofx.effect.effectfactory.SimpleEffectFactory;
+import com.chrisnewland.demofx.effect.spectral.ISpectralEffect;
 import com.chrisnewland.demofx.util.PreCalc;
 import dev.webfx.platform.audio.Audio;
 import dev.webfx.platform.audio.AudioService;
+import dev.webfx.platform.audio.AudioSpectrumListener;
 import dev.webfx.platform.console.Console;
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
@@ -20,9 +22,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.paint.Color;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
@@ -44,7 +46,7 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 
 	private final float[] spectrumData = new float[SPECTRUM_BANDS];
 
-	private Audio mediaPlayer;
+	private Audio music;
 
 	private Group group;
 	private BorderPane pane;
@@ -83,8 +85,8 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 			effect.stop();
 		}
 
-		if (mediaPlayer != null)
-			mediaPlayer.stop();
+		if (music != null)
+			music.stop();
 
 		if (timer != null)
 		{
@@ -336,28 +338,28 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 		 */
 	}
 
-	private boolean initialiseSpectralEffects(Audio mediaPlayer)
+	private boolean initialiseSpectralEffects(Audio music)
 	{
 		boolean result = false;
 
-		/*for (IEffect effect : effects)
-		{
-			if (effect instanceof ISpectralEffect)
-			{
-				result = true;
-				System.out.println("Found effect that uses spectral analyser: " + effect);
+		if (music.supportsSpectrumAnalysis()) {
 
-				((ISpectralEffect) effect).setSpectrumDataProvider(this);
+			for (IEffect effect : effects) {
+				if (effect instanceof ISpectralEffect) {
+					result = true;
+					System.out.println("Found effect that uses spectral analyser: " + effect);
+
+					((ISpectralEffect) effect).setSpectrumDataProvider(this);
+				}
+			}
+
+			if (result) {
+				music.setAudioSpectrumListener(this);
+				music.setAudioSpectrumInterval(1f / SAMPLES_PER_SECOND);
+				music.setAudioSpectrumNumBands(SPECTRUM_BANDS);
+				Arrays.fill(spectrumData, -60);
 			}
 		}
-
-		if (result)
-		{
-			mediaPlayer.setAudioSpectrumListener(this);
-			mediaPlayer.setAudioSpectrumInterval(1f / SAMPLES_PER_SECOND);
-			mediaPlayer.setAudioSpectrumNumBands(SPECTRUM_BANDS);
-			Arrays.fill(spectrumData, -60);
-		}*/
 
 		return result;
 	}
@@ -365,21 +367,21 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 	private void initialiseAudio1() {
 		String audioFilename = config.getAudioFilename();
 		if (audioFilename != null) {
-			mediaPlayer = AudioService.loadMusic(audioFilename);
-			mediaPlayer.setVolume(config.getAudioVolume());
+			music = AudioService.loadMusic(audioFilename);
+			music.setVolume(config.getAudioVolume());
 		}
 	}
 
 	private void initialiseAudio2() {
-		if (mediaPlayer != null) {
-			initialiseSpectralEffects(mediaPlayer);
-			mediaPlayer.play();
+		if (music != null) {
+			initialiseSpectralEffects(music);
+			music.play();
 			//mediaPlayer.setOnEndOfMedia(this::stopDemo);
 		}
 	}
 
-	Audio getMediaPlayer() {
-		return mediaPlayer;
+	Audio getMusic() {
+		return music;
 	}
 
 	/*private String getFXLabelText(DemoConfig config)
