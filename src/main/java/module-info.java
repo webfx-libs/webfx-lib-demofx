@@ -6,11 +6,10 @@ module webfx.lib.demofx {
     requires java.base;
     requires javafx.controls;
     requires javafx.graphics;
-    requires javafx.media;
     requires webfx.kit.launcher;
+    requires webfx.platform.audio;
     requires webfx.platform.console;
     requires webfx.platform.resource;
-    requires webfx.platform.audio;
 
     // Exported packages
     exports com.chrisnewland.demofx;
