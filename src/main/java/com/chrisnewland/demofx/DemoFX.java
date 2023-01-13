@@ -367,8 +367,9 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 	private void initialiseAudio1() {
 		String audioFilename = config.getAudioFilename();
 		if (audioFilename != null) {
-			music = AudioService.loadMusic(audioFilename);
-			music.setVolume(config.getAudioVolume());
+			music = AudioService.loadMusic(audioFilename); // may return null if not enough memory on mobiles
+			if (music != null)
+				music.setVolume(config.getAudioVolume());
 		}
 	}
 
