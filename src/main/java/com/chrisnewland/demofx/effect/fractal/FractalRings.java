@@ -17,7 +17,7 @@ import java.util.List;
 
 public class FractalRings extends AbstractEffect implements HasAngle
 {
-	private double SPEED = 1.05;
+	private static final double SPEED = 1.05;
 
 	private static final double SPAWN_AT_RADIUS = 8;
 
@@ -62,12 +62,15 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		{
 			double testRadius = radius / ROOT_2;
 
+			if (testRadius > width && testRadius > height) // To eliminate centered rings that became bigger than the screen
+				return false;
+
 			double cx = centreX - width / 2;
 			double cy = centreY - height / 2;
 			double x = cx * rotate.getMxx() + cy * rotate.getMxy();
 			double y = cx * rotate.getMyx() + cy * rotate.getMyy();
 			x+= width / 2;
-			y+= height /2;
+			y+= height / 2;
 
 			double left = x - testRadius;
 			double right = x + testRadius;
