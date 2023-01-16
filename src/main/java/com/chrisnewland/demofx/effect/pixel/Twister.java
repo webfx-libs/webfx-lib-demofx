@@ -61,7 +61,7 @@ public class Twister extends AbstractEffect
 		imageTexture = new WritableImage(imageWidth, imageHeight);
 
 		writer = WebFxKitLauncher.getFastPixelReaderWriter(imageTexture);
-
+		writer.createCache();
 	}
 
 	@Override
@@ -86,6 +86,7 @@ public class Twister extends AbstractEffect
 		twist = 16 + precalc.sin(angle) * 8;
 
 		//pixelWriter.setPixels(0, 0, imageWidth, imageHeight, pixelFormat, pixelData, 0, scanLine);
+		writer.writeCache();
 
 		gc.drawImage(imageTexture, 0, 0);
 		gc.drawImage(imageTexture, imageWidth, 0);
