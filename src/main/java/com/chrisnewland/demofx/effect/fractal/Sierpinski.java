@@ -78,6 +78,9 @@ public class Sierpinski extends AbstractEffect
 		memorisedContext = memoriseImages ? memorisedCanvas.getGraphicsContext2D() : null;
 		keep = new ArrayList<>();
 		rootHeight = height;
+		// Precomputing images now if memoriseImages is on (if not done now, it will be done during the animation but will be less smooth)
+		while (memoriseImages && memorisedImageIndex < 0) // memorisedImageIndex becomes 0 when finished
+			renderForeground();
 	}
 	
 	@Override
