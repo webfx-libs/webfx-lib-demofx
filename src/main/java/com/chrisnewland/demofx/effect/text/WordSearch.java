@@ -19,7 +19,7 @@ public class WordSearch extends AbstractEffect
 	private static final int GRID_X = 30;
 	private static final int GRID_Y = 30;
 	
-	private static final int MAX_TRIES = 100;
+	private /*static*/ final int MAX_TRIES;
 	private static final int INTERVAL = 200;
 
 
@@ -37,10 +37,16 @@ public class WordSearch extends AbstractEffect
 	{
 		this(config, "DemoFX\n\nA JavaFX demo by\n\n@chriswhocodes");
 	}
-	
-	public WordSearch(DemoConfig config, String string)
+
+	public WordSearch(DemoConfig config, String string) {
+		this(config, string, 100);
+	}
+
+	public WordSearch(DemoConfig config, String string, int maxTries)
 	{
 		super(config);
+
+		MAX_TRIES = maxTries;
 
 		lines = string.toUpperCase().split("\n");
 		
