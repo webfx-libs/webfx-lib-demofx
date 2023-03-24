@@ -7,7 +7,9 @@ package com.chrisnewland.demofx.effect.sprite;
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.ImageUtil;
-import dev.webfx.platform.console.Console;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -75,9 +77,9 @@ public class Moire2 extends AbstractEffect
 	{
 		super(config);
 
-		long t0 = System.currentTimeMillis();
+		//long t0 = System.currentTimeMillis();
 		init();
-		Console.log("Init duration: " + (System.currentTimeMillis() - t0) + "ms");
+		//Console.log("Init duration: " + (System.currentTimeMillis() - t0) + "ms");
 	}
 
 	private void init()
@@ -104,7 +106,7 @@ public class Moire2 extends AbstractEffect
 
 		millisPerEffect = 2667 * 2;// 2 bars @ 90bpm
 
-		System.out.println("millisPerEffect: " + millisPerEffect);
+		//System.out.println("millisPerEffect: " + millisPerEffect);
 
 		lastEffectStart = System.currentTimeMillis();
 
@@ -123,7 +125,12 @@ public class Moire2 extends AbstractEffect
 
 	private Image buildImageCheckerboard(double side, Shape shape)
 	{
-		fillBackground(Color.BLACK);
+		Canvas canvas = new Canvas(minDimension, minDimension);
+		// Following Google Chrome advise, and preventing this warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
+		GraphicsContext gc = WebFxKitLauncher.getGraphicsContext2D(canvas, true);
+
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, minDimension, minDimension);
 
 		int changeColourEvery = (int) (minDimension / side / 16);
 
@@ -133,7 +140,7 @@ public class Moire2 extends AbstractEffect
 		double gapY = side;
 
 		int colourCount = 0;
-		int iterations = 0;
+		//int iterations = 0;
 
 		for (double y = 0; y < minDimension; y += gapY)
 		{
@@ -141,7 +148,7 @@ public class Moire2 extends AbstractEffect
 
 			for (double x = 0; x < minDimension; x += gapX)
 			{
-				iterations++;
+				//iterations++;
 				double x2 = x + (offset ? 0 : side);
 
 				if (colourCount++ == changeColourEvery)
@@ -161,9 +168,9 @@ public class Moire2 extends AbstractEffect
 			}
 		}
 
-		Console.log("Iterations: " + iterations);
+		//Console.log("Iterations: " + iterations);
 
-		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(gc.getCanvas(), minDimension, minDimension, true),
+		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(canvas, minDimension, minDimension, true),
 				Color.BLACK, Color.TRANSPARENT);
 	}
 
@@ -199,9 +206,9 @@ public class Moire2 extends AbstractEffect
 
 		fillBackground(Color.BLACK);
 
-		long now = System.currentTimeMillis();
+		/* long now = System.currentTimeMillis();
 
-		/*if (now - lastEffectStart > millisPerEffect)
+		if (now - lastEffectStart > millisPerEffect)
 		{
 			currentParamIndex++;
 

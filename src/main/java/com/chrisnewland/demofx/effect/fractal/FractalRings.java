@@ -8,6 +8,9 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.effect.addon.HasAngle;
 import com.chrisnewland.demofx.util.ImageUtil;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
@@ -85,23 +88,27 @@ public class FractalRings extends AbstractEffect implements HasAngle
 	{
 		super(config);
 
+		Canvas ringCanvas = new Canvas(256, 256);
+		// Following Google Chrome advise, and preventing this warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
+		GraphicsContext ringContext = WebFxKitLauncher.getGraphicsContext2D(ringCanvas, true);
+
 		for (int i = 0; i < image.length; i++)
 		{
-			image[i] = createRing(256, 7, colors[i] = getRandomColour());
+			image[i] = createRing(256, 7, colors[i] = getRandomColour(), ringContext);
 		}
 
 		renderListNew.add(new FractalRing(halfWidth, halfHeight, 5, colourIndex));
 	}
 
-	private Image createRing(double diameter, double thickness, Color color)
+	private Image createRing(double diameter, double thickness, Color color, GraphicsContext ringContext)
 	{
-		gc.clearRect(0, 0, width, height);
+		ringContext.clearRect(0, 0, diameter, diameter);
 
-		gc.setStroke(color);
-		gc.setLineWidth(thickness);
-		gc.strokeOval(thickness, thickness, diameter - 2 * thickness, diameter - 2 * thickness);
+		ringContext.setStroke(color);
+		ringContext.setLineWidth(thickness);
+		ringContext.strokeOval(thickness, thickness, diameter - 2 * thickness, diameter - 2 * thickness);
 
-		return ImageUtil.createImageFromCanvas(gc.getCanvas(), diameter, diameter, true);
+		return ImageUtil.createImageFromCanvas(ringContext.getCanvas(), diameter, diameter, true);
 	}
 
 	private long lastDuration; // Used for adaptive

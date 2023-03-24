@@ -6,6 +6,7 @@ package com.chrisnewland.demofx.effect.fractal;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
+import dev.webfx.kit.launcher.WebFxKitLauncher;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -75,7 +76,8 @@ public class Sierpinski extends AbstractEffect
 
 		memorisedImages = memoriseImages ? new ArrayList<>() : null;
 		memorisedCanvas = memoriseImages ? new Canvas(width, height) : null;
-		memorisedContext = memoriseImages ? memorisedCanvas.getGraphicsContext2D() : null;
+		// Following Google Chrome advise, and preventing this warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
+		memorisedContext = memoriseImages ? WebFxKitLauncher.getGraphicsContext2D(memorisedCanvas, true) : null;
 		keep = new ArrayList<>();
 		rootHeight = height;
 		// Precomputing images now if memoriseImages is on (if not done now, it will be done during the animation but will be less smooth)
