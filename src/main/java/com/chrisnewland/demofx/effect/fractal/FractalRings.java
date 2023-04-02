@@ -35,6 +35,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 	private final Image[] image = new Image[64];
 	private final Color[] colors = new Color[64];
 
+	private final static double RING_DIAMETER = 256;
 	private final static boolean adaptive = true;
 
 	private /*static*/ class FractalRing
@@ -88,13 +89,13 @@ public class FractalRings extends AbstractEffect implements HasAngle
 	{
 		super(config);
 
-		Canvas ringCanvas = new Canvas(256, 256);
 		// Following Google Chrome advise, and preventing this warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
-		GraphicsContext ringContext = WebFxKitLauncher.getGraphicsContext2D(ringCanvas, true);
+		Canvas ringCanvas = WebFxKitLauncher.createWillReadFrequentlyCanvas(RING_DIAMETER, RING_DIAMETER);
+		GraphicsContext ringContext = ringCanvas.getGraphicsContext2D();
 
 		for (int i = 0; i < image.length; i++)
 		{
-			image[i] = createRing(256, 7, colors[i] = getRandomColour(), ringContext);
+			image[i] = createRing(RING_DIAMETER, 7, colors[i] = getRandomColour(), ringContext);
 		}
 
 		renderListNew.add(new FractalRing(halfWidth, halfHeight, 5, colourIndex));
@@ -199,11 +200,11 @@ public class FractalRings extends AbstractEffect implements HasAngle
 				if (rc.radius > maxDisplayCenter || Math.sqrt(x * x + y * y) > maxDisplayCenter)
 					continue;
 			}
-			if (rc.radius < 256) // Drawing image if shank (for fractal effect)
-				gc.drawImage(image[rc.colourIndex], width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
-			else { // Otherwise, we redraw it as an oval (faster than drawing image)
+			if (rc.radius < RING_DIAMETER) // Drawing image if shrank (for fractal effect)
+				gc.drawImage(image[rc.colourIndex],width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius, rc.radius * 2, rc.radius * 2);
+			else { // Otherwise there is no fractal effect, so we just redraw it as an oval (faster and sharper than drawing image)
 				gc.setStroke(colors[rc.colourIndex]);
-				double thickness = 7d / 256 * rc.radius * 2;
+				double thickness = 7d / RING_DIAMETER * rc.radius * 2;
 				gc.setLineWidth(thickness);
 				gc.strokeOval(width / 2 + x * rotate.getMxx() + y * rotate.getMxy() - rc.radius + thickness, height / 2 + x * rotate.getMyx() + y * rotate.getMyy() - rc.radius + thickness, rc.radius * 2 - 2 * thickness, rc.radius * 2 - 2 * thickness);
 			}
