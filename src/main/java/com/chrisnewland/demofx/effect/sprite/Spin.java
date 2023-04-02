@@ -73,7 +73,7 @@ public class Spin extends AbstractEffect
 
 		final double maxDimension = Math.max(width, height);
 
-		final double buffer = maxDimension / 4;
+		final double buffer = maxDimension / 3;
 
 		for (double y = -buffer; y < maxDimension+buffer; y += scaledHeight)
 		{
