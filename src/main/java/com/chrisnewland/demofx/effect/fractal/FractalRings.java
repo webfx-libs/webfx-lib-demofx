@@ -109,7 +109,7 @@ public class FractalRings extends AbstractEffect implements HasAngle
 		ringContext.setLineWidth(thickness);
 		ringContext.strokeOval(thickness, thickness, diameter - 2 * thickness, diameter - 2 * thickness);
 
-		return ImageUtil.createImageFromCanvas(ringContext.getCanvas(), diameter, diameter, true);
+		return ImageUtil.createImageFromCanvas(ringContext.getCanvas(), diameter, diameter, true, true);
 	}
 
 	private long lastDuration; // Used for adaptive

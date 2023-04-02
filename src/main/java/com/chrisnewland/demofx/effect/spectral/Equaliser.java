@@ -49,7 +49,7 @@ public class Equaliser extends AbstractSpectralEffect {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(paint);
 		gc.fillRect(0, 0, 60, 1);
-		return ImageUtil.createImageFromCanvas(canvas, 60, 1, false);
+		return ImageUtil.createImageFromCanvas(canvas, 60, 1, false, false); // No need for HDPI
 	}
 
 	private static Paint createBallGradient(Color ledColor) {

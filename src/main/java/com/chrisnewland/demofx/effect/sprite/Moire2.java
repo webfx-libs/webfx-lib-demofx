@@ -170,7 +170,7 @@ public class Moire2 extends AbstractEffect
 
 		//Console.log("Iterations: " + iterations);
 
-		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(canvas, minDimension, minDimension, true),
+		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(canvas, minDimension, minDimension, true, true),
 				Color.BLACK, Color.TRANSPARENT);
 	}
 

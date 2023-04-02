@@ -14,6 +14,8 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 
 public class ImageUtil
 {
@@ -57,11 +59,16 @@ public class ImageUtil
 		}
 	}*/
 
-	public static WritableImage createImageFromCanvas(Canvas canvas, double width, double height, boolean transparent)
+	public static WritableImage createImageFromCanvas(Canvas canvas, double width, double height, boolean transparent, boolean hdpi)
 	{
-		WritableImage image = new WritableImage((int) width, (int) height);
+		double outputScaleX = hdpi ? Screen.getPrimary().getOutputScaleX() : 1;
+		double outputScaleY = hdpi ? Screen.getPrimary().getOutputScaleY() : 1;
+
+		WritableImage image = new WritableImage((int) (width * outputScaleX), (int) (height * outputScaleY));
 
 		SnapshotParameters params = new SnapshotParameters();
+		if (hdpi)
+			params.setTransform(Scale.scale(outputScaleX, outputScaleY));
 
 		if (transparent)
 		{
@@ -214,42 +221,45 @@ public class ImageUtil
 
 	public static Image makeContentricRings(double imgWidth, double imgHeight, int rings, Color color)
 	{
-		double diameterX = imgWidth;
-		double diameterY = imgHeight;
-
-		Color colourOff = Color.BLACK;
+		//Color colourOff = Color.BLACK;
 
 		Canvas canvas = new Canvas(imgWidth, imgHeight);
 
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
+		drawContentricRings(0, 0, imgWidth, imgHeight, rings, color, gc);
+
+		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true, true);
+
+		//snap = replaceColour(snap, colourOff, Color.TRANSPARENT);
+
+		return snap;
+	}
+
+	public static void drawContentricRings(double x, double y, double imgWidth, double imgHeight, int rings, Color color, GraphicsContext gc)
+	{
+		double diameterX = imgWidth;
+		double diameterY = imgHeight;
+
+		gc.setStroke(color);
+		gc.setLineWidth(imgWidth / rings / 2);
+
 		for (int i = 0; i < rings; i++)
 		{
 			if (i % 2 == 0)
 			{
-				gc.setFill(color);
+				gc.strokeOval(x + (imgWidth / 2) - (diameterX / 2), y + (imgHeight / 2) - (diameterY / 2), diameterX, diameterY);
 			}
-			else
-			{
-				gc.setFill(colourOff);
-			}
-
-			gc.fillOval((imgWidth / 2) - (diameterX / 2), (imgHeight / 2) - (diameterY / 2), diameterX, diameterY);
 
 			diameterX -= imgWidth / rings;
 			diameterY -= imgHeight / rings;
 		}
 
-		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true);
-
-		snap = replaceColour(snap, colourOff, Color.TRANSPARENT);
-
-		return snap;
 	}
 
 	public static Image makeCubes(double imgWidth, double imgHeight)
 	{
-		Canvas canvas = new Canvas(imgWidth * 8, imgWidth * 8);
+		Canvas canvas = new Canvas(imgWidth, imgWidth);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		double gap = 8;
@@ -282,12 +292,12 @@ public class ImageUtil
 		gc.strokePolygon(new double[] { x0, x1, x1, x0 }, new double[] { y1, y2, y4, y3 }, 4);
 		gc.strokePolygon(new double[] { x1, x2, x2, x1 }, new double[] { y2, y1, y3, y4 }, 4);
 
-		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true);
+		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true, true);
 	}
 
 	public static Image makeHearts(double imgWidth, double imgHeight)
 	{
-		Canvas canvas = new Canvas(imgWidth * 8, imgWidth * 8);
+		Canvas canvas = new Canvas(imgWidth, imgWidth);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		double heartSize = imgWidth / Math.sqrt(2) * 1.14;
@@ -332,6 +342,6 @@ public class ImageUtil
 		gc.fillOval(offset + heartSize * .25 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 		gc.fillOval(offset + heartSize * .75 - diameterX / 2, offset + heartSize / 4 - diameterY / 2, diameterX, diameterY);
 
-		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true);
+		return ImageUtil.createImageFromCanvas(gc.getCanvas(), imgWidth, imgHeight, true, true);
 	}
 }

@@ -8,7 +8,11 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.util.ImageUtil;
 import com.chrisnewland.demofx.util.MaskingSystem;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
+import javafx.scene.transform.Scale;
+import javafx.stage.Screen;
 
 public class MaskStack extends AbstractEffect
 {
@@ -70,8 +74,17 @@ public class MaskStack extends AbstractEffect
 
 		double angle = 0;
 
-		double imgWidth = 960; //image.getWidth();
-		double imgHeight = 640; // image.getHeight();
+		double imgWidth = image.getWidth();
+		double imgHeight = image.getHeight();
+		double outputScaleX = Screen.getPrimary().getOutputScaleX();
+		double outputScaleY = Screen.getPrimary().getOutputScaleY();
+		if (outputScaleX != 1 || outputScaleY != 1) {
+			Canvas canvas = new Canvas(imgWidth, imgHeight);
+			canvas.getGraphicsContext2D().drawImage(image, 0, 0);
+			SnapshotParameters sp = new SnapshotParameters();
+			sp.setTransform(Scale.scale(outputScaleX, outputScaleY));
+			image = canvas.snapshot(sp, null);
+		}
 		int diameterOuter = (int) Math.min(imgWidth, imgHeight);
 
 		thickness = diameterOuter / count;
@@ -89,11 +102,11 @@ public class MaskStack extends AbstractEffect
 				diameterInner = 0;
 			}
 
-			Image mask = MaskingSystem.createMaskRing(diameterOuter, diameterInner);
+			Image mask = MaskingSystem.createMaskRing(diameterOuter, diameterInner, true);
 			//Image mask = MaskingSystem.createMaskBorder(diameterOuter, diameterOuter, thickness);
 			
-			int offsetX = (int) (imgWidth - mask.getWidth()) / 2;
-			int offsetY = (int) (imgHeight - mask.getHeight()) / 2;
+			int offsetX = (int) (imgWidth * outputScaleX - mask.getWidth()) / 2;
+			int offsetY = (int) (imgHeight * outputScaleY - mask.getHeight()) / 2;
 
 			imageRing[i] = MaskingSystem.applyMask(mask, image, offsetX, offsetY);
 
@@ -139,8 +152,10 @@ public class MaskStack extends AbstractEffect
 	{
 		Image image = imageRing[i];
 
-		double imageWidth = image.getWidth();
-		double imageHeight = image.getHeight();
+		double outputScaleX = Screen.getPrimary().getOutputScaleX();
+		double outputScaleY = Screen.getPrimary().getOutputScaleY();
+		double imageWidth = image.getWidth() / outputScaleX;
+		double imageHeight = image.getHeight() / outputScaleY;
 
 		double x = thickness * precalc.sin(ringAngle[i]);
 		double y = thickness * precalc.cos(ringAngle[i]);

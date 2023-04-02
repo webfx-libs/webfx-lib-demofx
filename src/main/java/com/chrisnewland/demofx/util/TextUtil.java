@@ -383,7 +383,7 @@ public class TextUtil
 		gc.setFill(Color.WHITE);
 		gc.fillText(str, 0, canvasHeight);
 
-		Image image = ImageUtil.createImageFromCanvas(gc.getCanvas(), canvasWidth, canvasHeight, true);
+		Image image = ImageUtil.createImageFromCanvas(gc.getCanvas(), canvasWidth, canvasHeight, true, false);
 
 		return image;
 	}

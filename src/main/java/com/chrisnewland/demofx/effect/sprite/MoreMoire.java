@@ -190,7 +190,7 @@ public class MoreMoire extends AbstractEffect
 			}
 		}
 
-		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(gc.getCanvas(), minDimension, minDimension, true),
+		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(gc.getCanvas(), minDimension, minDimension, true, true),
 				Color.BLACK, Color.TRANSPARENT);
 	}
 
@@ -223,7 +223,7 @@ public class MoreMoire extends AbstractEffect
 			even = !even;
 		}
 
-		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(gc.getCanvas(), minDimension, minDimension, true),
+		return ImageUtil.replaceColour(ImageUtil.createImageFromCanvas(gc.getCanvas(), minDimension, minDimension, true, true),
 				Color.BLACK, Color.TRANSPARENT);
 	}
 

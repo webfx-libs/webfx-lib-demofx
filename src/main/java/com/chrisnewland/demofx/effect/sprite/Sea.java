@@ -62,9 +62,11 @@ public class Sea extends AbstractEffect
 		yStop = height + imgHeight + AMPLITUDE_Y;
 		yStep = imgHeight / 1.5;
 
-		if (image != null)
+		if (image != null) {
 			this.image = image;
-		else switch (mode)
+			imgWidth = image.getWidth();
+			imgHeight = image.getHeight();
+		} else switch (mode)
 			{
 			case CUBES:
 				this.image = ImageUtil.makeCubes(imgWidth, imgHeight);
@@ -110,7 +112,7 @@ public class Sea extends AbstractEffect
 
 				double xPos = x + AMPLITUDE_X * precalc.sin(aa);
 
-				gc.drawImage(image, xPos, yPos);
+				gc.drawImage(image, xPos, yPos, imgWidth, imgHeight);
 
 				count++;
 			}

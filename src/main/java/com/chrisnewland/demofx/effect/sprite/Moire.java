@@ -9,7 +9,6 @@ import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.effect.ICanvasSink;
 import com.chrisnewland.demofx.util.ImageUtil;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Moire extends AbstractEffect implements ICanvasSink
@@ -25,7 +24,7 @@ public class Moire extends AbstractEffect implements ICanvasSink
 	private double halfImgWidth;
 	private double halfImgHeight;
 
-	private Image[] imageRing;
+	//private Image[] imageRing;
 
 	public Moire(DemoConfig config)
 	{
@@ -49,7 +48,7 @@ public class Moire extends AbstractEffect implements ICanvasSink
 		angleInc = new double[itemCount];
 		ringRadiusX = new double[itemCount];
 		ringRadiusY = new double[itemCount];
-		imageRing = new Image[itemCount];
+		//imageRing = new Image[itemCount];
 
 		double angle = 360 / itemCount;
 
@@ -72,11 +71,11 @@ public class Moire extends AbstractEffect implements ICanvasSink
 			ringRadiusX[i] = maxRadiusX + (maxRadiusX * precalc.getUnsignedRandom());
 			ringRadiusY[i] = maxRadiusY + (maxRadiusY * precalc.getUnsignedRandom());
 
-			imageRing[i] = ImageUtil.makeContentricRings(height*1.5, height*1.5, rings, colours[i % colours.length]);
+			//imageRing[i] = ImageUtil.makeContentricRings(height*1.5, height*1.5, rings, colours[i % colours.length]);
 		}
 
-		imgWidth = imageRing[0].getWidth();
-		imgHeight = imageRing[0].getHeight();
+		imgWidth = height*1.5; //imageRing[0].getWidth();
+		imgHeight = height*1.5; //imageRing[0].getHeight();
 
 		halfImgWidth = imgWidth / 2;
 		halfImgHeight = imgHeight / 2;
@@ -106,7 +105,8 @@ public class Moire extends AbstractEffect implements ICanvasSink
 		x += halfWidth - halfImgWidth;
 		y += halfHeight - halfImgHeight;
 
-		gc.drawImage(imageRing[i], x, y);
+		//gc.drawImage(imageRing[i], x, y, imgWidth, imgHeight);
+		ImageUtil.drawContentricRings(x, y, height*1.5, height*1.5, 30, Color.WHITE, gc);
 	}
 
 	@Override

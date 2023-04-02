@@ -126,7 +126,7 @@ public class MaskingSystem
 		return result;
 	}
 
-	public static Image createMaskCircle(int diameter)
+	public static Image createMaskCircle(int diameter, boolean hdpi)
 	{
 		double width = diameter;
 
@@ -142,12 +142,12 @@ public class MaskingSystem
 		gc.setFill(Color.WHITE);
 		gc.fillOval(0, 0, diameter, diameter);
 
-		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), width, height, false);
+		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), width, height, false, hdpi);
 
 		return snap;
 	}
 
-	public static Image createMaskRing(int diameterOuter, int diameterInner)
+	public static Image createMaskRing(int diameterOuter, int diameterInner, boolean hdpi)
 	{
 		double width = diameterOuter;
 
@@ -169,12 +169,12 @@ public class MaskingSystem
 			gc.fillOval((width - diameterInner) / 2, (height - diameterInner) / 2, diameterInner, diameterInner);
 		}
 
-		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), width-1, height-1, false);
+		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), width-1, height-1, false, hdpi);
 
 		return snap;
 	}
 
-	public static Image createMaskBorder(int width, int height, int thickness)
+	public static Image createMaskBorder(int width, int height, int thickness, boolean hdpi)
 	{
 		Canvas canvas = new Canvas(width, height);
 
@@ -186,7 +186,7 @@ public class MaskingSystem
 		gc.setFill(Color.BLACK);
 		gc.fillRect(thickness, thickness, width - thickness * 2, height - thickness * 2);
 
-		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), width, height, false);
+		Image snap = ImageUtil.createImageFromCanvas(gc.getCanvas(), width, height, false, hdpi);
 
 		return snap;
 	}
