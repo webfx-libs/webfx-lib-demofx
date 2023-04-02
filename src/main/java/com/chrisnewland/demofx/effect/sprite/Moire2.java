@@ -125,9 +125,9 @@ public class Moire2 extends AbstractEffect
 
 	private Image buildImageCheckerboard(double side, Shape shape)
 	{
-		Canvas canvas = new Canvas(minDimension, minDimension);
 		// Following Google Chrome advise, and preventing this warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
-		GraphicsContext gc = WebFxKitLauncher.getGraphicsContext2D(canvas, true);
+		Canvas canvas = WebFxKitLauncher.createWillReadFrequentlyCanvas(minDimension, minDimension);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
 
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, minDimension, minDimension);
