@@ -31,7 +31,7 @@ public class Checkerboard extends AbstractEffect
 		this.checkColor = checkColor;
 
 		maxDimension = Math.max(width, height);
-		offScreenMargin = maxDimension / 4;
+		offScreenMargin = maxDimension / 3;
 
 		maxCheckSize = 160;
 	}
