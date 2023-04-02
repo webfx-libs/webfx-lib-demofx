@@ -75,9 +75,9 @@ public class Sierpinski extends AbstractEffect
 		this.smallestTriangle = smallestTriangle;
 
 		memorisedImages = memoriseImages ? new ArrayList<>() : null;
-		memorisedCanvas = memoriseImages ? new Canvas(width, height) : null;
 		// Following Google Chrome advise, and preventing this warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true
-		memorisedContext = memoriseImages ? WebFxKitLauncher.getGraphicsContext2D(memorisedCanvas, true) : null;
+		memorisedCanvas = memoriseImages ? WebFxKitLauncher.createWillReadFrequentlyCanvas(width, height) : null;
+		memorisedContext = memoriseImages ? memorisedCanvas.getGraphicsContext2D() : null;
 		keep = new ArrayList<>();
 		rootHeight = height;
 		// Precomputing images now if memoriseImages is on (if not done now, it will be done during the animation but will be less smooth)
