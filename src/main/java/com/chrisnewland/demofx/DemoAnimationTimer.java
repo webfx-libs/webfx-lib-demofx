@@ -5,12 +5,11 @@
 package com.chrisnewland.demofx;
 
 import com.chrisnewland.demofx.effect.IEffect;
-//import com.chrisnewland.demofx.measurement.Measurements;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	//private final Measurements measurements = new Measurements();
 
-	private Label statsLabel;
+	private Text statsLabel;
 
 	private long lastStatsUpdate;
 	private int frameCount = 0;
@@ -46,7 +45,7 @@ public class DemoAnimationTimer extends AnimationTimer
 
 	private long elapsed;
 
-	public DemoAnimationTimer(DemoFX parent, DemoConfig config, Label statsLabel, List<IEffect> effects)
+	public DemoAnimationTimer(DemoFX parent, DemoConfig config, Text statsLabel, List<IEffect> effects)
 	{
 		super();
 		

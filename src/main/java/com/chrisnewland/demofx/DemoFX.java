@@ -15,7 +15,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +22,7 @@ import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,8 +33,8 @@ public class DemoFX implements AudioSpectrumListener, ISpectrumDataProvider
 {
 	private final DemoConfig config;
 
-	private Label statsLabel;
-	private Label fxLabel;
+	private Text statsLabel;
+	private Text fxLabel;
 
 	private AnimationTimer timer;
 
