@@ -3,7 +3,6 @@
 module webfx.lib.demofx {
 
     // Direct dependencies modules
-    requires java.base;
     requires javafx.graphics;
     requires javafx.media;
     requires webfx.kit.launcher;
