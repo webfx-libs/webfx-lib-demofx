@@ -6,8 +6,7 @@ package com.chrisnewland.demofx.effect.pixel;
 
 import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
-import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.extras.fastpixelreaderwriter.FastPixelReaderWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
@@ -60,7 +59,7 @@ public class Twister extends AbstractEffect
 
 		imageTexture = new WritableImage(imageWidth, imageHeight);
 
-		writer = WebFxKitLauncher.getFastPixelReaderWriter(imageTexture);
+		writer = FastPixelReaderWriter.create(imageTexture);
 		writer.createCache();
 	}
 

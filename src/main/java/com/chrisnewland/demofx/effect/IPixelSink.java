@@ -4,7 +4,7 @@
  */
 package com.chrisnewland.demofx.effect;
 
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.extras.fastpixelreaderwriter.FastPixelReaderWriter;
 
 public interface IPixelSink
 {

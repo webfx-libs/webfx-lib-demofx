@@ -4,8 +4,7 @@
  */
 package com.chrisnewland.demofx.util;
 
-import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.extras.fastpixelreaderwriter.FastPixelReaderWriter;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.*;
@@ -97,10 +96,10 @@ public class MaskingSystem
 
 		WritableImage result = new WritableImage(maskWidth, maskHeight);
 
-		FastPixelReaderWriter writer = WebFxKitLauncher.getFastPixelReaderWriter(result);
+		FastPixelReaderWriter writer = FastPixelReaderWriter.create(result);
 
-		FastPixelReaderWriter readerMask = WebFxKitLauncher.getFastPixelReaderWriter(maskImage);
-		FastPixelReaderWriter readerBackground = WebFxKitLauncher.getFastPixelReaderWriter(background);
+		FastPixelReaderWriter readerMask = FastPixelReaderWriter.create(maskImage);
+		FastPixelReaderWriter readerBackground = FastPixelReaderWriter.create(background);
 
 		//while (readerMask.gotToNextPixel() && writer.gotToNextPixel())
 		for (int y = 0; y < maskHeight; y++)

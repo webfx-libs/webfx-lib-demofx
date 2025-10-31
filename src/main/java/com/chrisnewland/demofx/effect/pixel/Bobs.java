@@ -8,8 +8,7 @@ import com.chrisnewland.demofx.DemoConfig;
 import com.chrisnewland.demofx.effect.AbstractEffect;
 import com.chrisnewland.demofx.effect.IPixelSink;
 import com.chrisnewland.demofx.effect.IPixelSource;
-import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.extras.fastpixelreaderwriter.FastPixelReaderWriter;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.paint.Color;
 
@@ -131,7 +130,7 @@ public class Bobs extends AbstractEffect implements IPixelSource
 
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, imageWidth, imageHeight);
-		fastPixelReaderWriter = WebFxKitLauncher.getFastPixelReaderWriter(gc.getCanvas().snapshot(new SnapshotParameters(), null));
+		fastPixelReaderWriter = FastPixelReaderWriter.create(gc.getCanvas().snapshot(new SnapshotParameters(), null));
 
 	}
 

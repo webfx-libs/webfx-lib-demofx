@@ -8,7 +8,8 @@
     </update-options>
 
     <required-libraries>
-        <webfx-library artifact="dev.webfx:webfx:0.1.0-SNAPSHOT"/>
+        <!-- We use FastPixelReaderWriter from WebFX Extras for some effects (Bobs, Mask and Twister) -->
+        <webfx-library artifact="dev.webfx:webfx-extras:0.1.0-SNAPSHOT"/>
     </required-libraries>
 
     <exported-packages>

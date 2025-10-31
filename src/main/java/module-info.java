@@ -5,6 +5,7 @@ module webfx.lib.demofx {
     // Direct dependencies modules
     requires javafx.graphics;
     requires javafx.media;
+    requires webfx.extras.fastpixelreaderwriter;
     requires webfx.kit.launcher;
     requires webfx.platform.console;
     requires webfx.platform.resource;

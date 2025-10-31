@@ -4,8 +4,7 @@
  */
 package com.chrisnewland.demofx.util;
 
-import dev.webfx.kit.launcher.WebFxKitLauncher;
-import dev.webfx.kit.launcher.spi.FastPixelReaderWriter;
+import dev.webfx.extras.fastpixelreaderwriter.FastPixelReaderWriter;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -165,7 +164,7 @@ public class ImageUtil
 		int newB = (int) (colorNew.getBlue() * 255);
 		int newA = (int) (colorNew.getOpacity() * 255);
 
-		FastPixelReaderWriter pixelWriter = WebFxKitLauncher.getFastPixelReaderWriter(result);
+		FastPixelReaderWriter pixelWriter = FastPixelReaderWriter.create(result);
 		while (pixelWriter.gotToNextPixel())
 			if (pixelWriter.getRed() == oldR && pixelWriter.getGreen() == oldG && pixelWriter.getBlue() == oldB && pixelWriter.getOpacity() == oldA) {
 				pixelWriter.setOpacity(newA);
@@ -198,8 +197,8 @@ public class ImageUtil
 
 	public static Image tintImage(Image image, double hue, double saturation, WritableImage result)
 	{
-		FastPixelReaderWriter pixelReader = WebFxKitLauncher.getFastPixelReaderWriter(image);
-		FastPixelReaderWriter pixelWriter = WebFxKitLauncher.getFastPixelReaderWriter(result);
+		FastPixelReaderWriter pixelReader = FastPixelReaderWriter.create(image);
+		FastPixelReaderWriter pixelWriter = FastPixelReaderWriter.create(result);
 		pixelReader.goToPixel(-1, 0);
 		pixelWriter.goToPixel(-1, 0);
 		while (pixelReader.gotToNextPixel() && pixelWriter.gotToNextPixel()) {
