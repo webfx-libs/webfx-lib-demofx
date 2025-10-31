@@ -122,6 +122,8 @@ public class MaskingSystem
 			}
 		}
 
+        writer.writeCache();
+
 		return result;
 	}
 

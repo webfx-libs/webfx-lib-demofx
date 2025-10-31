@@ -172,6 +172,7 @@ public class Bobs extends AbstractEffect implements IPixelSource
 			bob.render();
 		}
 
+        fastPixelReaderWriter.writeCache();
 		gc.drawImage(fastPixelReaderWriter.getImage(), 0, 0);
 	}
 	
