@@ -66,7 +66,7 @@ public class Twister extends AbstractEffect
 	@Override
 	public void renderForeground()
 	{
-		render(angle / 60);
+		//render(angle / 60); // Moved down for first call because render(0) is weird
 
 		speed += 0.5;
 
@@ -84,7 +84,9 @@ public class Twister extends AbstractEffect
 
 		twist = 16 + precalc.sin(angle) * 8;
 
-		//pixelWriter.setPixels(0, 0, imageWidth, imageHeight, pixelFormat, pixelData, 0, scanLine);
+        render(angle / 60);
+
+        //pixelWriter.setPixels(0, 0, imageWidth, imageHeight, pixelFormat, pixelData, 0, scanLine);
 		writer.writeCache();
 
 		gc.drawImage(imageTexture, 0, 0);
