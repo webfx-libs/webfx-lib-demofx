@@ -199,6 +199,7 @@ public class ImageUtil
 	{
 		FastPixelReaderWriter pixelReader = FastPixelReaderWriter.create(image);
 		FastPixelReaderWriter pixelWriter = FastPixelReaderWriter.create(result);
+        pixelWriter.createCache(false);
 		pixelReader.goToPixel(-1, 0);
 		pixelWriter.goToPixel(-1, 0);
 		while (pixelReader.gotToNextPixel() && pixelWriter.gotToNextPixel()) {
@@ -214,6 +215,7 @@ public class ImageUtil
 
 			pixelWriter.setArgb(opacity, red, green, blue);
 		}
+        pixelWriter.writeCache();
 
 		return result;
 	}

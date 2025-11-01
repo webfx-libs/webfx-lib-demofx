@@ -97,6 +97,7 @@ public class MaskingSystem
 		WritableImage result = new WritableImage(maskWidth, maskHeight);
 
 		FastPixelReaderWriter writer = FastPixelReaderWriter.create(result);
+        writer.createCache(true);
 
 		FastPixelReaderWriter readerMask = FastPixelReaderWriter.create(maskImage);
 		FastPixelReaderWriter readerBackground = FastPixelReaderWriter.create(background);
