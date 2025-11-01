@@ -60,7 +60,7 @@ public class Twister extends AbstractEffect
 		imageTexture = new WritableImage(imageWidth, imageHeight);
 
 		writer = FastPixelReaderWriter.create(imageTexture);
-		writer.createCache();
+		writer.createCache(false);
 	}
 
 	@Override
