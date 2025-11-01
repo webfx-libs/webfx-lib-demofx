@@ -119,7 +119,7 @@ public class TextWave extends AbstractEffect
 			{
 				String character = charStrings[i];
 
-				TextUtil.getStringDimensions(font, gc, character);
+				TextUtil.getStringDimensions(font, character);
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public class TextWave extends AbstractEffect
 		{
 			String character = chars[i];
 
-			double charWidth = TextUtil.getStringDimensions(font, gc, character).getX();
+			double charWidth = TextUtil.getStringDimensions(font, character).getX();
 
 			if (isLetterOnScreen(charX))
 			{

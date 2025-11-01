@@ -4,6 +4,8 @@
  */
 package com.chrisnewland.demofx.util;
 
+import dev.webfx.kit.launcher.WebFxKitLauncher;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -193,9 +195,9 @@ public class TextUtil
 		int argb = reader.getArgb(x, y);
 
 		// int alpha = (argb & 0xff000000) >> 24;
-		int red = (argb & 0x00ff0000) >> 16;
+		int red =   (argb & 0x00ff0000) >> 16;
 		int green = (argb & 0x0000ff00) >> 8;
-		int blue = (argb & 0x000000ff) >> 0;
+		int blue =  (argb & 0x000000ff);
 
 		int threshold = 32;
 
@@ -225,9 +227,9 @@ public class TextUtil
 		return result;
 	}
 
-	public static Point2D getStringDimensions(Font font, GraphicsContext gc, String str)
+	public static Point2D getStringDimensions(Font font, String str)
 	{
-		Point2D dimensions = Point2D.ZERO;
+		Point2D dimensions;
 
 		String fontKey = font.toString() + str;
 
@@ -235,7 +237,7 @@ public class TextUtil
 		{
 			dimensions = stringDimensionCache.get(fontKey);
 		}
-		else if (str.trim().length() == 0)
+		else if (str.trim().isEmpty())
 		{
 			dimensions = new Point2D(font.getSize() / 2, font.getSize());
 
@@ -243,12 +245,10 @@ public class TextUtil
 		}
 		else
 		{
-			Image image = createImageFromString(font, str);
-
-			// for debugging
-			// imgCopy = image;
-
-			dimensions = new Point2D(measureWidth(image), measureHeight(image));
+            //Image image = createImageFromString(font, str);
+            // dimensions = new Point2D(measureWidth(image), measureHeight(image)); // too slow
+            Bounds bounds = WebFxKitLauncher.measureText(str, font); // much faster
+			dimensions = new Point2D(bounds.getWidth(), bounds.getHeight());
 
 			stringDimensionCache.put(fontKey, dimensions);
 		}

@@ -81,7 +81,7 @@ public class TextFlash extends AbstractEffect
 
 		double maxWidth = 0;
 		for (String str : stringList)
-			maxWidth = Math.max(maxWidth, TextUtil.getStringDimensions(font, gc, str).getX());
+			maxWidth = Math.max(maxWidth, TextUtil.getStringDimensions(font, str).getX());
 
 		if (maxWidth > width) { // Font size correction for small screens
 			font = Font.font(font.getFamily(), font.getSize() * width / maxWidth);
@@ -141,7 +141,7 @@ public class TextFlash extends AbstractEffect
 
 		String str = stringList.get(stringIndex);
 
-		Point2D dimensions = TextUtil.getStringDimensions(font, gc, str);
+		Point2D dimensions = TextUtil.getStringDimensions(font, str);
 
 		double strWidth = dimensions.getX();
 		double strHeight = dimensions.getY();
